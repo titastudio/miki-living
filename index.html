@@ -30,10 +30,43 @@
   --white: #ffffff;
   --shadow: rgba(26,58,42,0.10);
   --radius-card: 20px;
+  /* Light mode surface tokens */
+  --bg-page: #fdf6f0;
+  --bg-card: #ffffff;
+  --bg-section-alt: #f5ede4;
+  --border-soft: rgba(240,184,204,0.25);
+  --nav-bg: rgba(253,246,240,0.93);
+  --modal-bg: #fdf6f0;
+  --input-bg: #ffffff;
+  --footer-bg: #0f2318;
+  --text-primary: #1a2d20;
+  --text-muted: #6b8c76;
+  --text-faint: rgba(26,58,42,0.45);
+}
+/* ===== DARK MODE ===== */
+.dark {
+  --bg-page: #0d1f15;
+  --bg-card: #162a1e;
+  --bg-section-alt: #112018;
+  --cream: #162a1e;
+  --warm: #112018;
+  --white: #1e3428;
+  --blush: #1e3428;
+  --text: #e8f5ee;
+  --text-primary: #e8f5ee;
+  --muted: #7ab896;
+  --text-muted: #8dc4a3;
+  --text-faint: #8ab89e;
+  --border-soft: rgba(240,184,204,0.15);
+  --nav-bg: rgba(13,31,21,0.95);
+  --modal-bg: #162a1e;
+  --input-bg: #1e3428;
+  --footer-bg: #090f0b;
+  --shadow: rgba(0,0,0,0.35);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg-page); color: var(--text-primary); overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
 /* ===== VIEWS ===== */
 .view { display: none; }
@@ -42,8 +75,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(
 /* ===== NAVBAR ===== */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(253,246,240,0.93); backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(240,184,204,0.25);
+  background: var(--nav-bg); backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border-soft);
   padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px;
 }
 .nav-logo {
@@ -51,31 +84,35 @@ nav {
   color: var(--forest); cursor: pointer; text-decoration: none; user-select: none;
   display: flex; align-items: center; gap: 0.3rem;
 }
+.dark .nav-logo { color: #e8f5ee; }
 .nav-logo span { color: var(--pink); }
 .nav-links { display: flex; align-items: center; gap: 0.15rem; }
 .nav-links a {
-  font-size: 0.875rem; font-weight: 500; color: var(--muted);
+  font-size: 0.875rem; font-weight: 500; color: var(--text-muted);
   text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 999px; transition: all 0.2s;
 }
 .nav-links a:hover { color: var(--forest); background: var(--blush); }
+.dark .nav-links a:hover { color: var(--pink); }
 .btn-nav {
-  background: var(--forest); color: var(--cream) !important;
+  background: var(--forest); color: #fdf6f0 !important;
   padding: 0.45rem 1.15rem !important; border-radius: 999px !important; font-weight: 600 !important;
 }
-.btn-nav:hover { background: var(--sage) !important; color: var(--white) !important; }
+.btn-nav:hover { background: var(--sage) !important; color: #fdf6f0 !important; }
+.dark .btn-nav { background: var(--mint); color: #0d1f15 !important; }
+.dark .btn-nav:hover { background: var(--sage) !important; color: #e8f5ee !important; }
 .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
 .hamburger span { display: block; width: 22px; height: 2px; background: var(--forest); border-radius: 2px; transition: all 0.3s; }
 .mobile-menu {
   display: none; position: fixed; top: 64px; left: 0; right: 0;
-  background: var(--cream); padding: 1.25rem 2rem;
-  border-bottom: 1px solid rgba(240,184,204,0.2);
+  background: var(--bg-page); padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border-soft);
   flex-direction: column; gap: 0; z-index: 99;
   box-shadow: 0 8px 24px rgba(26,58,42,0.08);
 }
 .mobile-menu a {
-  font-size: 1rem; font-weight: 500; color: var(--text);
+  font-size: 1rem; font-weight: 500; color: var(--text-primary);
   text-decoration: none; padding: 0.75rem 0;
-  border-bottom: 1px solid rgba(240,184,204,0.15);
+  border-bottom: 1px solid var(--border-soft);
 }
 .mobile-menu.open { display: flex; }
 
@@ -109,8 +146,9 @@ nav {
 .hero-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.6rem, 7vw, 5.2rem); font-weight: 900; line-height: 1.05;
-  color: var(--cream); margin-bottom: 0.6rem;
+  color: #fdf6f0; margin-bottom: 0.6rem;
 }
+.dark .hero-title { color: #e8f5ee; }
 .hero-title em { font-style: italic; color: var(--pink); }
 .hero-sub {
   font-family: 'Caveat', cursive; font-size: clamp(1.15rem, 2.8vw, 1.65rem);
@@ -125,11 +163,12 @@ nav {
 }
 .btn-primary:hover { background: var(--blush); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,184,204,0.3); }
 .btn-outline {
-  background: transparent; color: var(--cream); font-weight: 600; font-size: 0.875rem;
+  background: transparent; color: #fdf6f0; font-weight: 600; font-size: 0.875rem;
   padding: 0.8rem 1.75rem; border-radius: 999px; text-decoration: none;
   border: 1.5px solid rgba(253,246,240,0.28); cursor: pointer;
   transition: all 0.25s; display: inline-block; font-family: 'DM Sans', sans-serif;
 }
+.dark .btn-outline { color: #e8f5ee; border-color: rgba(232,245,238,0.38); }
 .btn-outline:hover { background: rgba(253,246,240,0.1); border-color: rgba(253,246,240,0.55); }
 .hero-stats {
   display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center;
@@ -138,7 +177,7 @@ nav {
 .stat-item { text-align: center; }
 .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--pink); line-height: 1; display: block; }
 .stat-emoji { font-size: 1.8rem; line-height: 1; display: block; height: 1.8rem; }
-.stat-label { font-size: 0.72rem; color: rgba(253,246,240,0.45); margin-top: 0.2rem; letter-spacing: 0.03em; display: block; }
+.stat-label { font-size: 0.72rem; color: #8aaa97; margin-top: 0.2rem; letter-spacing: 0.03em; display: block; }
 .hero-wave { flex-shrink: 0; line-height: 0; margin-top: 0; }
 .hero-wave svg { display: block; width: 100%; height: 80px; }
 
@@ -146,23 +185,29 @@ nav {
 section { padding: 5rem 2rem; }
 .section-tag { display: inline-block; font-family: 'Caveat', cursive; font-size: 1.1rem; font-weight: 700; color: var(--mint); margin-bottom: 0.6rem; }
 .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 900; line-height: 1.15; color: var(--forest); margin-bottom: 0.75rem; }
+.dark .section-title { color: var(--cream); }
 .section-desc { font-size: 0.95rem; color: var(--muted); max-width: 460px; line-height: 1.7; }
 .container { max-width: 1120px; margin: 0 auto; }
 
 /* ===== WHY SECTION ===== */
-#why { background: var(--white); }
+#why { background: var(--bg-card); }
 .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.15rem; margin-top: 3rem; }
 .why-card {
-  background: var(--cream); border: 1.5px solid rgba(240,184,204,0.2);
+  background: var(--bg-page); border: 1.5px solid var(--border-soft);
   border-radius: var(--radius-card); padding: 1.65rem 1.5rem;
   transition: all 0.3s; position: relative; overflow: hidden;
 }
 .why-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px var(--shadow); border-color: rgba(240,184,204,0.5); }
-/* single color on hover — no gradient */
 .why-card:hover { background: var(--blush); }
+.why-card:hover .why-title { color: var(--forest); }
+.why-card:hover .why-text { color: var(--forest); opacity: 0.75; }
+.dark .why-card:hover { background: rgba(240,184,204,0.08); }
+.dark .why-card:hover .why-title { color: var(--pink); }
+.dark .why-card:hover .why-text { color: var(--text-muted); }
 .why-icon { font-size: 1.8rem; margin-bottom: 0.85rem; display: block; }
 .why-title { font-weight: 700; font-size: 0.975rem; color: var(--forest); margin-bottom: 0.4rem; }
-.why-text { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+.dark .why-title { color: var(--pink); }
+.why-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.65; }
 
 /* ===== KUMI BANNER ===== */
 .kumi-section { background: var(--forest); padding: 5rem 2rem; position: relative; overflow: hidden; }
@@ -174,12 +219,12 @@ section { padding: 5rem 2rem; }
 }
 .kumi-inner { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 5rem; align-items: center; }
 .kumi-label { font-family: 'Caveat', cursive; font-size: 1rem; color: var(--pink); margin-bottom: 0.85rem; display: block; }
-.kumi-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 900; color: var(--cream); line-height: 1.1; margin-bottom: 1.4rem; }
+.kumi-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 4vw, 2.9rem); font-weight: 900; color: #fdf6f0; line-height: 1.1; margin-bottom: 1.4rem; }
 .kumi-title em { color: var(--pink); font-style: italic; }
 .kumi-text { font-size: 0.92rem; color: rgba(253,246,240,0.65); line-height: 1.85; margin-bottom: 1.4rem; }
 .kumi-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.4rem; }
 .chip { background: rgba(240,184,204,0.12); border: 1px solid rgba(240,184,204,0.25); color: var(--pink); font-size: 0.72rem; font-weight: 600; padding: 0.28rem 0.8rem; border-radius: 999px; }
-.kumi-story { background: rgba(240,184,204,0.07); border: 1px solid rgba(240,184,204,0.13); border-radius: 14px; padding: 1.25rem 1.4rem; font-size: 0.85rem; color: rgba(253,246,240,0.6); line-height: 1.75; font-style: italic; }
+.kumi-story { background: rgba(240,184,204,0.07); border: 1px solid rgba(240,184,204,0.13); border-radius: 14px; padding: 1.25rem 1.4rem; font-size: 0.85rem; color: #a8c4b4; line-height: 1.75; font-style: italic; }
 /* Kumi visual */
 .kumi-visual { display: flex; flex-direction: column; align-items: center; gap: 0; flex-shrink: 0; }
 .kumi-cat-wrap {
@@ -195,33 +240,40 @@ section { padding: 5rem 2rem; }
 .kumi-name { font-family: 'Caveat', cursive; font-size: 1.1rem; color: var(--pink); margin-top: 1rem; }
 
 /* ===== BROWSE SECTION ===== */
-#browse { background: var(--warm); }
+#browse { background: var(--bg-section-alt); }
 .browse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2.5rem; }
 .browse-card {
-  background: var(--white); border: 2px solid transparent;
+  background: var(--bg-card); border: 2px solid transparent;
   border-radius: 22px; padding: 2.25rem 1.75rem; text-align: center; cursor: pointer;
   transition: all 0.28s; position: relative;
 }
 .browse-card:hover { border-color: var(--pink); transform: translateY(-5px); box-shadow: 0 16px 48px rgba(240,184,204,0.2); background: var(--blush); }
-.browse-media { width: 64px; height: 64px; margin: 0 auto 1rem; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--warm); }
+.browse-card:hover .browse-title { color: var(--forest); }
+.browse-card:hover .browse-sub { color: var(--sage); }
+.dark .browse-card:hover { background: rgba(240,184,204,0.08); }
+.dark .browse-card:hover .browse-title { color: var(--pink); }
+.dark .browse-card:hover .browse-sub { color: var(--text-muted); }
+.browse-media { width: 64px; height: 64px; margin: 0 auto 1rem; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--bg-section-alt); }
 .browse-media img { width: 100%; height: 100%; object-fit: cover; }
 .browse-emoji-fallback { font-size: 2.5rem; }
 .browse-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.15rem; color: var(--forest); margin-bottom: 0.45rem; }
+.dark .browse-title { color: var(--pink); }
 .browse-sub { font-size: 0.85rem; color: var(--muted); line-height: 1.55; }
+.dark .browse-sub { color: var(--text-muted); }
 
 /* ===== LOKASI SECTION ===== */
-#lokasi { background: var(--white); }
+#lokasi { background: var(--bg-card); }
 .filter-bar { display: flex; gap: 0.4rem; margin: 2rem 0 2.25rem; flex-wrap: wrap; }
 .filter-btn {
-  background: transparent; border: 1.5px solid rgba(26,58,42,0.13);
-  color: var(--muted); font-size: 0.8rem; font-weight: 600;
+  background: transparent; border: 1.5px solid var(--border-soft);
+  color: var(--text-muted); font-size: 0.8rem; font-weight: 600;
   padding: 0.38rem 1rem; border-radius: 999px; cursor: pointer;
   transition: all 0.2s; font-family: 'DM Sans', sans-serif;
 }
 .filter-btn.active, .filter-btn:hover { background: var(--forest); color: var(--cream); border-color: var(--forest); }
 .lokasi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
 .lokasi-card {
-  background: var(--cream); border: 1.5px solid rgba(240,184,204,0.2);
+  background: var(--bg-page); border: 1.5px solid var(--border-soft);
   border-radius: 22px; overflow: hidden; transition: all 0.3s; cursor: default;
   display: flex; flex-direction: column;
 }
@@ -240,22 +292,25 @@ section { padding: 5rem 2rem; }
 .badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.22rem 0.65rem; border-radius: 999px; }
 .badge-putri { background: var(--pink); color: var(--forest); }
 .badge-putra { background: var(--sage); color: var(--white); }
-.badge-available { background: rgba(255,255,255,0.9); color: var(--sage); }
+.badge-available { background: rgba(255,255,255,0.95); color: #2d5c3f; font-weight: 700; }
 .badge-new { background: var(--forest); color: var(--pink); }
-.badge-cat { background: var(--blush); color: var(--forest); }
-.badge-vibe { background: rgba(255,255,255,0.75); color: var(--text); }
+.badge-cat { background: rgba(248,220,230,0.95); color: #1a3a2a; font-weight: 700; }
+.badge-vibe { background: rgba(255,255,255,0.92); color: #1a2d20; font-weight: 700; }
 
 /* Card body pinned layout */
 .lokasi-body { padding: 1.4rem 1.4rem 0; flex: 1; display: flex; flex-direction: column; }
 .lokasi-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--forest); margin-bottom: 0.2rem; }
-.lokasi-area { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
+.dark .lokasi-name { color: var(--pink); }
+.lokasi-area { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; }
 .lokasi-highlights { flex: 1; margin-bottom: 0; }
-.highlight-item { display: flex; align-items: flex-start; gap: 0.45rem; font-size: 0.84rem; color: var(--text); margin-bottom: 0.38rem; line-height: 1.45; }
+.highlight-item { display: flex; align-items: flex-start; gap: 0.45rem; font-size: 0.84rem; color: var(--text-primary); margin-bottom: 0.38rem; line-height: 1.45; }
+.dark .highlight-item { color: rgba(232,245,238,0.75); }
 .highlight-item::before { content: '✓'; color: var(--mint); font-weight: 700; flex-shrink: 0; font-size: 0.82rem; }
 /* pinned footer */
 .lokasi-footer { padding: 1.1rem 1.4rem 1.4rem; }
 .lokasi-fasilitas { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-bottom: 1.1rem; }
 .fasi-tag { background: rgba(45,92,63,0.08); color: var(--sage); font-size: 0.7rem; font-weight: 600; padding: 0.22rem 0.6rem; border-radius: 8px; }
+.dark .fasi-tag { background: rgba(74,140,98,0.2); color: #7ab896; }
 .lokasi-actions { display: flex; gap: 0.65rem; }
 .btn-inquire {
   flex: 1; background: var(--forest); color: var(--cream);
@@ -264,6 +319,8 @@ section { padding: 5rem 2rem; }
   border: none; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
 }
 .btn-inquire:hover { background: var(--sage); }
+.dark .btn-inquire { background: var(--mint); color: #0d1f15; }
+.dark .btn-inquire:hover { background: var(--sage); color: #e8f5ee; }
 .btn-maps {
   background: var(--blush); color: var(--forest);
   font-weight: 600; font-size: 0.84rem;
@@ -273,46 +330,54 @@ section { padding: 5rem 2rem; }
   white-space: nowrap;
 }
 .btn-maps:hover { background: var(--pink); }
+.dark .btn-maps { background: rgba(240,184,204,0.2); color: var(--pink); }
+.dark .btn-maps:hover { background: rgba(240,184,204,0.35); color: #fdf6f0; }
 .btn-maps[disabled], .btn-maps.disabled { opacity: 0.35; cursor: default; pointer-events: none; }
 
 /* ===== TENTANG PAGE ===== */
-#page-tentang { background: var(--cream); padding-top: 64px; min-height: 100vh; }
-.tentang-hero { background: var(--forest); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+#page-tentang { background: var(--bg-page); padding-top: 64px; min-height: 100vh; }
+.tentang-hero { background: var(--forest); padding: 5rem 2rem 4rem; padding-top: calc(64px + 4rem); text-align: center; position: relative; overflow: hidden; }
 .tentang-hero-label { font-family: 'Caveat', cursive; font-size: 1rem; color: var(--pink); display: block; margin-bottom: 0.75rem; position: relative; z-index: 1; }
-.tentang-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: var(--cream); line-height: 1.1; position: relative; z-index: 1; }
+.tentang-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: #fdf6f0; line-height: 1.1; position: relative; z-index: 1; }
 .tentang-hero-title em { color: var(--pink); font-style: italic; }
 .tentang-hero-sub { font-size: 0.95rem; color: rgba(253,246,240,0.6); margin-top: 0.75rem; position: relative; z-index: 1; }
 .tentang-wave { line-height: 0; background: var(--forest); }
 .tentang-wave svg { display: block; width: 100%; }
+#tentangWavePath { fill: #fdf6f0; }
+.dark #tentangWavePath { fill: #0d1f15; }
 
 .tentang-body { max-width: 1120px; margin: 0 auto; padding: 3.5rem 2rem; }
 .tentang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
 .about-main {
-  background: var(--forest); color: var(--cream);
+  background: var(--forest); color: #fdf6f0;
   border-radius: 24px; padding: 2.25rem; position: relative; overflow: hidden;
 }
+.dark .about-main { background: var(--sage); color: #e8f5ee; }
 .about-main::after { content: '🐱'; position: absolute; bottom: 1.5rem; right: 2rem; font-size: 4rem; opacity: 0.12; }
 .about-year { font-family: 'Caveat', cursive; font-size: 0.95rem; color: var(--pink); margin-bottom: 0.85rem; display: block; }
-.about-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--cream); margin-bottom: 0.9rem; line-height: 1.2; }
+.about-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: #fdf6f0; margin-bottom: 0.9rem; line-height: 1.2; }
+.dark .about-title { color: #e8f5ee; }
 .about-text { font-size: 0.875rem; color: rgba(253,246,240,0.68); line-height: 1.85; margin-bottom: 1.5rem; }
 .about-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.75rem; }
 .about-chip { background: rgba(240,184,204,0.18); border: 1px solid rgba(240,184,204,0.28); color: var(--pink); font-size: 0.72rem; font-weight: 600; padding: 0.28rem 0.8rem; border-radius: 999px; }
 .about-contact { display: flex; flex-direction: column; gap: 0.65rem; }
 .contact-link {
   display: flex; align-items: center; gap: 0.75rem;
-  background: rgba(240,184,204,0.09); border: 1px solid rgba(240,184,204,0.18);
-  color: var(--cream); text-decoration: none;
-  padding: 0.72rem 1rem; border-radius: 12px; font-size: 0.85rem; font-weight: 500;
+  background: rgba(253,246,240,0.12); border: 1px solid rgba(253,246,240,0.22);
+  color: #fdf6f0; text-decoration: none;
+  padding: 0.72rem 1rem; border-radius: 12px; font-size: 0.875rem; font-weight: 600;
   transition: all 0.2s; cursor: pointer; font-family: 'DM Sans', sans-serif;
 }
-.contact-link:hover { background: rgba(240,184,204,0.18); }
+.contact-link:hover { background: rgba(253,246,240,0.22); border-color: rgba(253,246,240,0.38); }
+.dark .contact-link { background: rgba(253,246,240,0.08); border-color: rgba(253,246,240,0.16); color: #e8f5ee; }
+.dark .contact-link:hover { background: rgba(253,246,240,0.15); }
 
 /* Maps grid — horizontal */
 .maps-horiz { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; }
 .map-link {
   display: flex; flex-direction: column; gap: 0;
-  background: var(--white); border: 1.5px solid rgba(240,184,204,0.22);
-  border-radius: 16px; text-decoration: none; color: var(--text);
+  background: var(--bg-card); border: 1.5px solid var(--border-soft);
+  border-radius: 16px; text-decoration: none; color: var(--text-primary);
   transition: all 0.25s; overflow: hidden;
 }
 .map-link:hover { border-color: var(--pink); transform: translateY(-3px); box-shadow: 0 10px 28px rgba(240,184,204,0.22); }
@@ -326,17 +391,20 @@ section { padding: 5rem 2rem; }
 }
 .map-link-body { padding: 0.85rem 1rem 1rem; }
 .map-link-name { font-size: 0.88rem; font-weight: 700; color: var(--forest); margin-bottom: 0.3rem; }
-.map-link-arrow { font-size: 0.75rem; color: var(--mint); font-weight: 600; display: flex; align-items: center; gap: 0.25rem; }
+.dark .map-link-name { color: var(--pink); }
+.map-link-arrow { font-size: 0.75rem; color: var(--sage); font-weight: 700; display: flex; align-items: center; gap: 0.25rem; }
 
 /* Info cards */
-.info-card { background: var(--white); border: 1.5px solid rgba(240,184,204,0.2); border-radius: 20px; padding: 1.5rem; }
+.info-card { background: var(--bg-card); border: 1.5px solid var(--border-soft); border-radius: 20px; padding: 1.5rem; }
 .info-card-title { font-weight: 700; font-size: 0.95rem; color: var(--forest); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.45rem; }
+.dark .info-card-title { color: var(--pink); }
 .rules-list { list-style: none; }
-.rules-list li { font-size: 0.84rem; color: var(--text); padding: 0.38rem 0; border-bottom: 1px solid rgba(240,184,204,0.12); line-height: 1.55; display: flex; gap: 0.45rem; }
+.rules-list li { font-size: 0.84rem; color: var(--text-primary); padding: 0.38rem 0; border-bottom: 1px solid var(--border-soft); line-height: 1.55; display: flex; gap: 0.45rem; }
 .rules-list li:last-child { border-bottom: none; }
 .rules-list li::before { content: '—'; color: var(--mint); flex-shrink: 0; }
-.miki-story { font-size: 0.875rem; color: var(--muted); line-height: 1.85; }
+.miki-story { font-size: 0.875rem; color: var(--text-primary); line-height: 1.85; }
 .miki-story strong { color: var(--forest); }
+.dark .miki-story strong { color: var(--pink); }
 .miki-story em { color: var(--sage); font-style: italic; }
 
 /* Tentang side column */
@@ -344,31 +412,32 @@ section { padding: 5rem 2rem; }
 .tentang-full-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 
 /* ===== FOOTER ===== */
-footer { background: var(--deep); padding: 2.5rem 2rem 2rem; text-align: center; }
-.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 900; color: var(--cream); margin-bottom: 0.4rem; }
+footer { background: var(--footer-bg); padding: 2.5rem 2rem 2rem; text-align: center; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.65rem; font-weight: 900; color: #fdf6f0; margin-bottom: 0.4rem; }
 .footer-logo span { color: var(--pink); }
-.footer-sub { font-size: 0.82rem; color: rgba(253,246,240,0.35); margin-bottom: 1.75rem; }
+.footer-sub { font-size: 0.82rem; color: #8aaa97; margin-bottom: 1.75rem; }
 .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.75rem; }
-.footer-links a { font-size: 0.82rem; color: rgba(253,246,240,0.45); text-decoration: none; transition: color 0.2s; }
+.footer-links a { font-size: 0.82rem; color: #9dbdad; text-decoration: none; transition: color 0.2s; }
 .footer-links a:hover { color: var(--pink); }
-.footer-copy { font-size: 0.72rem; color: rgba(253,246,240,0.18); border-top: 1px solid rgba(253,246,240,0.05); padding-top: 1.25rem; }
+.footer-copy { font-size: 0.72rem; color: #6b8878; border-top: 1px solid rgba(253,246,240,0.05); padding-top: 1.25rem; }
 
 /* ===== INQUIRY MODAL ===== */
 .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(15,35,24,0.82); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; padding: 1rem; }
 .modal-overlay.open { display: flex; }
-.modal { background: var(--cream); border-radius: 26px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 28px 72px rgba(0,0,0,0.28); animation: modalIn 0.32s cubic-bezier(0.34,1.56,0.64,1) both; }
+.modal { background: var(--modal-bg); border-radius: 26px; width: 100%; max-width: 500px; overflow: hidden; box-shadow: 0 28px 72px rgba(0,0,0,0.28); animation: modalIn 0.32s cubic-bezier(0.34,1.56,0.64,1) both; }
 @keyframes modalIn { from { opacity: 0; transform: translateY(18px) scale(0.96); } }
 .modal-header { background: var(--forest); padding: 1.65rem 1.75rem; position: relative; }
-.modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--cream); }
-.modal-sub { font-size: 0.78rem; color: rgba(253,246,240,0.55); margin-top: 0.2rem; }
-.modal-close { position: absolute; top: 1.1rem; right: 1.1rem; background: rgba(253,246,240,0.1); border: none; cursor: pointer; width: 30px; height: 30px; border-radius: 50%; color: var(--cream); font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: #fdf6f0; }
+.modal-sub { font-size: 0.78rem; color: #a0bfb0; margin-top: 0.2rem; }
+.modal-close { position: absolute; top: 1.1rem; right: 1.1rem; background: rgba(253,246,240,0.1); border: none; cursor: pointer; width: 30px; height: 30px; border-radius: 50%; color: #fdf6f0; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
 .modal-close:hover { background: rgba(253,246,240,0.2); }
 .modal-body { padding: 1.75rem; }
 .form-group { margin-bottom: 1.1rem; }
 .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--forest); margin-bottom: 0.38rem; }
-.form-input { width: 100%; background: var(--white); border: 1.5px solid rgba(240,184,204,0.28); border-radius: 11px; padding: 0.68rem 0.95rem; font-size: 0.875rem; color: var(--text); font-family: 'DM Sans', sans-serif; transition: border-color 0.2s; outline: none; }
+.dark .form-label { color: var(--pink); }
+.form-input { width: 100%; background: var(--input-bg); border: 1.5px solid var(--border-soft); border-radius: 11px; padding: 0.68rem 0.95rem; font-size: 0.875rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; transition: border-color 0.2s; outline: none; }
 .form-input:focus { border-color: var(--mint); }
-.form-select { width: 100%; background: var(--white); border: 1.5px solid rgba(240,184,204,0.28); border-radius: 11px; padding: 0.68rem 0.95rem; font-size: 0.875rem; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; appearance: none; cursor: pointer; transition: border-color 0.2s; }
+.form-select { width: 100%; background: var(--input-bg); border: 1.5px solid var(--border-soft); border-radius: 11px; padding: 0.68rem 0.95rem; font-size: 0.875rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; outline: none; appearance: none; cursor: pointer; transition: border-color 0.2s; }
 .form-select:focus { border-color: var(--mint); }
 .btn-wa {
   width: 100%; background: var(--pink); color: var(--forest);
@@ -377,16 +446,18 @@ footer { background: var(--deep); padding: 2.5rem 2rem 2rem; text-align: center;
   font-family: 'DM Sans', sans-serif; transition: all 0.2s;
   display: flex; align-items: center; justify-content: center; gap: 0.5rem;
 }
-.btn-wa:hover { background: var(--blush); transform: translateY(-1px); }
+.btn-wa:hover { background: var(--pink); filter: brightness(1.08); transform: translateY(-1px); color: #1a3a2a; }
 
 /* ===== ADMIN PANEL ===== */
-.admin-overlay { position: fixed; inset: 0; z-index: 2000; background: var(--deep); display: none; flex-direction: column; overflow: hidden; }
+.admin-overlay { position: fixed; inset: 0; z-index: 2000; background: #0f2318; display: none; flex-direction: column; overflow: hidden; }
+.dark .admin-overlay, .admin-overlay { background: #0f2318; }
+html.dark .admin-overlay { background: #090f0b; }
 .admin-overlay.open { display: flex; }
 .admin-login { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: radial-gradient(ellipse at center, #1a3a2a 0%, var(--deep) 70%); }
 .admin-login-card { background: rgba(253,246,240,0.04); border: 1px solid rgba(240,184,204,0.13); border-radius: 22px; padding: 2.25rem; width: 100%; max-width: 360px; text-align: center; }
-.admin-login-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--cream); margin-bottom: 0.4rem; }
-.admin-login-sub { font-size: 0.78rem; color: rgba(253,246,240,0.38); margin-bottom: 1.75rem; }
-.admin-input { width: 100%; background: rgba(253,246,240,0.05); border: 1px solid rgba(240,184,204,0.18); border-radius: 11px; padding: 0.72rem 1rem; font-size: 0.875rem; color: var(--cream); font-family: 'DM Sans', sans-serif; margin-bottom: 0.9rem; outline: none; text-align: center; transition: border-color 0.2s; }
+.admin-login-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: #fdf6f0; margin-bottom: 0.4rem; }
+.admin-login-sub { font-size: 0.78rem; color: #7a9e8c; margin-bottom: 1.75rem; }
+.admin-input { width: 100%; background: rgba(253,246,240,0.05); border: 1px solid rgba(240,184,204,0.18); border-radius: 11px; padding: 0.72rem 1rem; font-size: 0.875rem; color: #fdf6f0; font-family: 'DM Sans', sans-serif; margin-bottom: 0.9rem; outline: none; text-align: center; transition: border-color 0.2s; }
 .admin-input:focus { border-color: var(--pink); }
 .admin-input::placeholder { color: rgba(253,246,240,0.28); }
 .btn-admin-login { width: 100%; background: var(--pink); color: var(--forest); font-weight: 700; font-size: 0.875rem; padding: 0.78rem; border-radius: 11px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-bottom: 0.85rem; }
@@ -396,24 +467,24 @@ footer { background: var(--deep); padding: 2.5rem 2rem 2rem; text-align: center;
 .btn-admin-close:hover { color: rgba(253,246,240,0.65); }
 .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .admin-topbar { background: rgba(253,246,240,0.03); border-bottom: 1px solid rgba(240,184,204,0.08); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-.admin-topbar-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--cream); }
+.admin-topbar-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: #fdf6f0; }
 .btn-admin-exit { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.18); color: #ff6b6b; font-size: 0.78rem; font-weight: 600; padding: 0.32rem 0.8rem; border-radius: 8px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
 .btn-admin-exit:hover { background: rgba(255,107,107,0.2); }
 .admin-tabs { display: flex; padding: 0 2rem; background: rgba(253,246,240,0.02); border-bottom: 1px solid rgba(240,184,204,0.07); flex-shrink: 0; overflow-x: auto; }
-.admin-tab { background: transparent; border: none; cursor: pointer; color: rgba(253,246,240,0.38); font-size: 0.78rem; font-weight: 600; padding: 0.85rem 1.15rem; font-family: 'DM Sans', sans-serif; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
+.admin-tab { background: transparent; border: none; cursor: pointer; color: #7a9e8c; font-size: 0.78rem; font-weight: 600; padding: 0.85rem 1.15rem; font-family: 'DM Sans', sans-serif; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
 .admin-tab.active { color: var(--pink); border-bottom-color: var(--pink); }
 .admin-tab:hover:not(.active) { color: rgba(253,246,240,0.65); }
-.admin-content { flex: 1; overflow-y: auto; padding: 2rem; color: var(--cream); }
+.admin-content { flex: 1; overflow-y: auto; padding: 2rem; color: #fdf6f0; }
 .admin-panel-view { display: none; }
 .admin-panel-view.active { display: block; }
-.admin-section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--cream); margin-bottom: 1.4rem; }
+.admin-section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: #fdf6f0; margin-bottom: 1.4rem; }
 .admin-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem; margin-bottom: 2rem; }
 .admin-stat { background: rgba(253,246,240,0.04); border: 1px solid rgba(240,184,204,0.1); border-radius: 14px; padding: 1.15rem; }
 .admin-stat-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: var(--pink); }
-.admin-stat-label { font-size: 0.72rem; color: rgba(253,246,240,0.38); margin-top: 0.2rem; }
+.admin-stat-label { font-size: 0.72rem; color: #7a9e8c; margin-top: 0.2rem; }
 .inquiry-item { background: rgba(253,246,240,0.03); border: 1px solid rgba(240,184,204,0.09); border-radius: 11px; padding: 0.9rem 1.1rem; margin-bottom: 0.65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .inquiry-name { font-weight: 600; font-size: 0.875rem; }
-.inquiry-meta { font-size: 0.75rem; color: rgba(253,246,240,0.38); margin-top: 0.2rem; }
+.inquiry-meta { font-size: 0.75rem; color: #7a9e8c; margin-top: 0.2rem; }
 .inquiry-actions { display: flex; gap: 0.45rem; flex-shrink: 0; }
 .status-badge { font-size: 0.67rem; font-weight: 700; padding: 0.18rem 0.55rem; border-radius: 999px; }
 .status-new { background: rgba(240,184,204,0.2); color: var(--pink); }
@@ -425,10 +496,10 @@ footer { background: var(--deep); padding: 2.5rem 2rem 2rem; text-align: center;
 .btn-del-sm:hover { background: rgba(255,107,107,0.2); }
 .empty-state { text-align: center; padding: 2.5rem; color: rgba(253,246,240,0.28); font-size: 0.875rem; }
 .admin-form-group { margin-bottom: 1.15rem; }
-.admin-form-label { display: block; font-size: 0.76rem; font-weight: 600; color: rgba(253,246,240,0.55); margin-bottom: 0.35rem; }
-.admin-form-input { width: 100%; background: rgba(253,246,240,0.04); border: 1px solid rgba(240,184,204,0.13); border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: var(--cream); font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
+.admin-form-label { display: block; font-size: 0.76rem; font-weight: 600; color: #c0d8ca; margin-bottom: 0.35rem; }
+.admin-form-input { width: 100%; background: rgba(253,246,240,0.04); border: 1px solid rgba(240,184,204,0.13); border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: #e8f5ee; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
 .admin-form-input:focus { border-color: rgba(240,184,204,0.38); }
-.admin-form-textarea { width: 100%; background: rgba(253,246,240,0.04); border: 1px solid rgba(240,184,204,0.13); border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: var(--cream); font-family: 'DM Sans', sans-serif; outline: none; resize: vertical; min-height: 90px; transition: border-color 0.2s; }
+.admin-form-textarea { width: 100%; background: rgba(253,246,240,0.04); border: 1px solid rgba(240,184,204,0.13); border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: #fdf6f0; font-family: 'DM Sans', sans-serif; outline: none; resize: vertical; min-height: 90px; transition: border-color 0.2s; }
 .admin-form-textarea:focus { border-color: rgba(240,184,204,0.38); }
 .btn-admin-save { background: var(--pink); color: var(--forest); font-weight: 700; font-size: 0.85rem; padding: 0.62rem 1.4rem; border-radius: 9px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
 .btn-admin-save:hover { background: var(--blush); }
@@ -447,10 +518,49 @@ footer { background: var(--deep); padding: 2.5rem 2rem 2rem; text-align: center;
 .sb-setup code { background: rgba(253,246,240,0.05); padding: 0.08rem 0.38rem; border-radius: 4px; font-family: monospace; font-size: 0.78rem; color: var(--pink); }
 .sb-setup pre { background: rgba(0,0,0,0.28); border-radius: 9px; padding: 0.9rem; overflow-x: auto; margin-top: 0.65rem; }
 
+/* ===== DARK MODE TOGGLE ===== */
+.dark-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--bg-section-alt); border: 1.5px solid var(--border-soft);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; transition: all 0.2s; flex-shrink: 0;
+}
+.dark-toggle:hover { background: var(--blush); border-color: var(--pink); }
+.dark .dark-toggle { background: rgba(240,184,204,0.1); }
+.dark .dark-toggle:hover { background: rgba(240,184,204,0.2); }
+
+/* ===== SECTION TITLE DARK MODE ===== */
+.dark .section-title { color: var(--pink); }
+.dark .section-desc { color: var(--text-muted); }
+.dark .browse-title { color: var(--pink); }
+.dark .browse-sub { color: var(--text-muted); }
+.dark .lokasi-footer { background: var(--bg-page); }
+.dark .fasi-tag { background: rgba(74,140,98,0.15); color: var(--mint); }
+.dark .detail-section-title { color: var(--pink); }
+.dark .checkin-section-label { color: var(--mint); }
+.dark .filter-btn { color: var(--text-muted); border-color: rgba(232,245,238,0.15); }
+.dark .hamburger span { background: var(--pink); }
+.dark .range-label { color: var(--text-muted); }
+
+/* Trust message in booking popup */
+.trust-msg {
+  background: rgba(74,140,98,0.1); border: 1.5px solid rgba(74,140,98,0.25);
+  border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1.1rem; font-size: 0.8rem;
+  color: var(--text-primary); line-height: 1.7;
+}
+.dark .trust-msg { background: rgba(74,140,98,0.15); border-color: rgba(74,140,98,0.3); }
+.trust-msg-title { font-weight: 700; color: var(--mint); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.3rem; }
+.trust-msg-warning { font-weight: 700; color: #e67e22; margin-top: 0.6rem; }
+.dark .trust-msg-warning { color: #f0a070; }
+.trust-official { font-weight: 700; color: var(--forest); margin-top: 0.25rem; }
+.dark .trust-official { color: var(--pink); }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .hamburger { display: flex; }
+  #darkToggleMobile { display: flex !important; }
+  #darkToggle { display: none; }
   .browse-grid { grid-template-columns: 1fr; }
   .tentang-grid { grid-template-columns: 1fr; }
   .tentang-full-row { grid-template-columns: 1fr; }
@@ -474,20 +584,21 @@ footer { background: var(--deep); padding: 2.5rem 2rem 2rem; text-align: center;
 .skeleton-line.med { width: 80%; }
 
 /* ===== AVAILABILITY VISIT ===== */
-.visit-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(240,184,204,0.15); }
+.visit-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-soft); }
 .visit-title { font-size: 0.82rem; font-weight: 700; color: var(--forest); margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.4rem; }
+.dark .visit-title { color: var(--pink); }
 .visit-slots { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.65rem; }
 .visit-slot { background: rgba(74,140,98,0.08); border: 1.5px solid rgba(74,140,98,0.2); color: var(--sage); font-size: 0.72rem; font-weight: 700; padding: 0.28rem 0.75rem; border-radius: 999px; cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
 .visit-slot:hover, .visit-slot.selected { background: var(--mint); color: white; border-color: var(--mint); }
 .visit-slot.taken { background: rgba(255,107,107,0.08); border-color: rgba(255,107,107,0.2); color: #ff6b6b; cursor: default; opacity: 0.6; }
-.visit-date-input { background: var(--white); border: 1.5px solid rgba(240,184,204,0.3); border-radius: 10px; padding: 0.5rem 0.75rem; font-size: 0.82rem; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none; width: 100%; margin-bottom: 0.5rem; }
+.visit-date-input { background: var(--input-bg); border: 1.5px solid var(--border-soft); border-radius: 10px; padding: 0.5rem 0.75rem; font-size: 0.82rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; outline: none; width: 100%; margin-bottom: 0.5rem; }
 .visit-date-input:focus { border-color: var(--mint); }
 .btn-book-visit { background: var(--forest); color: var(--cream); font-weight: 700; font-size: 0.82rem; padding: 0.55rem 1.15rem; border-radius: 10px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
 .btn-book-visit:hover { background: var(--sage); }
 
 /* Admin visit availability */
 .admin-avail-section { margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px solid rgba(240,184,204,0.1); }
-.admin-avail-label { font-size: 0.72rem; font-weight: 700; color: rgba(253,246,240,0.45); margin-bottom: 0.4rem; }
+.admin-avail-label { font-size: 0.72rem; font-weight: 700; color: #8aaa97; margin-bottom: 0.4rem; }
 .avail-slots-admin { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.4rem; }
 .avail-slot-admin { background: rgba(74,140,98,0.1); border: 1px solid rgba(74,140,98,0.2); color: var(--mint); font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 999px; cursor: pointer; position: relative; display: flex; align-items: center; gap: 0.25rem; }
 .avail-slot-del { background: none; border: none; color: rgba(255,107,107,0.7); cursor: pointer; font-size: 0.75rem; line-height: 1; padding: 0; }
@@ -510,7 +621,7 @@ img[loading="lazy"] { transition: opacity 0.3s; }
 img.lazy-loaded { opacity: 1; }
 
 /* ===== ROOM IMAGE GRID IN DETAIL ===== */
-.room-img-gallery { height: 140px; position: relative; background: var(--warm); border-radius: 14px 14px 0 0; overflow: hidden; cursor: pointer; }
+.room-img-gallery { height: 140px; position: relative; background: var(--bg-section-alt); border-radius: 14px 14px 0 0; overflow: hidden; cursor: pointer; }
 .room-img-gallery img { width: 100%; height: 100%; object-fit: cover; loading: lazy; }
 .room-img-gallery .img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: 0.3; }
 .room-img-count-badge { position: absolute; bottom: 0.5rem; right: 0.5rem; background: rgba(15,35,24,0.72); color: white; font-size: 0.65rem; font-weight: 700; padding: 0.18rem 0.5rem; border-radius: 999px; }
@@ -518,27 +629,6 @@ img.lazy-loaded { opacity: 1; }
 .room-img-gallery:hover .view-more-overlay { opacity: 1; }
 .view-more-overlay span { color: white; font-size: 0.8rem; font-weight: 700; }
 
-
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  background: linear-gradient(90deg, var(--deep) 0%, var(--forest) 50%, var(--deep) 100%);
-  border-bottom: 1px solid rgba(240,184,204,0.3);
-  display: flex; align-items: center; justify-content: center; gap: 0.7rem;
-  padding: 0.5rem 3rem; font-size: 0.8rem; color: rgba(253,246,240,0.85);
-  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
-}
-#kumiBanner.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
-#kumiBanner .banner-kumi { font-size: 1rem; }
-#kumiBanner strong { color: var(--pink); }
-#kumiBanner .banner-close {
-  position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
-  background: rgba(253,246,240,0.1); border: none; cursor: pointer;
-  width: 22px; height: 22px; border-radius: 50%; color: var(--cream);
-  font-size: 0.75rem; display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s;
-}
-#kumiBanner .banner-close:hover { background: rgba(253,246,240,0.22); }
-body.banner-visible { --banner-h: 36px; }
-body.banner-visible nav { top: var(--banner-h); }
 
 /* ===== STAT COUNTER ANIMATION ===== */
 .stat-num[data-target] { transition: none; }
@@ -550,7 +640,7 @@ body.banner-visible nav { top: var(--banner-h); }
 #dapurModal .modal-body li::before { content: '🍳'; flex-shrink: 0; }
 
 /* ===== DETAIL LOKASI VIEW ===== */
-#view-detail { min-height: 100vh; background: var(--cream); padding-top: 64px; }
+#view-detail { min-height: 100vh; background: var(--bg-page); padding-top: 64px; }
 .detail-hero {
   height: 280px; position: relative; overflow: hidden;
   display: flex; align-items: flex-end;
@@ -569,8 +659,8 @@ body.banner-visible nav { top: var(--banner-h); }
   margin-bottom: 0.75rem; transition: background 0.2s;
 }
 .detail-back:hover { background: rgba(253,246,240,0.2); }
-.detail-hero-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--cream); line-height: 1.1; }
-.detail-hero-area { font-size: 0.85rem; color: rgba(253,246,240,0.6); margin-top: 0.25rem; }
+.detail-hero-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: #fdf6f0; line-height: 1.1; }
+.detail-hero-area { font-size: 0.85rem; color: #a8c4b4; margin-top: 0.25rem; }
 .detail-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.5rem; }
 
 .detail-body { max-width: 1120px; margin: 0 auto; padding: 2.5rem 2rem; }
@@ -581,33 +671,37 @@ body.banner-visible nav { top: var(--banner-h); }
 /* Room cards */
 .rooms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.1rem; margin-bottom: 2rem; }
 .room-card {
-  background: var(--white); border: 1.5px solid rgba(240,184,204,0.2);
+  background: var(--bg-card); border: 1.5px solid var(--border-soft);
   border-radius: 18px; overflow: hidden; transition: all 0.28s;
 }
 .room-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px var(--shadow); border-color: rgba(240,184,204,0.5); }
 .room-card.penuh { opacity: 0.55; }
 .room-card-header { padding: 1.1rem 1.25rem 0.6rem; }
 .room-card-name { font-weight: 700; font-size: 0.95rem; color: var(--forest); margin-bottom: 0.15rem; }
-.room-card-size { font-size: 0.75rem; color: var(--muted); }
+.dark .room-card-name { color: var(--pink); }
+.room-card-size { font-size: 0.75rem; color: var(--text-muted); }
 .room-card-price { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--mint); margin: 0.5rem 0; }
-.room-card-price span { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--muted); font-weight: 400; }
+.room-card-price span { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: var(--text-muted); font-weight: 400; }
 .room-fasi { display: flex; flex-wrap: wrap; gap: 0.3rem; padding: 0 1.25rem 0.75rem; }
 .room-fasi-tag { background: rgba(45,92,63,0.07); color: var(--sage); font-size: 0.68rem; font-weight: 600; padding: 0.18rem 0.55rem; border-radius: 7px; }
-.room-card-footer { padding: 0.75rem 1.25rem 1.1rem; border-top: 1px solid rgba(240,184,204,0.12); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.dark .room-fasi-tag { background: rgba(74,140,98,0.2); color: #7ab896; }
+.room-card-footer { padding: 0.75rem 1.25rem 1.1rem; border-top: 1px solid var(--border-soft); display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .room-status { font-size: 0.72rem; font-weight: 700; padding: 0.22rem 0.65rem; border-radius: 999px; }
 .room-status.tersedia { background: rgba(74,140,98,0.15); color: var(--mint); }
 .room-status.penuh { background: rgba(255,107,107,0.12); color: #ff6b6b; }
-.btn-room-inquire { background: var(--forest); color: var(--cream); font-size: 0.78rem; font-weight: 700; padding: 0.45rem 0.9rem; border-radius: 10px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.btn-room-inquire { background: var(--forest); color: #fdf6f0; font-size: 0.78rem; font-weight: 700; padding: 0.45rem 0.9rem; border-radius: 10px; border: 1.5px solid rgba(253,246,240,0.25); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
 .btn-room-inquire:hover { background: var(--sage); }
 .btn-room-inquire:disabled { opacity: 0.4; cursor: default; }
 
 /* detail sidebar */
 .detail-sidebar {}
-.detail-info-card { background: var(--white); border: 1.5px solid rgba(240,184,204,0.2); border-radius: 18px; padding: 1.35rem; margin-bottom: 1.1rem; }
+.detail-info-card { background: var(--bg-card); border: 1.5px solid var(--border-soft); border-radius: 18px; padding: 1.35rem; margin-bottom: 1.1rem; }
 .detail-info-title { font-weight: 700; font-size: 0.88rem; color: var(--forest); margin-bottom: 0.85rem; }
+.dark .detail-info-title { color: var(--pink); }
 .detail-fasi-list { display: flex; flex-wrap: wrap; gap: 0.38rem; }
-.detail-fasi-tag { background: rgba(45,92,63,0.08); color: var(--sage); font-size: 0.75rem; font-weight: 600; padding: 0.28rem 0.7rem; border-radius: 10px; }
-.detail-hl-item { font-size: 0.84rem; color: var(--text); display: flex; gap: 0.4rem; margin-bottom: 0.38rem; line-height: 1.45; }
+.detail-fasi-tag { background: rgba(45,92,63,0.12); color: #1a3a2a; font-size: 0.75rem; font-weight: 700; padding: 0.28rem 0.7rem; border-radius: 10px; border: 1px solid rgba(45,92,63,0.2); }
+.dark .detail-fasi-tag { background: rgba(74,140,98,0.2); color: #c8f0d8; border-color: rgba(74,140,98,0.3); }
+.detail-hl-item { font-size: 0.84rem; color: var(--text-primary); display: flex; gap: 0.4rem; margin-bottom: 0.38rem; line-height: 1.45; }
 .detail-hl-item::before { content: '✓'; color: var(--mint); font-weight: 700; flex-shrink: 0; }
 
 /* Admin room management */
@@ -640,36 +734,38 @@ body.banner-visible nav { top: var(--banner-h); }
   position: relative; max-width: 420px;
 }
 .search-input {
-  width: 100%; background: var(--white); border: 1.5px solid rgba(240,184,204,0.35);
+  width: 100%; background: var(--input-bg); border: 1.5px solid var(--border-soft);
   border-radius: 999px; padding: 0.55rem 1rem 0.55rem 2.6rem;
-  font-size: 0.875rem; color: var(--text); font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif;
   outline: none; transition: border-color 0.2s;
 }
 .search-input:focus { border-color: var(--mint); }
-.search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.875rem; pointer-events: none; }
+.search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.875rem; pointer-events: none; }
 .search-results {
   position: absolute; top: calc(100% + 6px); left: 0; right: 0;
-  background: var(--white); border: 1.5px solid rgba(240,184,204,0.3);
-  border-radius: 16px; box-shadow: 0 12px 36px rgba(26,58,42,0.12);
+  background: var(--bg-card); border: 1.5px solid var(--border-soft);
+  border-radius: 16px; box-shadow: 0 12px 36px var(--shadow);
   z-index: 999; overflow: hidden; display: none;
 }
 .search-results.open { display: block; }
 .search-result-item {
   padding: 0.75rem 1.1rem; cursor: pointer; font-size: 0.84rem;
-  border-bottom: 1px solid rgba(240,184,204,0.1);
+  border-bottom: 1px solid var(--border-soft);
   transition: background 0.15s;
 }
 .search-result-item:last-child { border-bottom: none; }
 .search-result-item:hover { background: var(--blush); }
+.dark .search-result-item:hover { background: rgba(240,184,204,0.08); }
 .search-result-name { font-weight: 600; color: var(--forest); }
-.search-result-meta { font-size: 0.72rem; color: var(--muted); }
+.dark .search-result-name { color: var(--pink); }
+.search-result-meta { font-size: 0.72rem; color: var(--text-muted); }
 
 /* Nav search */
 .nav-search-wrap { position: relative; }
 .nav-search-results {
   position: absolute; top: calc(100% + 8px); right: 0; width: 340px;
-  background: var(--cream); border: 1.5px solid rgba(240,184,204,0.3);
-  border-radius: 16px; box-shadow: 0 12px 36px rgba(26,58,42,0.15);
+  background: var(--bg-card); border: 1.5px solid var(--border-soft);
+  border-radius: 16px; box-shadow: 0 12px 36px var(--shadow);
   z-index: 999; overflow: hidden; display: none;
 }
 .nav-search-results.open { display: block; }
@@ -687,7 +783,7 @@ body.banner-visible nav { top: var(--banner-h); }
 }
 .room-gallery-thumb:hover { border-color: var(--pink); transform: scale(1.05); }
 .room-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.room-gallery-thumb .thumb-emoji { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--warm); font-size: 1.5rem; }
+.room-gallery-thumb .thumb-emoji { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: var(--bg-section-alt); font-size: 1.5rem; }
 .room-gallery-count { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.68rem; font-weight: 700; color: var(--mint); padding: 0 1.25rem 0.5rem; cursor: pointer; }
 .room-gallery-count:hover { color: var(--sage); }
 
@@ -722,7 +818,7 @@ body.banner-visible nav { top: var(--banner-h); }
 .lightbox-nav:hover { background: rgba(253,246,240,0.2); }
 .lightbox-prev { left: -56px; }
 .lightbox-next { right: -56px; }
-.lightbox-counter { color: rgba(253,246,240,0.55); font-size: 0.8rem; margin-top: 1rem; }
+.lightbox-counter { color: #a0bfb0; font-size: 0.8rem; margin-top: 1rem; }
 .lightbox-thumbs { display: flex; gap: 0.4rem; margin-top: 1rem; overflow-x: auto; max-width: 90vw; padding: 0.25rem; }
 .lightbox-thumb {
   width: 52px; height: 42px; border-radius: 6px; overflow: hidden;
@@ -755,12 +851,12 @@ body.banner-visible nav { top: var(--banner-h); }
 .detail-filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
 .detail-search-wrap { position: relative; flex: 1; min-width: 180px; }
 .detail-search-input {
-  width: 100%; background: var(--white); border: 1.5px solid rgba(240,184,204,0.3);
+  width: 100%; background: var(--input-bg); border: 1.5px solid var(--border-soft);
   border-radius: 999px; padding: 0.45rem 0.9rem 0.45rem 2.2rem;
-  font-size: 0.8rem; color: var(--text); font-family: 'DM Sans', sans-serif; outline: none;
+  font-size: 0.8rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; outline: none;
 }
 .detail-search-input:focus { border-color: var(--mint); }
-.detail-search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 0.8rem; }
+.detail-search-icon { position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.8rem; }
 .range-label { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
 .range-input { accent-color: var(--mint); }
 
@@ -781,7 +877,7 @@ body.banner-visible nav { top: var(--banner-h); }
   display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
 }
 .compare-slot.filled { border-color: var(--pink); border-style: solid; }
-.compare-slot-name { font-size: 0.78rem; font-weight: 600; color: var(--cream); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; }
+.compare-slot-name { font-size: 0.78rem; font-weight: 600; color: #fdf6f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; }
 .compare-slot-remove { background: none; border: none; color: rgba(240,184,204,0.6); cursor: pointer; font-size: 0.85rem; line-height: 1; }
 .compare-slot-remove:hover { color: var(--pink); }
 .compare-slot-empty { font-size: 0.72rem; color: rgba(253,246,240,0.28); }
@@ -795,10 +891,11 @@ body.banner-visible nav { top: var(--banner-h); }
 .room-card .room-compare-check {
   position: absolute; top: 0.75rem; right: 0.75rem;
   width: 20px; height: 20px; border-radius: 5px;
-  border: 2px solid rgba(240,184,204,0.4); background: transparent;
+  border: 2px solid rgba(240,184,204,0.6); background: rgba(255,255,255,0.15);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
   transition: all 0.2s; font-size: 0.72rem;
 }
+.room-card .room-compare-check:hover { background: rgba(240,184,204,0.2); border-color: var(--pink); }
 .room-card { position: relative; }
 .room-card.in-compare .room-compare-check { background: var(--pink); border-color: var(--pink); color: var(--forest); }
 
@@ -806,32 +903,38 @@ body.banner-visible nav { top: var(--banner-h); }
 .compare-modal-overlay {
   position: fixed; inset: 0; z-index: 2500;
   background: rgba(15,35,24,0.9); backdrop-filter: blur(12px);
-  display: none; align-items: center; justify-content: center; padding: 1rem;
+  display: none; align-items: stretch; justify-content: stretch; padding: 0;
 }
 .compare-modal-overlay.open { display: flex; }
 .compare-modal {
-  background: var(--cream); border-radius: 22px; width: 100%; max-width: 900px;
-  max-height: 90vh; overflow: hidden; display: flex; flex-direction: column;
+  background: var(--modal-bg); border-radius: 0; width: 100%;
+  max-height: 100vh; overflow: hidden; display: flex; flex-direction: column;
   box-shadow: 0 28px 72px rgba(0,0,0,0.35);
+}
+@media (min-width: 600px) {
+  .compare-modal-overlay { align-items: center; justify-content: center; padding: 1.25rem; }
+  .compare-modal { border-radius: 22px; max-width: 860px; max-height: 90vh; }
 }
 .compare-modal-header {
   background: var(--forest); padding: 1.25rem 1.75rem;
   display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
 }
-.compare-modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--cream); }
-.compare-table-wrap { overflow: auto; flex: 1; padding: 1.5rem; }
-.compare-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.compare-modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: #fdf6f0; }
+.compare-table-wrap { overflow: auto; flex: 1; padding: 1.25rem 1.5rem; }
+.compare-table { border-collapse: collapse; font-size: 0.84rem; width: 100%; min-width: 360px; }
 .compare-table th {
-  background: var(--warm); padding: 0.75rem 1rem; text-align: left;
-  font-weight: 700; color: var(--forest); border-bottom: 2px solid rgba(240,184,204,0.3);
+  background: var(--bg-section-alt); padding: 0.75rem 1rem; text-align: center;
+  font-weight: 700; color: var(--forest); border-bottom: 2px solid var(--border-soft);
   font-family: 'Playfair Display', serif; font-size: 0.95rem;
 }
-.compare-table th:first-child { width: 130px; background: transparent; color: var(--muted); font-size: 0.72rem; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+.dark .compare-table th { color: var(--pink); }
+.compare-table th:first-child { width: 130px; background: var(--bg-section-alt); color: var(--text-muted); font-size: 0.72rem; font-family: 'DM Sans', sans-serif; font-weight: 600; text-align: left; }
+.dark .compare-table th { background: rgba(22,42,30,0.95); }
 .compare-table td {
-  padding: 0.65rem 1rem; border-bottom: 1px solid rgba(240,184,204,0.15);
-  color: var(--text); vertical-align: top;
+  padding: 0.65rem 1rem; border-bottom: 1px solid var(--border-soft);
+  color: var(--text-primary); vertical-align: top; text-align: center;
 }
-.compare-table td:first-child { color: var(--muted); font-weight: 600; font-size: 0.78rem; }
+.compare-table td:first-child { color: var(--text-muted); font-weight: 600; font-size: 0.78rem; text-align: left; }
 .compare-table tr:last-child td { border-bottom: none; }
 .compare-table tr:hover td { background: rgba(240,184,204,0.06); }
 .compare-best { color: var(--mint); font-weight: 700; }
@@ -842,7 +945,7 @@ body.banner-visible nav { top: var(--banner-h); }
   background: rgba(253,246,240,0.03); border: 1px solid rgba(240,184,204,0.1);
   border-radius: 14px; padding: 1.1rem;
 }
-.chart-card-title { font-size: 0.82rem; font-weight: 700; color: rgba(253,246,240,0.65); margin-bottom: 0.75rem; }
+.chart-card-title { font-size: 0.82rem; font-weight: 700; color: #c8ddd0; margin-bottom: 0.75rem; }
 .chart-canvas-wrap { position: relative; height: 160px; }
 .popular-room-list { list-style: none; }
 .popular-room-item {
@@ -851,14 +954,14 @@ body.banner-visible nav { top: var(--banner-h); }
 }
 .popular-room-item:last-child { border-bottom: none; }
 .popular-rank { width: 22px; height: 22px; border-radius: 50%; background: rgba(240,184,204,0.15); color: var(--pink); font-size: 0.68rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.popular-name { flex: 1; color: rgba(253,246,240,0.75); }
-.popular-views { font-size: 0.7rem; color: rgba(253,246,240,0.35); }
+.popular-name { flex: 1; color: #d4e8db; }
+.popular-views { font-size: 0.7rem; color: #9abfaa; }
 .popular-bar-wrap { width: 60px; background: rgba(253,246,240,0.06); border-radius: 4px; height: 6px; overflow: hidden; }
 .popular-bar { height: 100%; background: var(--pink); border-radius: 4px; }
 
 /* ===== ROOM CARD PHOTO PREVIEW ===== */
 .room-card-photo {
-  height: 100px; overflow: hidden; position: relative; background: var(--warm);
+  height: 100px; overflow: hidden; position: relative; background: var(--bg-section-alt);
   display: flex; align-items: center; justify-content: center;
 }
 .room-card-photo img { width: 100%; height: 100%; object-fit: cover; }
@@ -873,7 +976,7 @@ body.banner-visible nav { top: var(--banner-h); }
 /* ===== DETAIL ROOM PHOTO ===== */
 .room-hero-photo {
   height: 130px; overflow: hidden; border-radius: 14px 14px 0 0;
-  background: var(--warm); display: flex; align-items: center; justify-content: center;
+  background: var(--bg-section-alt); display: flex; align-items: center; justify-content: center;
   cursor: pointer; position: relative;
 }
 .room-hero-photo img { width: 100%; height: 100%; object-fit: cover; }
@@ -894,6 +997,19 @@ body.banner-visible nav { top: var(--banner-h); }
   .lightbox-prev { left: -40px; }
   .lightbox-next { right: -40px; }
 }
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(240,184,204,0.35); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(240,184,204,0.6); }
+* { scrollbar-width: thin; scrollbar-color: rgba(240,184,204,0.35) transparent; }
+/* Admin input placeholder contrast */
+.admin-form-input::placeholder, .admin-form-textarea::placeholder { color: rgba(253,246,240,0.45); }
+.admin-input::placeholder { color: rgba(253,246,240,0.45); }
+/* Dark mode button fixes */
+.dark .btn-wa:hover { background: #f5c8d8; color: #1a3a2a; }
+.dark .btn-primary:hover { background: #f5c8d8; color: #1a3a2a; }
+.dark .map-link-arrow { color: var(--mint); }
 </style>
 </head>
 <body>
@@ -911,10 +1027,14 @@ body.banner-visible nav { top: var(--banner-h); }
       </div>
       <div class="nav-search-results" id="navSearchResults"></div>
     </div>
+    <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
     <a href="#" class="btn-nav" onclick="openInquiry(null); return false;">Hubungi Kami</a>
   </div>
-  <div class="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
+  <div style="display:flex;align-items:center;gap:0.5rem;">
+    <button class="dark-toggle" id="darkToggleMobile" onclick="toggleDark()" title="Toggle dark mode" style="display:none;">🌙</button>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
@@ -923,12 +1043,6 @@ body.banner-visible nav { top: var(--banner-h); }
   <a href="#" onclick="openInquiry(null); toggleMenu();">Hubungi Kami</a>
 </div>
 
-<!-- ===== KUMI ALERT BANNER (hidden — irrelevant for general visitors) ===== -->
-<div id="kumiBanner" class="hidden">
-  <span class="banner-kumi">🐱</span>
-  <span>Kumi ada di <strong>Hartini Kartono</strong> — mohon selalu tutup pintu gerbang ya!</span>
-  <button class="banner-close" onclick="dismissBanner()" aria-label="Tutup">✕</button>
-</div>
 
 <!-- ===== HOME VIEW ===== -->
 <div id="view-home" class="view active">
@@ -947,11 +1061,11 @@ body.banner-visible nav { top: var(--banner-h); }
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-num" data-target="14" data-suffix="+">14+</div>
+        <div class="stat-num" id="statYears" data-suffix="+">16+</div>
         <div class="stat-label">Tahun Berdiri</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num" data-target="3">3</div>
+        <div class="stat-num" id="statLokasi">3</div>
         <div class="stat-label">Lokasi Strategis</div>
       </div>
       <div class="stat-item">
@@ -964,7 +1078,7 @@ body.banner-visible nav { top: var(--banner-h); }
 </section>
 
 <!-- WHY -->
-<section id="why" style="background:var(--white);">
+<section id="why" style="background:var(--bg-card);">
   <div class="container">
     <div class="fade-up">
       <span class="section-tag">✦ Yang bikin kita beda</span>
@@ -976,7 +1090,7 @@ body.banner-visible nav { top: var(--banner-h); }
       <div class="why-card fade-up" style="transition-delay:.1s"><span class="why-icon">✨</span><div class="why-title">Bersih &amp; Terawat</div><div class="why-text">Kamar dan area bersama selalu dijaga. Betah deh pasti!</div></div>
       <div class="why-card fade-up" style="transition-delay:.15s"><span class="why-icon">🔒</span><div class="why-title">Aman &amp; Nyaman</div><div class="why-text">Lingkungan kondusif, akses terkontrol. Tidur pules tanpa was-was!</div></div>
       <div class="why-card fade-up" style="transition-delay:.2s"><span class="why-icon" id="whyKumiIcon">🐱</span><div class="why-title">Ada Kumi!</div><div class="why-text">Di Hartini Kartono ada Kumi, kucing Siam putih yang manja banget!</div></div>
-      <div class="why-card fade-up" style="transition-delay:.25s"><span class="why-icon">🏆</span><div class="why-title">Dipercaya Sejak 2010</div><div class="why-text">14+ tahun melayani penghuni dengan penuh cinta. Bukan kaleng-kaleng!</div></div>
+      <div class="why-card fade-up" style="transition-delay:.25s"><span class="why-icon">🏆</span><div class="why-title">Dipercaya Sejak 2010</div><div class="why-text"><span id="whyYears">16+</span> tahun melayani penghuni dengan penuh cinta. Bukan kaleng-kaleng!</div></div>
       <div class="why-card fade-up" style="transition-delay:.3s"><span class="why-icon">📶</span><div class="why-title">Fasilitas Lengkap</div><div class="why-text">WiFi, dapur bersama, kamar mandi dalam, parkir motor — semua ada!</div></div>
     </div>
   </div>
@@ -1009,7 +1123,7 @@ body.banner-visible nav { top: var(--banner-h); }
 </section>
 
 <!-- BROWSE -->
-<section style="background:var(--warm); padding:5rem 2rem;">
+<section style="background:var(--bg-section-alt); padding:5rem 2rem;">
   <div class="container">
     <div class="fade-up" style="text-align:center; margin-bottom:0.5rem;">
       <span class="section-tag">Kost buat siapa nih?</span>
@@ -1042,11 +1156,11 @@ body.banner-visible nav { top: var(--banner-h); }
 </section>
 
 <!-- LOKASI -->
-<section id="lokasi-section" style="background:var(--white); padding:5rem 2rem;">
+<section id="lokasi-section" style="background:var(--bg-card); padding:5rem 2rem;">
   <div class="container">
     <div class="fade-up">
       <span class="section-tag">✦ Pilih lokasimu</span>
-      <h2 class="section-title">3 Lokasi Strategis<br>Jakarta Timur</h2>
+      <h2 class="section-title"><span id="lokasiSectionCount">3</span> Lokasi Strategis<br>Jakarta Timur</h2>
     </div>
     <div class="filter-bar">
       <button class="filter-btn active" onclick="filterLokasi('all', this)">Semua</button>
@@ -1071,7 +1185,7 @@ body.banner-visible nav { top: var(--banner-h); }
     <a href="#" onclick="showTentang(); return false;">Tentang</a>
     <a href="https://wa.me/6282238071339" target="_blank">WhatsApp</a>
   </div>
-  <div class="footer-copy">© 2025 Miki Living · Dengan cinta untuk Miki &amp; Kumi 🐾</div>
+  <div class="footer-copy">© 2026 Miki Living · Dengan cinta untuk Miki &amp; Kumi 🐾</div>
 </footer>
 
 </div><!-- end view-home -->
@@ -1084,7 +1198,7 @@ body.banner-visible nav { top: var(--banner-h); }
     <h1 class="tentang-hero-title">Miki <em>Living</em></h1>
     <p class="tentang-hero-sub">Sudah melayani penghuni sejak 2010 dengan penuh cinta</p>
   </div>
-  <div class="tentang-wave" style="background:var(--forest);"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;width:100%;height:60px;"><path d="M0,60 C180,10 360,55 600,25 C840,0 1080,48 1260,18 C1350,6 1400,38 1440,22 L1440,60 Z" fill="#fdf6f0"/></svg></div>
+  <div class="tentang-wave" style="background:var(--forest);"><svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block;width:100%;height:60px;" id="tentangWaveSvg"><path d="M0,60 C180,10 360,55 600,25 C840,0 1080,48 1260,18 C1350,6 1400,38 1440,22 L1440,60 Z" id="tentangWavePath"/></svg></div>
   <div class="tentang-body">
     <!-- Row 1: About card + side -->
     <div class="tentang-grid">
@@ -1099,16 +1213,16 @@ body.banner-visible nav { top: var(--banner-h); }
         </div>
         <div class="about-contact">
           <a href="https://wa.me/6282238071339" target="_blank" class="contact-link">
-            <span>📱</span><span>Chat WhatsApp</span>
+            <span>Chat WhatsApp</span>
           </a>
           <button class="contact-link" onclick="openInquiry(null)">
-            <span>✉️</span><span>Isi Formulir Minat</span>
+            <span>Mau Tanya Dulu?</span>
           </button>
         </div>
       </div>
       <div class="tentang-side">
         <div class="info-card">
-          <div class="info-card-title">📋 Peraturan Kost <button onclick="openDapurModal()" style="margin-left:auto;background:rgba(45,92,63,0.1);border:1px solid rgba(45,92,63,0.2);color:var(--sage);font-size:0.7rem;font-weight:700;padding:0.2rem 0.65rem;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif;float:right;">🍳 Peraturan Dapur</button></div>
+          <div class="info-card-title">📋 Peraturan Kost</div>
           <ul class="rules-list" id="rulesList">
             <li>Bayar kost di awal sesuai kesepakatan</li>
             <li>Pintu gerbang selalu dikunci, no tamu lawan jenis di kamar</li>
@@ -1162,7 +1276,7 @@ body.banner-visible nav { top: var(--banner-h); }
     <a href="#" onclick="showHome(); return false;">Beranda</a>
     <a href="https://wa.me/6282238071339" target="_blank">WhatsApp</a>
   </div>
-  <div class="footer-copy">© 2025 Miki Living · Dengan cinta untuk Miki &amp; Kumi 🐾</div>
+  <div class="footer-copy">© 2026 Miki Living · Dengan cinta untuk Miki &amp; Kumi 🐾</div>
 </footer>
 </div><!-- end view-tentang -->
 
@@ -1214,31 +1328,11 @@ body.banner-visible nav { top: var(--banner-h); }
       <a href="#" onclick="showTentang(); return false;">Tentang</a>
       <a href="https://wa.me/6282238071339" target="_blank">WhatsApp</a>
     </div>
-    <div class="footer-copy">© 2025 Miki Living · Dengan cinta untuk Miki &amp; Kumi 🐾</div>
+    <div class="footer-copy">© 2026 Miki Living · Dengan cinta untuk Miki &amp; Kumi 🐾</div>
   </footer>
 </div><!-- end view-detail -->
 
-<!-- ===== DAPUR MODAL ===== -->
-<div class="modal-overlay" id="dapurModal">
-  <div class="modal" style="max-width:440px;">
-    <div class="modal-header" style="background:var(--sage);">
-      <div class="modal-title">🍳 Peraturan Dapur Bersama</div>
-      <div class="modal-sub">Tolong dipatuhi ya, biar kita semua nyaman!</div>
-      <button class="modal-close" onclick="closeDapurModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <ul id="dapurRulesList">
-        <li>Setelah masak, cuci peralatan &amp; bersihkan kompor langsung</li>
-        <li>Sisa makanan masuk kulkas atau buang, jangan ditinggal di meja</li>
-        <li>Kulkas bersama: beri label namamu &amp; tanggal pada makanan</li>
-        <li>Jangan pakai peralatan milik penghuni lain tanpa izin</li>
-        <li>Matikan kompor gas setelah selesai dipakai</li>
-        <li>Tempat sampah dikosongkan sebelum penuh</li>
-        <li>Dilarang masak yang berbau menyengat di jam istirahat (22.00–06.00)</li>
-      </ul>
-    </div>
-  </div>
-</div>
+
 
 <!-- ===== CHECK-IN MODAL ===== -->
 <div class="modal-overlay" id="checkinModal">
@@ -1249,25 +1343,29 @@ body.banner-visible nav { top: var(--banner-h); }
       <button class="modal-close" onclick="closeCheckin()">✕</button>
     </div>
     <div class="modal-body" style="overflow-y:auto;flex:1;">
+      <!-- Trust Message -->
+      <div class="trust-msg">
+        <div class="trust-msg-title">🔒 Privasi & Keamanan Kamu Aman</div>
+        <div>Kami <strong>TIDAK</strong> meminta nomor KTP di formulir ini.<br>
+        Verifikasi KTP hanya dilakukan via <strong>WhatsApp resmi</strong> setelah kamu konfirmasi langsung.</div>
+        <div class="trust-msg-warning">⚠️ Penting: Kami <u>TIDAK PERNAH</u> meminta pembayaran sebelum kamu konfirmasi via WhatsApp</div>
+        <div class="trust-official">📱 Nomor resmi kami: 0822-3807-1339</div>
+      </div>
       <div class="checkin-section-label">Data Diri</div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="ciName" placeholder="Sesuai KTP"></div>
-        <div class="form-group"><label class="form-label">No. KTP *</label><input class="form-input" id="ciKTP" placeholder="16 digit"></div>
+        <div class="form-group"><label class="form-label">No. WhatsApp *</label><input class="form-input" id="ciPhone" type="tel" placeholder="08xxxxxxxxxx"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">No. WhatsApp *</label><input class="form-input" id="ciPhone" type="tel" placeholder="08xxxxxxxxxx"></div>
         <div class="form-group"><label class="form-label">Pekerjaan</label><input class="form-input" id="ciJob" placeholder="Mahasiswa / Karyawan / dll"></div>
+        <div class="form-group"><label class="form-label">Asal Daerah</label><input class="form-input" id="ciOrigin" placeholder="Kota asal kamu"></div>
       </div>
-      <div class="form-group"><label class="form-label">Asal Daerah</label><input class="form-input" id="ciOrigin" placeholder="Kota asal kamu"></div>
 
       <div class="checkin-section-label">Info Check-in</div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Lokasi Kost *</label>
           <select class="form-select" id="ciLokasi" onchange="onCheckinLokasiChange()">
             <option value="">Pilih lokasi...</option>
-            <option value="Kost Hartini Ciracas">Kost Hartini Ciracas (Putra)</option>
-            <option value="Hartini Kartono">Hartini Kartono (Putri)</option>
-            <option value="Miki House">Miki House (Putri)</option>
           </select>
         </div>
         <div class="form-group"><label class="form-label">Pilih Kamar *</label>
@@ -1276,6 +1374,23 @@ body.banner-visible nav { top: var(--banner-h); }
       </div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Tanggal Masuk *</label><input class="form-input" id="ciCheckinDate" type="date"></div>
+        <div class="form-group"><label class="form-label">Jam Check-in</label>
+          <select class="form-select" id="ciCheckinTime">
+            <option value="">Pilih waktu...</option>
+            <option value="08.00">08.00</option>
+            <option value="09.00">09.00</option>
+            <option value="10.00">10.00</option>
+            <option value="11.00">11.00</option>
+            <option value="12.00">12.00</option>
+            <option value="13.00">13.00</option>
+            <option value="14.00">14.00</option>
+            <option value="15.00">15.00</option>
+            <option value="16.00">16.00</option>
+            <option value="17.00">17.00</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
         <div class="form-group"><label class="form-label">Durasi Sewa</label>
           <select class="form-select" id="ciDuration">
             <option value="1 bulan">1 Bulan</option><option value="3 bulan">3 Bulan</option>
@@ -1284,23 +1399,16 @@ body.banner-visible nav { top: var(--banner-h); }
         </div>
       </div>
 
-      <!-- Putri-only fields -->
-      <div class="putri-field" id="putriFields">
-        <div class="checkin-section-label">Data Tambahan (Khusus Putri)</div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Nama Wali / Orang Tua</label><input class="form-input" id="ciGuardian" placeholder="Nama lengkap wali"></div>
-          <div class="form-group"><label class="form-label">No. WA Wali</label><input class="form-input" id="ciGuardianPhone" type="tel" placeholder="08xxxxxxxxxx"></div>
-        </div>
-        <div class="form-group"><label class="form-label">Aktivitas Harian</label>
-          <select class="form-select" id="ciActivity">
-            <option value="Kuliah">Kuliah</option><option value="Kerja">Kerja</option>
-            <option value="Kuliah & Kerja">Kuliah &amp; Kerja</option><option value="Lainnya">Lainnya</option>
-          </select>
-        </div>
-        <div class="form-group"><label class="form-label">Jam Pulang Estimasi</label><input class="form-input" id="ciCurfew" placeholder="Misal: maks jam 21.00"></div>
+      <div class="form-group" style="margin-top:0.5rem;"><label class="form-label">Catatan Tambahan</label><textarea class="form-input" id="ciNotes" rows="2" placeholder="Ada yang perlu disampaikan?"></textarea></div>
+
+      <!-- Visit scheduling -->
+      <div id="visitScheduleSection" style="display:none;">
+        <div class="checkin-section-label">📅 Jadwalkan Kunjungan</div>
+        <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:.65rem;">⏰ Jam kunjungan: Senin–Jumat, 09.00–17.00. Waktu lain? <a href="#" onclick="closeCheckin();openInquiry(currentDetailName);return false;" style="color:var(--mint);font-weight:700;">Hubungi kami</a></div>
+        <div class="visit-slots" id="ciVisitSlots" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;"></div>
+        <div class="form-group"><label class="form-label">Pilih tanggal kunjungan</label><input class="form-input" id="ciVisitDate" type="date" min=""></div>
       </div>
 
-      <div class="form-group" style="margin-top:0.5rem;"><label class="form-label">Catatan Tambahan</label><textarea class="form-input" id="ciNotes" rows="2" placeholder="Ada yang perlu disampaikan?"></textarea></div>
       <button class="btn-wa" style="margin-top:0.5rem;" onclick="submitCheckin()">📱 Kirim Formulir via WhatsApp</button>
     </div>
   </div>
@@ -1321,14 +1429,67 @@ body.banner-visible nav { top: var(--banner-h); }
         <label class="form-label">Tertarik ke Lokasi</label>
         <select class="form-select" id="inquiryLokasi">
           <option value="">Pilih lokasi...</option>
-          <option value="Kost Hartini Ciracas">Kost Hartini Ciracas (Putra)</option>
-          <option value="Hartini Kartono">Hartini Kartono (Putri)</option>
-          <option value="Miki House">Miki House (Putri)</option>
-          <option value="Belum tahu">Belum tahu, mau tanya dulu</option>
         </select>
       </div>
       <div class="form-group"><label class="form-label">Pesan (opsional)</label><textarea class="form-input" id="inquiryMsg" rows="3" placeholder="Ada pertanyaan? Tulis di sini..."></textarea></div>
       <button class="btn-wa" onclick="submitInquiry()">📱 Kirim via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ROOM INQUIRY MODAL ===== -->
+<div class="modal-overlay" id="roomInquiryModal">
+  <div class="modal" style="max-width:520px;max-height:92vh;display:flex;flex-direction:column;">
+    <div class="modal-header">
+      <div class="modal-title">🛏 Tanya tentang Kamar</div>
+      <div class="modal-sub" id="roomInquiryModalSub" style="margin-top:.25rem;font-size:.82rem;color:#a0bfb0;"></div>
+      <button class="modal-close" onclick="closeRoomInquiry()">✕</button>
+    </div>
+    <div class="modal-body" style="overflow-y:auto;flex:1;">
+      <!-- Visit scheduling FIRST -->
+      <div id="roomInquiryVisitSection">
+        <div class="checkin-section-label" style="margin-top:0;">📅 Jadwalkan Kunjungan</div>
+        <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:.75rem;line-height:1.5;">⏰ Senin–Jumat, 09.00–17.00. Waktu lain? <a href="#" onclick="closeRoomInquiry();openInquiry(currentDetailName);return false;" style="color:var(--mint);font-weight:700;">Hubungi kami</a></div>
+        <div id="roomInquirySlots" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;"></div>
+        <div class="form-group">
+          <label class="form-label">Pilih Tanggal Kunjungan</label>
+          <input class="form-input" id="roomInquiryDate" type="date">
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label">Pilih Waktu</label>
+          <select class="form-select" id="roomInquiryTime">
+            <option value="">Pilih waktu...</option>
+            <option value="09.00">09.00</option>
+            <option value="10.00">10.00</option>
+            <option value="11.00">11.00</option>
+            <option value="13.00">13.00</option>
+            <option value="14.00">14.00</option>
+            <option value="15.00">15.00</option>
+            <option value="16.00">16.00</option>
+          </select>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border-soft);margin:1.25rem 0;"></div>
+      <div class="checkin-section-label" style="margin-top:0;">👤 Data Kamu</div>
+      <div class="form-group"><label class="form-label">Nama *</label><input class="form-input" id="riName" placeholder="Nama lengkap kamu"></div>
+      <div class="form-group"><label class="form-label">No. WhatsApp *</label><input class="form-input" id="riPhone" type="tel" placeholder="08xxxxxxxxxx"></div>
+      <div class="form-group"><label class="form-label">Pertanyaan / Pesan (opsional)</label><textarea class="form-input" id="riMsg" rows="2" placeholder="Ada yang ingin ditanyakan tentang kamar ini?"></textarea></div>
+      <button class="btn-wa" onclick="submitRoomInquiry()">📱 Kirim via WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONFIRMATION MODAL ===== -->
+<div class="modal-overlay" id="confirmationModal" style="z-index:1100;">
+  <div class="modal" style="max-width:420px;text-align:center;overflow:hidden;border-radius:26px;">
+    <div class="modal-header" style="padding:1.75rem 1.75rem 1.5rem;text-align:center;border-radius:26px 26px 0 0;">
+      <div id="confirmationIcon" style="font-size:2.8rem;line-height:1;margin-bottom:0.6rem;">✅</div>
+      <div class="modal-title" id="confirmationTitle">Berhasil Dikirim!</div>
+    </div>
+    <div class="modal-body" style="padding:1.5rem 1.75rem 2rem;text-align:center;">
+      <p id="confirmationMessage" style="font-size:0.95rem;line-height:1.65;color:var(--text-primary);margin-bottom:1.25rem;"></p>
+      <p id="confirmationFallback" style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1.5rem;display:none;"></p>
+      <button class="btn-primary" onclick="closeConfirmation()" style="width:100%;padding:0.85rem;font-size:0.9rem;">Oke, Makasih! 🙌</button>
     </div>
   </div>
 </div>
@@ -1381,7 +1542,10 @@ body.banner-visible nav { top: var(--banner-h); }
   <div class="admin-main" id="adminMain" style="display:none;">
     <div class="admin-topbar">
       <div class="admin-topbar-title">🏠 Miki Living — Admin</div>
-      <button class="btn-admin-exit" onclick="closeAdmin()">Keluar ✕</button>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <button class="dark-toggle" onclick="toggleDark()" title="Mode Gelap/Terang" style="background:rgba(253,246,240,0.08);border-color:rgba(240,184,204,0.2);" id="adminDarkToggle">🌙</button>
+        <button class="btn-admin-exit" onclick="closeAdmin()">Keluar ✕</button>
+      </div>
     </div>
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="switchAdminTab('overview',this)">Overview</button>
@@ -1750,13 +1914,91 @@ function removeLokasiHero(idx) {
   if(el) el.innerHTML=`<span style="font-size:2rem;">${DATA[idx].emoji}</span>`;
 }
 
+/* ===== DARK MODE ===== */
+function toggleDark() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  try { localStorage.setItem('mikiDark', isDark ? '1' : '0'); } catch(e){}
+  updateDarkToggles(isDark);
+}
+function updateDarkToggles(isDark) {
+  document.querySelectorAll('.dark-toggle').forEach(btn => { btn.textContent = isDark ? '☀️' : '🌙'; });
+}
+function initDarkMode() {
+  let dark = false;
+  try {
+    const saved = localStorage.getItem('mikiDark');
+    if (saved !== null) dark = saved === '1';
+    else dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  } catch(e) {}
+  if (dark) document.documentElement.classList.add('dark');
+  updateDarkToggles(dark);
+}
+
 /* ===== INQUIRY MODAL ===== */
+function populateLokasiDropdowns() {
+  const active = DATA.filter(d => d.status === 'active');
+  // Inquiry
+  const inqSel = document.getElementById('inquiryLokasi');
+  if (inqSel) {
+    inqSel.innerHTML = '<option value="">Pilih lokasi...</option>' +
+      active.map(d => `<option value="${d.name}">${d.name} (${d.gender === 'putri' ? 'Putri' : d.gender === 'putra' ? 'Putra' : 'Campur'})</option>`).join('') +
+      '<option value="Belum tahu">Belum tahu, mau tanya dulu</option>';
+  }
+  // Checkin
+  const ciSel = document.getElementById('ciLokasi');
+  if (ciSel) {
+    ciSel.innerHTML = '<option value="">Pilih lokasi...</option>' +
+      active.map(d => `<option value="${d.name}">${d.name} (${d.gender === 'putri' ? 'Putri' : d.gender === 'putra' ? 'Putra' : 'Campur'})</option>`).join('');
+  }
+  // Tentang maps
+  renderTentangMaps();
+}
+function renderTentangMaps() {
+  const mapsContainer = document.querySelector('.maps-horiz');
+  if (!mapsContainer) return;
+  const active = DATA.filter(d => d.status === 'active');
+  const colors = [
+    'linear-gradient(135deg,#1a3a2a,#2d5c3f)',
+    'linear-gradient(135deg,#2d5c3f,#4a8c62)',
+    'linear-gradient(135deg,#4a8c62,#6aaa82)',
+    'linear-gradient(135deg,#6aaa82,#8ec4a0)',
+  ];
+  mapsContainer.innerHTML = active.map((d, i) => `
+    <a href="${d.mapsUrl||'#'}" target="_blank" class="map-link" ${!d.mapsUrl?'onclick="return false;"':''}>
+      <div class="map-link-thumb" style="background:${colors[i % colors.length]};">${d.emoji}</div>
+      <div class="map-link-body">
+        <div class="map-link-name">${d.name}</div>
+        <div class="map-link-arrow">${d.mapsUrl ? '📍 Buka Maps →' : '📍 Maps belum tersedia'}</div>
+      </div>
+    </a>`).join('');
+}
+
 function openInquiry(lokasiName) {
+  populateLokasiDropdowns();
   document.getElementById('inquiryModal').classList.add('open');
   document.body.style.overflow='hidden';
   if (lokasiName) { const sel=document.getElementById('inquiryLokasi'); for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===lokasiName){sel.selectedIndex=i;break;}} }
 }
 function closeInquiry() { document.getElementById('inquiryModal').classList.remove('open'); document.body.style.overflow=''; }
+function showConfirmation(icon, title, message, fallbackPhone) {
+  document.getElementById('confirmationIcon').textContent = icon;
+  document.getElementById('confirmationTitle').textContent = title;
+  document.getElementById('confirmationMessage').textContent = message;
+  const fb = document.getElementById('confirmationFallback');
+  if (fallbackPhone) {
+    fb.textContent = 'Apabila gagal terkirim, hubungi kami langsung di: ' + fallbackPhone;
+    fb.style.display = 'block';
+  } else {
+    fb.style.display = 'none';
+  }
+  document.getElementById('confirmationModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeConfirmation() {
+  document.getElementById('confirmationModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 function submitInquiry() {
   const name=document.getElementById('inquiryName').value.trim();
   const phone=document.getElementById('inquiryPhone').value.trim();
@@ -1770,6 +2012,7 @@ function submitInquiry() {
   closeInquiry();
   ['inquiryName','inquiryPhone','inquiryMsg'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('inquiryLokasi').selectedIndex=0;
+  setTimeout(()=>showConfirmation('📱','Pertanyaan Terkirim!',`Halo ${name}! Pertanyaanmu sudah kami terima. Tim Miki Living segera balas via WhatsApp ya! 🙏`,SITE_CONFIG.phone?'+'+SITE_CONFIG.phone:null),300);
 }
 
 /* ===== ADMIN ===== */
@@ -1783,7 +2026,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 async function _hash(str){ const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)); return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
-function openAdmin(){ document.getElementById('adminOverlay').classList.add('open'); document.getElementById('adminLogin').style.display='flex'; document.getElementById('adminMain').style.display='none'; document.body.style.overflow='hidden'; setTimeout(()=>document.getElementById('adminPasswordInput').focus(),100); }
+function openAdmin(){ document.getElementById('adminOverlay').classList.add('open'); document.getElementById('adminLogin').style.display='flex'; document.getElementById('adminMain').style.display='none'; document.body.style.overflow='hidden'; setTimeout(()=>document.getElementById('adminPasswordInput').focus(),100); updateDarkToggles(document.documentElement.classList.contains('dark')); }
 function closeAdmin(){ document.getElementById('adminOverlay').classList.remove('open'); document.body.style.overflow=''; document.getElementById('adminPasswordInput').value=''; document.getElementById('adminError').textContent=''; }
 async function checkAdminPassword() {
   const now=Date.now();
@@ -1836,6 +2079,24 @@ let _lokasiEdits={};
 function updateLokasi(idx,field,val){ if(!_lokasiEdits[idx]) _lokasiEdits[idx]={}; _lokasiEdits[idx][field]=val; }
 function saveLokasi(idx){ if(_lokasiEdits[idx]){Object.assign(DATA[idx],_lokasiEdits[idx]);delete _lokasiEdits[idx];} saveAllData(); renderLokasi(); renderAdminLokasi(); }
 function toggleLokasiStatus(idx){ DATA[idx].status=DATA[idx].status==='active'?'draft':'active'; saveAllData(); renderLokasi(); renderAdminLokasi(); }
+function addNewLokasi(){
+  const newLokasi = {
+    id: 'lokasi-'+Date.now(),
+    name: 'Lokasi Baru', area: 'Jakarta Timur', gender: 'putri',
+    catFriendly: false, emoji: '🏠', color: '#2d5c3f',
+    badges: ['Tersedia'], highlights: ['Lokasi baru'], fasilitas: ['WiFi','Kamar mandi dalam'],
+    mapsUrl: '', heroImg: '', status: 'draft', rooms: []
+  };
+  DATA.push(newLokasi);
+  saveAllData(); renderLokasi(); renderAdminLokasi();
+  // Open the accordion for new item
+  setTimeout(()=>toggleAccordion(DATA.length-1), 100);
+}
+function deleteLokasi(idx){
+  if(!confirm('Hapus lokasi "'+DATA[idx].name+'"? Ini tidak bisa dibatalkan.')) return;
+  DATA.splice(idx,1);
+  saveAllData(); renderLokasi(); renderAdminLokasi();
+}
 function renderAdminPengaturan(){
   document.getElementById('cfgPhone').value=SITE_CONFIG.phone||'';
   document.getElementById('cfgHeroDesc').value=SITE_CONFIG.heroDesc||'';
@@ -1887,20 +2148,16 @@ function importData(event){
   reader.readAsText(file);
 }
 
-/* ===== KUMI BANNER ===== */
-function dismissBanner(){
-  document.getElementById('kumiBanner').classList.add('hidden');
-  document.body.classList.remove('banner-visible');
-  document.querySelector('nav').style.top='0';
-  try{sessionStorage.setItem('kumiBannerDismissed','1');}catch(e){}
-}
-function initBanner(){
-  // Banner is hidden by default — not shown to general visitors
-  // Admin can show it from admin panel if needed
-}
-
 /* ===== ANIMATED COUNTERS ===== */
 function animateCounters(){
+  // Dynamic values
+  const years = new Date().getFullYear() - 2010;
+  const lokasiCount = DATA.filter(d=>d.status==='active').length || DATA.length;
+  const statYears = document.getElementById('statYears');
+  const statLokasi = document.getElementById('statLokasi');
+  if(statYears){ statYears.dataset.target=years; statYears.textContent=years+'+'; }
+  if(statLokasi){ statLokasi.dataset.target=lokasiCount; statLokasi.textContent=lokasiCount; }
+
   document.querySelectorAll('.stat-num[data-target]').forEach(el=>{
     const target=parseInt(el.dataset.target);
     const suffix=el.dataset.suffix||'';
@@ -1987,16 +2244,8 @@ function renderRoomsGrid(d){
     const photos=r.photos||[];
     const hasPhoto=photos.length>0;
     const previewSrc=hasPhoto?photos[0]:'';
-    const visitSlots=r.visitSlots||[];
-    const visitHTML=visitSlots.length&&r.status==='tersedia'?`
-      <div class="visit-section">
-        <div class="visit-title">📅 Jadwalkan Kunjungan</div>
-        <div class="visit-slots" id="vslots-${r.id}">
-          ${visitSlots.map(s=>`<button class="visit-slot" onclick="selectVisitSlot(this,'${r.id}')">${s}</button>`).join('')}
-        </div>
-        <input type="date" class="visit-date-input" id="visitDate-${r.id}" min="${new Date().toISOString().slice(0,10)}" placeholder="Pilih tanggal">
-        <button class="btn-book-visit" onclick="bookVisit('${d.id}','${r.id}')">📱 Kirim via WhatsApp</button>
-      </div>`:'';
+    const visitHTML = '';
+
     const imgSection=hasPhoto
       ?`<div class="room-img-gallery" onclick="openLightbox(${JSON.stringify(photos)},0,'${d.emoji}')">
           <img src="${previewSrc}" alt="${r.name}" loading="lazy">
@@ -2017,7 +2266,7 @@ function renderRoomsGrid(d){
         <span class="room-status ${r.status}">${r.status==='tersedia'?'✓ Tersedia':'Penuh'}</span>
         <div style="display:flex;gap:.4rem;align-items:center;">
           <button class="room-compare-check ${inC?'in-compare':''}" title="Bandingkan" onclick="toggleCompare('${d.id}','${r.id}',document.getElementById('rcard-${r.id}'))">${inC?'✓':''}</button>
-          <button class="btn-room-inquire" ${r.status==='penuh'?'disabled':''} onclick="openCheckinRoom('${d.id}','${r.id}');trackView('${d.id}','${r.id}')">Inquire</button>
+          <button class="btn-room-inquire" ${r.status==='penuh'?'disabled':''} onclick="openRoomInquiry('${d.id}','${r.id}');trackView('${d.id}','${r.id}')">Inquire</button>
         </div>
       </div>
       ${visitHTML}
@@ -2050,21 +2299,92 @@ function bookVisit(lokasiId, roomId) {
     `\nMohon konfirmasinya, terima kasih!`
   );
   window.open(`https://wa.me/${SITE_CONFIG.phone}?text=${msg}`, '_blank');
+  setTimeout(()=>showConfirmation('📅','Jadwal Terkirim!',`Permintaan kunjungan ke kamar ${r.name} di ${d.name} sudah terkirim! Kami akan konfirmasi jadwal via WhatsApp. Sampai ketemu! 🏠`,SITE_CONFIG.phone?'+'+SITE_CONFIG.phone:null),300);
+}
+
+/* ===== ROOM INQUIRY (from Inquire button) ===== */
+let _currentRoomInquiry = null;
+function openRoomInquiry(lokasiId, roomId) {
+  const d=DATA.find(x=>x.id===lokasiId);
+  const r=d&&d.rooms&&d.rooms.find(x=>x.id===roomId);
+  if(!d||!r) return;
+  _currentRoomInquiry = {lokasiId, roomId};
+  document.getElementById('roomInquiryModalSub').textContent=`${r.name} · ${d.name}`;
+  // Date: window = today (WIB) through today+6 only
+  const nowWIB = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Jakarta'}));
+  const minDate = new Date(nowWIB); minDate.setHours(0,0,0,0);
+  const maxDate = new Date(minDate); maxDate.setDate(minDate.getDate()+6);
+  const toISO = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const dateInput = document.getElementById('roomInquiryDate');
+  dateInput.min = toISO(minDate);
+  dateInput.max = toISO(maxDate);
+  dateInput.value = '';
+  // Slots
+  const slotsEl = document.getElementById('roomInquirySlots');
+  const slots = r.visitSlots||[];
+  slotsEl.innerHTML = slots.length ? slots.map(s=>`<button type="button" class="visit-slot" onclick="selectRoomInquirySlot(this)">${s}</button>`).join('') : '';
+  slotsEl.style.display = slots.length ? 'flex' : 'none';
+  document.getElementById('riName').value='';
+  document.getElementById('riPhone').value='';
+  document.getElementById('riMsg').value='';
+  document.getElementById('roomInquiryTime').selectedIndex=0;
+  document.getElementById('roomInquiryModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeRoomInquiry(){ document.getElementById('roomInquiryModal').classList.remove('open'); document.body.style.overflow=''; }
+function selectRoomInquirySlot(btn){
+  document.querySelectorAll('#roomInquirySlots .visit-slot').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function submitRoomInquiry(){
+  const name=document.getElementById('riName').value.trim();
+  const phone=document.getElementById('riPhone').value.trim();
+  if(!name||!phone){alert('Nama dan No. WA wajib diisi ya!');return;}
+  const msg=document.getElementById('riMsg').value.trim();
+  const date=document.getElementById('roomInquiryDate').value;
+  const time=document.getElementById('roomInquiryTime').value;
+  const selectedSlot=document.querySelector('#roomInquirySlots .visit-slot.selected');
+  const c=_currentRoomInquiry;
+  const d=c&&DATA.find(x=>x.id===c.lokasiId);
+  const r=d&&d.rooms&&d.rooms.find(x=>x.id===c.roomId);
+  let visitLine='';
+  if(selectedSlot) visitLine+=`\n🕐 Slot: ${selectedSlot.textContent}`;
+  if(date) visitLine+=`\n📅 Tanggal Kunjungan: ${date}`;
+  if(time) visitLine+=`\n⏰ Waktu: ${time}`;
+  const waMsg=encodeURIComponent(
+    `Halo Miki Living! 👋\nSaya ingin tanya tentang kamar berikut:\n\n`+
+    `📍 Lokasi: ${d?d.name:''}\n🛏 Kamar: ${r?r.name:''}\n`+
+    visitLine+`\n\nNama: ${name}\nNo. WA: ${phone}`+
+    (msg?`\nPesan: ${msg}`:'')+`\n\nMohon dibantu infonya, terima kasih!`
+  );
+  INQUIRIES.push({id:Date.now().toString(),name,phone,lokasi:d?d.name:'',kamar:r?r.name:'',msg,createdAt:new Date().toISOString(),status:'new',type:'room-inquiry'});
+  saveAllData();
+  window.open(`https://wa.me/${SITE_CONFIG.phone}?text=${waMsg}`,'_blank');
+  closeRoomInquiry();
+  setTimeout(()=>showConfirmation('🛏','Pertanyaan Kamar Terkirim!',`Halo ${name}! Info kamarmu sudah kami terima. Kami segera balas via WhatsApp untuk detail dan jadwal kunjungan. Sampai ketemu! 😊`,SITE_CONFIG.phone?'+'+SITE_CONFIG.phone:null),300);
 }
 
 /* ===== DAPUR MODAL ===== */
-function openDapurModal(){ document.getElementById('dapurModal').classList.add('open'); document.body.style.overflow='hidden'; }
 function closeDapurModal(){ document.getElementById('dapurModal').classList.remove('open'); document.body.style.overflow=''; }
 
 /* ===== CHECK-IN MODAL ===== */
 function openCheckin(lokasiId){
+  populateLokasiDropdowns();
+  // Set min date on checkin date field (today)
+  const ciDate = document.getElementById('ciCheckinDate');
+  if(ciDate) ciDate.min = new Date().toISOString().slice(0,10);
+  // Hide visit section by default
+  const visitSection=document.getElementById('visitScheduleSection');
+  if(visitSection) visitSection.style.display='none';
+  if(visitSection) visitSection.style.display='none';
+  const visitSlots=document.getElementById('ciVisitSlots');
+  if(visitSlots){visitSlots.innerHTML='';visitSlots.style.display='none';}
   const d=DATA.find(x=>x.id===lokasiId);
   if(d){
     const sel=document.getElementById('ciLokasi');
     for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===d.name){sel.selectedIndex=i;break;}}
     document.getElementById('checkinModalSub').textContent='Formulir check-in — '+d.name;
     populateCiKamar(d);
-    togglePutriFields(d.gender==='putri');
   }
   document.getElementById('checkinModal').classList.add('open');
   document.body.style.overflow='hidden';
@@ -2077,15 +2397,38 @@ function openCheckinRoom(lokasiId, roomId){
     if(room){
       const sel=document.getElementById('ciKamar');
       for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===room.name){sel.selectedIndex=i;break;}}
+      // Show visit scheduling with this room's slots
+      const visitSection=document.getElementById('visitScheduleSection');
+      const visitSlots=document.getElementById('ciVisitSlots');
+      const visitDate=document.getElementById('ciVisitDate');
+      const _nowWIB = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Jakarta'}));
+      const _minV = new Date(_nowWIB); _minV.setHours(0,0,0,0);
+      const _maxV = new Date(_minV); _maxV.setDate(_minV.getDate()+6);
+      const _toISO = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      visitDate.min=_toISO(_minV);
+      visitDate.max=_toISO(_maxV);
+      visitDate.value='';
+      const slots=room.visitSlots||[];
+      if(slots.length){
+        visitSlots.innerHTML=slots.map(s=>`<button type="button" class="visit-slot" onclick="selectCiVisitSlot(this)">${s}</button>`).join('');
+        visitSlots.style.display='flex';
+      } else {
+        visitSlots.innerHTML=''; visitSlots.style.display='none';
+      }
+      visitSection.style.display='block';
     }
   }
 }
 function closeCheckin(){ document.getElementById('checkinModal').classList.remove('open'); document.body.style.overflow=''; }
+function selectCiVisitSlot(btn){
+  document.querySelectorAll('#ciVisitSlots .visit-slot').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
 function onCheckinLokasiChange(){
   const val=document.getElementById('ciLokasi').value;
   const d=DATA.find(x=>x.name===val);
-  if(d){ populateCiKamar(d); togglePutriFields(d.gender==='putri'); }
-  else { document.getElementById('ciKamar').innerHTML='<option value="">Pilih kamar...</option>'; togglePutriFields(false); }
+  if(d){ populateCiKamar(d); }
+  else { document.getElementById('ciKamar').innerHTML='<option value="">Pilih kamar...</option>'; }
 }
 function populateCiKamar(d){
   const sel=document.getElementById('ciKamar');
@@ -2097,55 +2440,57 @@ function togglePutriFields(show){
 }
 function submitCheckin(){
   const name=document.getElementById('ciName').value.trim();
-  const ktp=document.getElementById('ciKTP').value.trim();
   const phone=document.getElementById('ciPhone').value.trim();
   const lokasi=document.getElementById('ciLokasi').value;
   const kamar=document.getElementById('ciKamar').value;
   const date=document.getElementById('ciCheckinDate').value;
+  const time=document.getElementById('ciCheckinTime')?.value||'';
   if(!name||!phone||!lokasi){alert('Nama, No. WA, dan Lokasi wajib diisi!');return;}
   const job=document.getElementById('ciJob').value.trim();
   const origin=document.getElementById('ciOrigin').value.trim();
   const duration=document.getElementById('ciDuration').value;
   const notes=document.getElementById('ciNotes').value.trim();
-  const isPutri=document.getElementById('putriFields').classList.contains('show');
-  let extra='';
-  if(isPutri){
-    const guardian=document.getElementById('ciGuardian').value.trim();
-    const guardianPhone=document.getElementById('ciGuardianPhone').value.trim();
-    const activity=document.getElementById('ciActivity').value;
-    const curfew=document.getElementById('ciCurfew').value.trim();
-    if(guardian) extra+=`\nNama Wali: ${guardian}`;
-    if(guardianPhone) extra+=`\nNo. WA Wali: ${guardianPhone}`;
-    if(activity) extra+=`\nAktivitas: ${activity}`;
-    if(curfew) extra+=`\nJam Pulang: ${curfew}`;
+  // Visit scheduling
+  const visitSection=document.getElementById('visitScheduleSection');
+  let visitInfo='';
+  if(visitSection&&visitSection.style.display!=='none'){
+    const selectedSlot=document.querySelector('#ciVisitSlots .visit-slot.selected');
+    const visitDate=document.getElementById('ciVisitDate').value;
+    const visitTime=document.getElementById('ciVisitTime')?.value||'';
+    if(selectedSlot) visitInfo+=`\n\n📅 JADWAL KUNJUNGAN\nSlot: ${selectedSlot.textContent}`;
+    if(visitDate) visitInfo+=`\n📅 Tanggal: ${visitDate}`;
+    if(visitTime) visitInfo+=`\n⏰ Waktu: ${visitTime}`;
   }
   const msg=encodeURIComponent(
     `Halo Miki Living! 👋 Saya ingin melakukan check-in.\n\n`+
     `📋 FORMULIR CHECK-IN\n`+
     `━━━━━━━━━━━━━━━━━━\n`+
     `Nama: ${name}\n`+
-    (ktp?`No. KTP: ${ktp}\n`:'')+
     `No. WA: ${phone}\n`+
     (job?`Pekerjaan: ${job}\n`:'')+
     (origin?`Asal: ${origin}\n`:'')+
     `\n📍 INFO KOST\n`+
     `Lokasi: ${lokasi}\n`+
     (kamar?`Kamar: ${kamar}\n`:'')+
-    (date?`Tgl Masuk: ${date}\n`:'')+
+    (date?`Tgl Masuk: ${date}`+(time?` · ${time}`:'')+'\n':'')+
     `Durasi: ${duration}\n`+
-    extra+
-    (notes?`\nCatatan: ${notes}`:'')
+    (notes?`\nCatatan: ${notes}`:'')+
+    visitInfo+
+    `\n\n*Catatan: Verifikasi KTP akan dilakukan via WhatsApp resmi ini.*`
   );
-  // Save to inquiries
-  const ci={id:Date.now().toString(),name,phone,lokasi,kamar,checkinDate:date,msg:notes||'',createdAt:new Date().toISOString(),status:'new',type:'checkin'};
-  INQUIRIES.push(ci); saveAllData();
+  INQUIRIES.push({id:Date.now().toString(),name,phone,lokasi,kamar,checkinDate:date,msg:notes||'',createdAt:new Date().toISOString(),status:'new',type:'checkin'});
+  saveAllData();
   window.open(`https://wa.me/${SITE_CONFIG.phone}?text=${msg}`,'_blank');
   closeCheckin();
+  setTimeout(()=>showConfirmation('📋','Formulir Terkirim!',`Halo ${name}! Formulir check-in sudah kami terima. Tim Miki Living segera menghubungi kamu via WhatsApp. Ditunggu ya! 🏠`,SITE_CONFIG.phone?'+'+SITE_CONFIG.phone:null),300);
 }
 
 /* ===== ADMIN: ROOMS MANAGEMENT ===== */
 function renderAdminLokasi(){
-  document.getElementById('adminLokasiList').innerHTML=DATA.map((d,idx)=>`
+  document.getElementById('adminLokasiList').innerHTML=`
+    <div style="margin-bottom:1.25rem;">
+      <button class="btn-add-room" onclick="addNewLokasi()" style="background:rgba(240,184,204,0.15);color:var(--pink);border:1.5px solid rgba(240,184,204,0.3);padding:.6rem 1.25rem;border-radius:12px;font-size:.85rem;">+ Tambah Lokasi Baru</button>
+    </div>`+DATA.map((d,idx)=>`
     <div class="admin-lokasi-accordion" id="acc-${idx}">
       <div class="admin-lokasi-header" onclick="toggleAccordion(${idx})">
         <div style="display:flex;align-items:center;gap:.65rem;">
@@ -2161,12 +2506,22 @@ function renderAdminLokasi(){
         </div>
       </div>
       <div class="admin-lokasi-body" id="accbody-${idx}">
-        <div class="admin-form-group"><label class="admin-form-label">Nama Lokasi</label><input class="admin-form-input" value="${d.name}" onchange="updateLokasi(${idx},'name',this.value)"></div>
-        <div class="admin-form-group"><label class="admin-form-label">Area</label><input class="admin-form-input" value="${d.area}" onchange="updateLokasi(${idx},'area',this.value)"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+          <div class="admin-form-group"><label class="admin-form-label">Nama Lokasi</label><input class="admin-form-input" value="${d.name}" onchange="updateLokasi(${idx},'name',this.value)"></div>
+          <div class="admin-form-group"><label class="admin-form-label">Area</label><input class="admin-form-input" value="${d.area}" onchange="updateLokasi(${idx},'area',this.value)"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+          <div class="admin-form-group"><label class="admin-form-label">Gender</label><select class="admin-form-input" style="cursor:pointer;" onchange="updateLokasi(${idx},'gender',this.value)"><option value="putri" ${d.gender==='putri'?'selected':''}>Putri</option><option value="putra" ${d.gender==='putra'?'selected':''}>Putra</option><option value="campur" ${d.gender==='campur'?'selected':''}>Campur</option></select></div>
+          <div class="admin-form-group"><label class="admin-form-label">Cat Friendly?</label><select class="admin-form-input" style="cursor:pointer;" onchange="updateLokasi(${idx},'catFriendly',this.value==='true')"><option value="true" ${d.catFriendly?'selected':''}>Ya 🐱</option><option value="false" ${!d.catFriendly?'selected':''}>Tidak</option></select></div>
+        </div>
         <div class="admin-form-group"><label class="admin-form-label">Google Maps URL</label><input class="admin-form-input" value="${d.mapsUrl||''}" placeholder="https://maps.app.goo.gl/..." onchange="updateLokasi(${idx},'mapsUrl',this.value)"></div>
+        <div class="admin-form-group"><label class="admin-form-label">Highlights (satu per baris)</label><textarea class="admin-form-textarea" style="min-height:70px;" onchange="updateLokasi(${idx},'highlights',this.value.split('\n').map(s=>s.trim()).filter(Boolean))">${(d.highlights||[]).join('\n')}</textarea></div>
+        <div class="admin-form-group"><label class="admin-form-label">Fasilitas (pisah koma)</label><input class="admin-form-input" value="${(d.fasilitas||[]).join(', ')}" onchange="updateLokasi(${idx},'fasilitas',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
+        <div class="admin-form-group"><label class="admin-form-label">Badges (pisah koma)</label><input class="admin-form-input" value="${(d.badges||[]).join(', ')}" onchange="updateLokasi(${idx},'badges',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
         <div class="btn-row" style="margin-bottom:1rem;">
           <button class="btn-admin-save" onclick="saveLokasi(${idx})">Simpan Lokasi</button>
           <button class="btn-sm" style="background:rgba(253,246,240,.06);color:rgba(253,246,240,.5);border:1px solid rgba(240,184,204,.1);" onclick="toggleLokasiStatus(${idx})">${d.status==='active'?'Sembunyikan':'Aktifkan'}</button>
+          <button class="btn-sm btn-del-sm" onclick="deleteLokasi(${idx})" style="border:none!important;">Hapus Lokasi</button>
         </div>
         <div style="border-top:1px solid rgba(240,184,204,.08);padding-top:1rem;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;">
@@ -2189,49 +2544,52 @@ function renderAdminRooms(lokasiIdx){
   const rooms=DATA[lokasiIdx].rooms||[];
   if(!rooms.length) return '<div style="color:rgba(253,246,240,.3);font-size:.78rem;padding:.5rem 0;">Belum ada kamar.</div>';
   return rooms.map((r,ri)=>{
-    const slots=(r.visitSlots||[]);
-    const slotsHtml=slots.map((s,si)=>`<span class="avail-slot-admin">${s}<button class="avail-slot-del" onclick="removeVisitSlot(${lokasiIdx},${ri},${si})" title="Hapus">✕</button></span>`).join('');
     return `
-    <div class="admin-room-item">
-      <div class="admin-room-header">
-        <div class="admin-room-name">${r.name}</div>
-        <button class="btn-sm btn-del-sm" onclick="deleteRoom(${lokasiIdx},${ri})" style="border:none!important;">✕</button>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem;">
-        <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Nama Kamar</label><input class="admin-form-input" value="${r.name}" onchange="updateRoom(${lokasiIdx},${ri},'name',this.value)"></div>
-        <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Ukuran</label><input class="admin-form-input" value="${r.size||''}" placeholder="3×4 m" onchange="updateRoom(${lokasiIdx},${ri},'size',this.value)"></div>
-        <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Harga/bln (Rp)</label><input class="admin-form-input" type="number" value="${r.price||0}" onchange="updateRoom(${lokasiIdx},${ri},'price',parseInt(this.value)||0)"></div>
-        <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Status</label>
-          <select class="admin-form-input" style="cursor:pointer;" onchange="updateRoom(${lokasiIdx},${ri},'status',this.value)">
-            <option value="tersedia" ${r.status==='tersedia'?'selected':''}>Tersedia</option>
-            <option value="penuh" ${r.status==='penuh'?'selected':''}>Penuh</option>
-          </select>
+    <div class="admin-room-item" style="padding:0;overflow:hidden;">
+      <div class="admin-room-header" style="padding:.75rem 1rem;cursor:pointer;user-select:none;" onclick="toggleRoomAccordion(this)">
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          <div class="admin-room-name">${r.name}</div>
+          <span style="font-size:.7rem;color:rgba(253,246,240,.4);">· Rp ${(r.price||0).toLocaleString('id')} · <span style="color:${r.status==='tersedia'?'var(--mint)':'#ff6b6b'}">${r.status==='tersedia'?'Tersedia':'Penuh'}</span></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:.5rem;">
+          <span class="admin-room-chevron" style="font-size:.7rem;color:rgba(253,246,240,.35);">▼</span>
+          <button class="btn-sm btn-del-sm" onclick="event.stopPropagation();deleteRoom(${lokasiIdx},${ri})" style="border:none!important;">✕</button>
         </div>
       </div>
-      <div class="admin-form-group"><label class="admin-form-label">Fasilitas (pisah koma)</label><input class="admin-form-input" value="${(r.fasilitas||[]).join(', ')}" onchange="updateRoom(${lokasiIdx},${ri},'fasilitas',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
-      <!-- Availability Slots -->
-      <div class="admin-avail-section">
-        <div class="admin-avail-label">📅 Jadwal Kunjungan Tersedia</div>
-        <div class="avail-slots-admin">${slotsHtml||'<span style="font-size:.72rem;color:rgba(253,246,240,.28);">Belum ada slot</span>'}</div>
-        <div class="avail-slot-add">
-          <input placeholder="cth: Senin 10.00" id="newSlot-${lokasiIdx}-${ri}">
-          <button class="btn-add-slot" onclick="addVisitSlot(${lokasiIdx},${ri})">+ Tambah</button>
+      <div class="admin-room-body" style="display:none;padding:0 1rem 1rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem;">
+          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Nama Kamar</label><input class="admin-form-input" value="${r.name}" onchange="updateRoom(${lokasiIdx},${ri},'name',this.value)"></div>
+          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Ukuran</label><input class="admin-form-input" value="${r.size||''}" placeholder="3×4 m" onchange="updateRoom(${lokasiIdx},${ri},'size',this.value)"></div>
+          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Harga/bln (Rp)</label><input class="admin-form-input" type="number" value="${r.price||0}" onchange="updateRoom(${lokasiIdx},${ri},'price',parseInt(this.value)||0)"></div>
+          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Status</label>
+            <select class="admin-form-input" style="cursor:pointer;" onchange="updateRoom(${lokasiIdx},${ri},'status',this.value)">
+              <option value="tersedia" ${r.status==='tersedia'?'selected':''}>Tersedia</option>
+              <option value="penuh" ${r.status==='penuh'?'selected':''}>Penuh</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <!-- Photos -->
-      <div class="room-photos-admin" style="margin-top:.65rem;">
-        <div style="font-size:.72rem;font-weight:700;color:rgba(253,246,240,.45);margin-bottom:.4rem;">📷 Foto Kamar (${(r.photos||[]).length}/8)</div>
-        <div class="room-photos-grid">
-          ${(r.photos||[]).map((p,pi)=>`<div class="room-photo-thumb-admin"><img src="${p}" alt="" loading="lazy"><button class="room-photo-del" onclick="deleteRoomPhoto(${lokasiIdx},${ri},${pi})">✕</button></div>`).join('')}
+        <div class="admin-form-group"><label class="admin-form-label">Fasilitas (pisah koma)</label><input class="admin-form-input" value="${(r.fasilitas||[]).join(', ')}" onchange="updateRoom(${lokasiIdx},${ri},'fasilitas',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
+        <div class="room-photos-admin" style="margin-top:.65rem;">
+          <div style="font-size:.72rem;font-weight:700;color:rgba(253,246,240,.45);margin-bottom:.4rem;">📷 Foto Kamar (${(r.photos||[]).length}/8)</div>
+          <div class="room-photos-grid">
+            ${(r.photos||[]).map((p,pi)=>`<div class="room-photo-thumb-admin"><img src="${p}" alt="" loading="lazy"><button class="room-photo-del" onclick="deleteRoomPhoto(${lokasiIdx},${ri},${pi})">✕</button></div>`).join('')}
+          </div>
+          <label class="btn-add-photos" style="display:inline-block;cursor:pointer;margin-top:.35rem;">
+            + Tambah Foto
+            <input type="file" accept="image/*" multiple style="display:none;" onchange="uploadRoomPhoto(${lokasiIdx},${ri},event)">
+          </label>
         </div>
-        <label class="btn-add-photos" style="display:inline-block;cursor:pointer;margin-top:.35rem;">
-          + Tambah Foto
-          <input type="file" accept="image/*" multiple style="display:none;" onchange="uploadRoomPhoto(${lokasiIdx},${ri},event)">
-        </label>
+        <button class="btn-admin-save" style="font-size:.78rem;padding:.4rem .9rem;margin-top:.65rem;" onclick="saveRoom(${lokasiIdx},${ri})">Simpan Kamar</button>
       </div>
-      <button class="btn-admin-save" style="font-size:.78rem;padding:.4rem .9rem;margin-top:.65rem;" onclick="saveRoom(${lokasiIdx},${ri})">Simpan Kamar</button>
     </div>`;
   }).join('');
+}
+function toggleRoomAccordion(header){
+  const body=header.nextElementSibling;
+  const chevron=header.querySelector('.admin-room-chevron');
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  if(chevron) chevron.style.transform=isOpen?'':'rotate(180deg)';
 }
 function addVisitSlot(li,ri){
   const input=document.getElementById(`newSlot-${li}-${ri}`);
@@ -2460,22 +2818,31 @@ function buildCompareTable() {
   }).filter(x=>x.r);
   const prices = rooms.map(x=>x.r.price);
   const minPrice = Math.min(...prices);
-  const rows = [
+
+  // Collect all unique facilities across all compared rooms
+  const allFasi = [...new Set(rooms.flatMap(x=>x.r.fasilitas||[]))].sort();
+
+  const baseRows = [
     ['Lokasi', rooms.map(x=>x.d.name)],
     ['Ukuran', rooms.map(x=>x.r.size||'-')],
     ['Harga/bln', rooms.map(x=>{
       const label='Rp '+x.r.price.toLocaleString('id');
       return x.r.price===minPrice?`<span class="compare-best">✓ ${label}</span>`:label;
     })],
-    ['Status', rooms.map(x=>x.r.status==='tersedia'?'<span style="color:var(--mint);font-weight:700;">✓ Tersedia</span>':'<span style="color:#ff6b6b;">Penuh</span>')],
-    ['Fasilitas', rooms.map(x=>(x.r.fasilitas||[]).join(', ')||'-')],
+    ['Status', rooms.map(x=>x.r.status==='tersedia'?'<span style="color:var(--mint);font-weight:700;">✓ Tersedia</span>':'<span style="color:#ff6b6b;">✗ Penuh</span>')],
   ];
-  const thead = `<tr><th></th>${rooms.map(x=>`<th>${x.r.name}</th>`).join('')}</tr>`;
-  const tbody = rows.map(([label,...vals])=>`<tr><td>${label}</td>${vals[0].map((_,i)=>`<td>${vals[0][i]}</td>`).join('')}</tr>`);
-  // Fix: vals is array of arrays from map
-  const tbody2 = rows.map(([label, vals])=>`<tr><td>${label}</td>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');
+  const fasiRows = allFasi.map(f=>[
+    f,
+    rooms.map(x=>(x.r.fasilitas||[]).includes(f)
+      ?'<span style="color:var(--mint);font-weight:700;font-size:1rem;">✓</span>'
+      :'<span style="color:rgba(150,150,150,0.5);font-size:1rem;">✗</span>')
+  ]);
+  const allRows = [...baseRows, ...fasiRows];
+
+  const thead = `<tr><th style="text-align:left;font-size:.72rem;color:rgba(253,246,240,.4);font-weight:600;">Fitur</th>${rooms.map(x=>`<th>${x.r.name}<br><span style="font-size:.68rem;font-weight:400;opacity:.55;">${x.d.name}</span></th>`).join('')}</tr>`;
+  const tbody = allRows.map(([label, vals])=>`<tr><td style="font-size:.78rem;">${label}</td>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');
   document.getElementById('compareTableContainer').innerHTML = `
-    <table class="compare-table"><thead>${thead}</thead><tbody>${tbody2}</tbody></table>`;
+    <table class="compare-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
 }
 
 /* ===== ANALYTICS ===== */
@@ -2521,6 +2888,9 @@ function renderChart(id, type, labels, data, label, color) {
   const canvas = document.getElementById(id);
   if (!canvas) return;
   if (_charts[id]) { _charts[id].destroy(); }
+  const isDark = document.documentElement.classList.contains('dark');
+  const tickColor = isDark ? 'rgba(232,245,238,0.45)' : 'rgba(26,58,42,0.55)';
+  const gridColor = isDark ? 'rgba(232,245,238,0.06)' : 'rgba(26,58,42,0.08)';
   _charts[id] = new Chart(canvas, {
     type,
     data: {
@@ -2538,8 +2908,8 @@ function renderChart(id, type, labels, data, label, color) {
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { ticks:{ color:'rgba(26,58,42,0.55)', font:{size:10} }, grid:{display:false} },
-        y: { ticks:{ color:'rgba(26,58,42,0.55)', font:{size:10} }, grid:{ color:'rgba(26,58,42,0.08)' }, beginAtZero:true }
+        x: { ticks:{ color:tickColor, font:{size:10} }, grid:{display:false} },
+        y: { ticks:{ color:tickColor, font:{size:10} }, grid:{ color:gridColor }, beginAtZero:true }
       }
     }
   });
@@ -2594,15 +2964,23 @@ function updateMeta(title, description) {
 
 /* ===== INIT ===== */
 async function init(){
+  initDarkMode();
   showSkeletonLokasi();
   await loadSavedData();
   loadViews();
-  initBanner();
   renderLokasi();
   applyPublicConfig();
   applyMedia();
+  populateLokasiDropdowns();
   observeFadeUp();
   observeStats();
+  // Update dynamic stat labels
+  const _years = new Date().getFullYear() - 2010;
+  const _lokasiCount = DATA.filter(d=>d.status==='active').length || DATA.length;
+  const _whyY = document.getElementById('whyYears');
+  const _secL = document.getElementById('lokasiSectionCount');
+  if(_whyY) _whyY.textContent = _years + '+';
+  if(_secL) _secL.textContent = _lokasiCount;
 }
 init();
 </script>
