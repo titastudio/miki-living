@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Miki Living — Kost Cozy Jakarta Timur</title>
-<meta name="description" content="3 lokasi kost strategis di Jakarta Timur — bersih, nyaman, cat friendly. Dipercaya sejak 2010!">
+<meta name="description" content="3 lokasi kost strategis di Jakarta Timur — bersih, nyaman, Kumi lives here. Dipercaya sejak 2010!">
 <meta property="og:title" content="Miki Living — Kost Cozy Jakarta Timur">
-<meta property="og:description" content="3 lokasi kost strategis di Jakarta Timur — bersih, nyaman, cat friendly. Dipercaya sejak 2010!">
+<meta property="og:description" content="3 lokasi kost strategis di Jakarta Timur — bersih, nyaman, Kumi lives here. Dipercaya sejak 2010!">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Miki Living">
 <meta name="twitter:card" content="summary">
@@ -288,7 +288,7 @@ section { padding: 5rem 2rem; }
 }
 .lokasi-hero-bg .hero-emoji { font-size: 5rem; opacity: 0.28; }
 .lokasi-hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-.lokasi-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; position: relative; z-index: 1; max-width: calc(100% - 130px); }
+.lokasi-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; position: relative; z-index: 1; width: 100%; }
 .badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.22rem 0.65rem; border-radius: 999px; }
 .badge-putri { background: var(--pink); color: var(--forest); }
 .badge-putra { background: var(--sage); color: var(--white); }
@@ -1051,82 +1051,222 @@ img.lazy-loaded { opacity: 1; }
 .range-input { accent-color: var(--mint); }
 
 /* ===== COMPARE BAR ===== */
+/* ===== COMPARE BAR ===== */
+@keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes compareSlotIn { from { opacity: 0; transform: scale(0.88) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
 .compare-bar {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 500;
-  background: var(--forest); border-top: 2px solid rgba(240,184,204,0.25);
-  padding: 0.75rem 2rem; display: none; align-items: center;
-  gap: 1rem; box-shadow: 0 -8px 28px rgba(26,58,42,0.25);
-  animation: slideUp 0.3s ease;
+  position: fixed; bottom: 1.25rem; left: 50%; transform: translateX(-50%);
+  z-index: 500; display: none; align-items: center; gap: 0.75rem;
+  background: var(--forest);
+  border: 1px solid rgba(240,184,204,0.2);
+  border-radius: 999px;
+  padding: 0.55rem 0.6rem 0.55rem 1.1rem;
+  box-shadow: 0 8px 40px rgba(15,35,24,0.45), 0 2px 8px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+  animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+  max-width: calc(100vw - 2rem);
 }
-@keyframes slideUp { from { transform: translateY(100%); } }
 .compare-bar.visible { display: flex; }
-.compare-slots { display: flex; gap: 0.5rem; flex: 1; flex-wrap: wrap; }
+
+.compare-bar-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+  color: rgba(253,246,240,0.35); font-family: 'DM Sans', sans-serif;
+  margin-right: 0.25rem; flex-shrink: 0;
+}
+
+.compare-slots { display: flex; gap: 0.4rem; align-items: center; }
+
 .compare-slot {
-  background: rgba(253,246,240,0.06); border: 1.5px dashed rgba(240,184,204,0.25);
-  border-radius: 12px; padding: 0.45rem 0.9rem; min-width: 140px;
-  display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
+  background: rgba(253,246,240,0.05);
+  border: 1.5px dashed rgba(240,184,204,0.2);
+  border-radius: 999px; padding: 0.35rem 0.85rem;
+  min-width: 120px; max-width: 150px;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.35rem;
+  transition: all 0.2s;
+  animation: compareSlotIn 0.25s ease;
 }
-.compare-slot.filled { border-color: var(--pink); border-style: solid; }
-.compare-slot-name { font-size: 0.78rem; font-weight: 600; color: #fdf6f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; }
-.compare-slot-remove { background: none; border: none; color: rgba(240,184,204,0.6); cursor: pointer; font-size: 0.85rem; line-height: 1; }
-.compare-slot-remove:hover { color: var(--pink); }
-.compare-slot-empty { font-size: 0.72rem; color: rgba(253,246,240,0.28); }
+.compare-slot.filled {
+  border-color: rgba(240,184,204,0.55); border-style: solid;
+  background: rgba(240,184,204,0.1);
+}
+
+.compare-slot-name {
+  font-size: 0.74rem; font-weight: 600; color: rgba(253,246,240,0.9);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;
+}
+.compare-slot-remove {
+  background: rgba(240,184,204,0.15); border: none;
+  color: rgba(240,184,204,0.7); cursor: pointer;
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem; line-height: 1; flex-shrink: 0;
+  transition: all 0.15s;
+}
+.compare-slot-remove:hover { background: var(--pink); color: var(--forest); }
+.compare-slot-empty { font-size: 0.7rem; color: rgba(253,246,240,0.22); font-style: italic; }
+
+.compare-bar-divider {
+  width: 1px; height: 20px; background: rgba(240,184,204,0.18); flex-shrink: 0;
+}
+
 .btn-compare-now {
-  background: var(--pink); color: var(--forest); font-weight: 700; font-size: 0.84rem;
-  padding: 0.55rem 1.25rem; border-radius: 999px; border: none; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; white-space: nowrap; transition: all 0.2s;
+  background: var(--pink); color: var(--forest); font-weight: 700; font-size: 0.78rem;
+  padding: 0.5rem 1.1rem; border-radius: 999px; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; white-space: nowrap;
+  transition: all 0.2s; flex-shrink: 0;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 10px rgba(240,184,204,0.25);
 }
-.btn-compare-now:hover { background: var(--blush); }
-.btn-compare-clear { background: transparent; color: rgba(253,246,240,0.38); border: none; cursor: pointer; font-size: 0.72rem; font-family: 'DM Sans', sans-serif; }
+.btn-compare-now:hover { background: var(--blush); transform: scale(1.04); box-shadow: 0 4px 16px rgba(240,184,204,0.35); }
+.btn-compare-now:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+.btn-compare-clear {
+  background: transparent; color: rgba(253,246,240,0.3); border: none; cursor: pointer;
+  font-size: 0.68rem; font-family: 'DM Sans', sans-serif; padding: 0.3rem 0.5rem;
+  border-radius: 999px; transition: color 0.15s; flex-shrink: 0;
+}
+.btn-compare-clear:hover { color: rgba(240,184,204,0.65); }
+
 .room-card .room-compare-check {
   position: absolute; top: 0.75rem; right: 0.75rem;
-  width: 20px; height: 20px; border-radius: 5px;
-  border: 2px solid rgba(240,184,204,0.6); background: rgba(255,255,255,0.15);
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 1.5px solid rgba(240,184,204,0.5); background: rgba(15,35,24,0.55);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s; font-size: 0.72rem;
+  transition: all 0.2s; font-size: 0.72rem; backdrop-filter: blur(4px);
 }
-.room-card .room-compare-check:hover { background: rgba(240,184,204,0.2); border-color: var(--pink); }
+.room-card .room-compare-check:hover { background: rgba(240,184,204,0.2); border-color: var(--pink); transform: scale(1.1); }
 .room-card { position: relative; }
-.room-card.in-compare .room-compare-check { background: var(--pink); border-color: var(--pink); color: var(--forest); }
+.room-card.in-compare .room-compare-check { background: var(--pink); border-color: var(--pink); color: var(--forest); box-shadow: 0 2px 8px rgba(240,184,204,0.4); }
 
 /* ===== COMPARE MODAL ===== */
+@keyframes compareModalIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .compare-modal-overlay {
   position: fixed; inset: 0; z-index: 2500;
-  background: rgba(15,35,24,0.9); backdrop-filter: blur(12px);
-  display: none; align-items: stretch; justify-content: stretch; padding: 0;
+  background: rgba(10,26,17,0.82); backdrop-filter: blur(18px) saturate(1.4);
+  display: none; align-items: flex-end; justify-content: center; padding: 0;
 }
 .compare-modal-overlay.open { display: flex; }
+
 .compare-modal {
-  background: var(--modal-bg); border-radius: 0; width: 100%;
-  max-height: 100vh; overflow: hidden; display: flex; flex-direction: column;
-  box-shadow: 0 28px 72px rgba(0,0,0,0.35);
+  background: var(--modal-bg); border-radius: 28px 28px 0 0; width: 100%;
+  max-height: 92vh; overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 -4px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(240,184,204,0.1);
+  animation: compareModalIn 0.38s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
-@media (min-width: 600px) {
-  .compare-modal-overlay { align-items: center; justify-content: center; padding: 1.25rem; }
-  .compare-modal { border-radius: 22px; max-width: 860px; max-height: 90vh; }
+
+@media (min-width: 640px) {
+  .compare-modal-overlay { align-items: center; justify-content: center; padding: 1.5rem; }
+  .compare-modal {
+    border-radius: 24px; max-width: 900px; max-height: 88vh;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(240,184,204,0.12);
+  }
 }
+
+/* Modal drag handle (mobile) */
+.compare-modal::before {
+  content: ''; display: block; width: 40px; height: 4px;
+  background: rgba(240,184,204,0.25); border-radius: 99px;
+  margin: 14px auto 0; flex-shrink: 0;
+}
+@media (min-width: 640px) { .compare-modal::before { display: none; } }
+
 .compare-modal-header {
-  background: var(--forest); padding: 1.25rem 1.75rem;
+  padding: 1rem 1.75rem 0.9rem;
   display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  border-bottom: 1px solid var(--border-soft);
 }
-.compare-modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: #fdf6f0; }
-.compare-table-wrap { overflow: auto; flex: 1; padding: 1.25rem 1.5rem; }
-.compare-table { border-collapse: collapse; font-size: 0.84rem; width: 100%; min-width: 360px; }
-.compare-table th {
-  background: var(--bg-section-alt); padding: 0.75rem 1rem; text-align: center;
-  font-weight: 700; color: var(--forest); border-bottom: 2px solid var(--border-soft);
-  font-family: 'Playfair Display', serif; font-size: 0.95rem;
+
+.compare-modal-header-left { display: flex; flex-direction: column; gap: 0.15rem; }
+
+.compare-modal-eyebrow {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--mint); font-family: 'DM Sans', sans-serif;
 }
-.dark .compare-table th { color: var(--pink); }
-.compare-table th:first-child { width: 130px; background: var(--bg-section-alt); color: var(--text-muted); font-size: 0.72rem; font-family: 'DM Sans', sans-serif; font-weight: 600; text-align: left; }
-.dark .compare-table th { background: rgba(22,42,30,0.95); }
-.compare-table td {
-  padding: 0.65rem 1rem; border-bottom: 1px solid var(--border-soft);
-  color: var(--text-primary); vertical-align: top; text-align: center;
+
+.compare-modal-title {
+  font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700;
+  color: var(--text-primary); line-height: 1.2;
 }
-.compare-table td:first-child { color: var(--text-muted); font-weight: 600; font-size: 0.78rem; text-align: left; }
-.compare-table tr:last-child td { border-bottom: none; }
-.compare-table tr:hover td { background: rgba(240,184,204,0.06); }
+
+.compare-modal-close {
+  width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border-soft);
+  background: var(--bg-section-alt); color: var(--text-muted);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; transition: all 0.2s; flex-shrink: 0;
+}
+.compare-modal-close:hover { background: var(--forest); color: var(--pink); border-color: transparent; }
+
+/* ---- Card-based compare layout ---- */
+.compare-table-wrap { overflow: auto; flex: 1; padding: 1.25rem 1.5rem 1.75rem; }
+
+/* Room header cards */
+.compare-room-cards {
+  display: grid; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.compare-room-card {
+  background: var(--bg-section-alt); border-radius: 16px;
+  padding: 1rem 1.1rem; border: 1.5px solid var(--border-soft);
+  position: relative;
+}
+.compare-room-card.is-best {
+  border-color: rgba(240,184,204,0.55);
+  background: rgba(240,184,204,0.06);
+}
+.compare-room-badge {
+  position: absolute; top: -9px; left: 50%; transform: translateX(-50%);
+  background: var(--pink); color: var(--forest); font-size: 0.6rem; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase; padding: 0.18rem 0.65rem;
+  border-radius: 999px; white-space: nowrap;
+}
+.compare-room-card-name {
+  font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700;
+  color: var(--text-primary); text-align: center; margin-bottom: 0.2rem;
+}
+.compare-room-card-loc {
+  font-size: 0.7rem; color: var(--text-muted); text-align: center; font-weight: 500;
+}
+.compare-room-card-price {
+  font-size: 0.88rem; font-weight: 800; color: var(--forest); text-align: center;
+  margin-top: 0.5rem; font-family: 'DM Sans', sans-serif;
+}
+.dark .compare-room-card-price { color: var(--pink); }
+.compare-room-card-price.is-best { color: var(--mint); }
+
+/* Section rows */
+.compare-section-label {
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--text-muted); padding: 0.85rem 0 0.5rem; border-top: 1px solid var(--border-soft);
+  margin-top: 0.5rem;
+}
+.compare-section-label:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+
+.compare-row {
+  display: grid; gap: 0.5rem; align-items: center;
+  padding: 0.5rem 0; border-bottom: 1px solid rgba(var(--border-soft), 0.5);
+}
+.compare-row:last-child { border-bottom: none; }
+
+.compare-row-label {
+  font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+}
+
+.compare-row-val {
+  font-size: 0.82rem; color: var(--text-primary); text-align: center;
+  font-weight: 500;
+}
+.compare-row-val.is-best { color: var(--mint); font-weight: 700; }
+.compare-row-val .check-yes { color: var(--mint); font-size: 0.95rem; font-weight: 700; }
+.compare-row-val .check-no { color: rgba(150,150,150,0.45); font-size: 0.9rem; }
+.compare-row-val .status-ok { color: var(--mint); font-weight: 700; font-size: 0.78rem; }
+.compare-row-val .status-no { color: #e07070; font-weight: 700; font-size: 0.78rem; }
+
+/* Table fallback (still used for the actual table render path) */
+.compare-table { border-collapse: collapse; font-size: 0.84rem; width: 100%; min-width: 360px; display: none; }
 .compare-best { color: var(--mint); font-weight: 700; }
 
 /* analytics/accordion moved into admin panel block above */
@@ -1162,9 +1302,11 @@ img.lazy-loaded { opacity: 1; }
 .rh-overlay-text { color: var(--cream); font-size: 0.78rem; font-weight: 700; }
 
 @media (max-width: 768px) {
-  .compare-bar { padding: 0.65rem 1rem; gap: 0.5rem; }
-  .compare-slots { gap: 0.35rem; }
-  .compare-slot { min-width: 110px; }
+  .compare-bar { padding: 0.45rem 0.5rem 0.45rem 0.85rem; gap: 0.5rem; }
+  .compare-slots { gap: 0.3rem; }
+  .compare-slot { min-width: 100px; padding: 0.3rem 0.65rem; }
+  .compare-bar-label { display: none; }
+  .compare-bar-divider { display: none; }
   .analytics-grid { grid-template-columns: 1fr; }
   .lightbox-prev { left: -40px; }
   .lightbox-next { right: -40px; }
@@ -1381,7 +1523,7 @@ img.lazy-loaded { opacity: 1; }
       <button class="filter-btn active" onclick="filterLokasi('all', this)">Semua</button>
       <button class="filter-btn" onclick="filterLokasi('putri', this)">Khusus Putri</button>
       <button class="filter-btn" onclick="filterLokasi('putra', this)">Khusus Putra</button>
-      <button class="filter-btn" onclick="filterLokasi('cat', this)">Cat Friendly</button>
+      <button class="filter-btn" onclick="filterLokasi('cat', this)">Kumi Lives Here</button>
     </div>
     <div class="search-wrap" style="margin-bottom:1.5rem;">
       <span class="search-icon">🔍</span>
@@ -1424,7 +1566,7 @@ img.lazy-loaded { opacity: 1; }
         <div class="about-chips">
           <span class="about-chip">Est. 2010</span>
           <span class="about-chip">3 Lokasi</span>
-          <span class="about-chip">Cat Friendly</span>
+          <span class="about-chip">Kumi Lives Here</span>
         </div>
         <div class="about-contact">
           <a href="https://wa.me/6282238071339" target="_blank" class="contact-link">
@@ -1729,17 +1871,22 @@ img.lazy-loaded { opacity: 1; }
 
 <!-- ===== COMPARE BAR ===== -->
 <div class="compare-bar" id="compareBar">
+  <span class="compare-bar-label">Bandingkan</span>
   <div class="compare-slots" id="compareSlots"></div>
-  <button class="btn-compare-now" onclick="openCompareModal()">⚖️ Bandingkan</button>
+  <div class="compare-bar-divider"></div>
+  <button class="btn-compare-now" onclick="openCompareModal()">Lihat Perbandingan</button>
   <button class="btn-compare-clear" onclick="clearCompare()">Hapus Semua</button>
 </div>
 
 <!-- ===== COMPARE MODAL ===== -->
-<div class="compare-modal-overlay" id="compareModal">
+<div class="compare-modal-overlay" id="compareModal" onclick="if(event.target===this)closeCompareModal()">
   <div class="compare-modal">
     <div class="compare-modal-header">
-      <div class="compare-modal-title">⚖️ Perbandingan Kamar</div>
-      <button class="modal-close" onclick="closeCompareModal()" style="position:static;">✕</button>
+      <div class="compare-modal-header-left">
+        <div class="compare-modal-eyebrow">Perbandingan Kamar</div>
+        <div class="compare-modal-title">Pilih yang Terbaik</div>
+      </div>
+      <button class="compare-modal-close" onclick="closeCompareModal()">✕</button>
     </div>
     <div class="compare-table-wrap">
       <div id="compareTableContainer"></div>
@@ -1960,7 +2107,7 @@ const DATA = [
       {id:'hc-3',name:'Kamar B1',size:'4×4 m',price:950000,fasilitas:['Kasur','Lemari','AC','Meja belajar'],status:'tersedia',photos:[],views:0}
     ]
   },
-  { id:'hartini-kartono', name:'Hartini Kartono', area:'Jakarta Timur', gender:'putri', catFriendly:true, emoji:'🐱', color:'#2d5c3f', badges:['Putri Only','Tersedia','Aman','Cat Friendly'], highlights:['Khusus Putri','Ada Kumi si kucing Siam manja!','Gampang kemana-mana','Dekat transportasi umum'], fasilitas:['WiFi','Dapur bersama','Kamar mandi dalam','Parkir motor'], mapsUrl:'https://maps.app.goo.gl/sDVeW3D6VZk2QyVu7', heroImg:'', status:'active',
+  { id:'hartini-kartono', name:'Hartini Kartono', area:'Jakarta Timur', gender:'putri', catFriendly:true, emoji:'🐱', color:'#2d5c3f', badges:['Putri Only','Tersedia','Aman','Kumi Lives Here'], highlights:['Khusus Putri','Ada Kumi si kucing Siam manja!','Gampang kemana-mana','Dekat transportasi umum'], fasilitas:['WiFi','Dapur bersama','Kamar mandi dalam','Parkir motor'], mapsUrl:'https://maps.app.goo.gl/sDVeW3D6VZk2QyVu7', heroImg:'', status:'active',
     rooms:[
       {id:'hk-1',name:'Kamar 101',size:'3×3 m',price:700000,fasilitas:['Kasur','Lemari','Kipas'],status:'penuh',photos:[],views:0},
       {id:'hk-2',name:'Kamar 102',size:'3×4 m',price:850000,fasilitas:['Kasur','Lemari','AC'],status:'tersedia',photos:[],views:0},
@@ -2012,7 +2159,7 @@ function showHome() {
   document.getElementById('view-home').classList.add('active');
   window.scrollTo(0,0);
   currentDetailId=null; currentDetailName=null;
-  updateMeta('Miki Living — Kost Cozy Jakarta Timur','3 lokasi kost strategis di Jakarta Timur — bersih, nyaman, cat friendly. Dipercaya sejak 2010!');
+  updateMeta('Miki Living — Kost Cozy Jakarta Timur','3 lokasi kost strategis di Jakarta Timur — bersih, nyaman, Kumi lives here. Dipercaya sejak 2010!');
 }
 function showTentang() {
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -2040,7 +2187,7 @@ function renderLokasi(filter='all') {
       let cls='badge badge-vibe';
       if(b.includes('Putri')) cls='badge badge-putri';
       else if(b.includes('Putra')) cls='badge badge-putra';
-      else if(b.includes('Cat')) cls='badge badge-cat';
+      else if(b.includes('Kumi')) cls='badge badge-cat';
       else if(b.toLowerCase().includes('baru')) cls='badge badge-new';
       else if(b==='Tersedia') cls='badge badge-available';
       return `<span class="${cls}">${b}</span>`;
@@ -2088,7 +2235,7 @@ function filterLokasi(f, btn) {
     btn.classList.add('active');
   } else {
     // Called from browse cards — find matching filter button
-    const map = { all: 'Semua', putri: 'Khusus Putri', putra: 'Khusus Putra', cat: 'Cat Friendly' };
+    const map = { all: 'Semua', putri: 'Khusus Putri', putra: 'Khusus Putra', cat: 'Kumi Lives Here' };
     document.querySelectorAll('.filter-btn').forEach(b => {
       if (b.textContent.trim() === map[f]) b.classList.add('active');
     });
@@ -2652,7 +2799,7 @@ function openDetail(id){
     let cls='badge badge-vibe';
     if(b.includes('Putri')) cls='badge badge-putri';
     else if(b.includes('Putra')) cls='badge badge-putra';
-    else if(b.includes('Cat')) cls='badge badge-cat';
+    else if(b.includes('Kumi')) cls='badge badge-cat';
     else if(b.toLowerCase().includes('baru')) cls='badge badge-new';
     else if(b==='Tersedia') cls='badge badge-available';
     return `<span class="${cls}">${b}</span>`;
@@ -3002,7 +3149,7 @@ function renderAdminLokasi(){
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
           <div class="admin-form-group"><label class="admin-form-label">Gender</label><select class="admin-form-input" style="cursor:pointer;" onchange="updateLokasi(${idx},'gender',this.value)"><option value="putri" ${d.gender==='putri'?'selected':''}>Putri</option><option value="putra" ${d.gender==='putra'?'selected':''}>Putra</option><option value="campur" ${d.gender==='campur'?'selected':''}>Campur</option></select></div>
-          <div class="admin-form-group"><label class="admin-form-label">Cat Friendly?</label><select class="admin-form-input" style="cursor:pointer;" onchange="updateLokasi(${idx},'catFriendly',this.value==='true')"><option value="true" ${d.catFriendly?'selected':''}>Ya 🐱</option><option value="false" ${!d.catFriendly?'selected':''}>Tidak</option></select></div>
+          <div class="admin-form-group"><label class="admin-form-label">Kumi Lives Here?</label><select class="admin-form-input" style="cursor:pointer;" onchange="updateLokasi(${idx},'catFriendly',this.value==='true')"><option value="true" ${d.catFriendly?'selected':''}>Ya 🐱</option><option value="false" ${!d.catFriendly?'selected':''}>Tidak</option></select></div>
         </div>
         <div class="admin-form-group"><label class="admin-form-label">Google Maps URL</label><input class="admin-form-input" value="${d.mapsUrl||''}" placeholder="https://maps.app.goo.gl/..." onchange="updateLokasi(${idx},'mapsUrl',this.value)"></div>
         <div class="admin-form-group"><label class="admin-form-label">Highlights (satu per baris)</label><textarea class="admin-form-textarea" style="min-height:70px;" onchange="updateLokasi(${idx},'highlights',this.value.split('\n').map(s=>s.trim()).filter(Boolean))">${(d.highlights||[]).join('\n')}</textarea></div>
@@ -3308,31 +3455,57 @@ function buildCompareTable() {
   }).filter(x=>x.r);
   const prices = rooms.map(x=>x.r.price);
   const minPrice = Math.min(...prices);
+  const n = rooms.length;
 
-  // Collect all unique facilities across all compared rooms
+  // Build dynamic grid column CSS based on count
+  const gridCols = `130px ${Array(n).fill('1fr').join(' ')}`;
+
+  // Room header cards
+  const roomCards = rooms.map((x,i)=>{
+    const isBest = x.r.price === minPrice;
+    return `
+      <div class="compare-room-card${isBest?' is-best':''}">
+        ${isBest?`<div class="compare-room-badge">✦ Terjangkau</div>`:''}
+        <div class="compare-room-card-name">${x.r.name}</div>
+        <div class="compare-room-card-loc">${x.d.name}</div>
+        <div class="compare-room-card-price${isBest?' is-best':''}">Rp ${x.r.price.toLocaleString('id')}<span style="font-size:0.65rem;font-weight:500;opacity:0.65;">/bln</span></div>
+      </div>`;
+  }).join('');
+
+  // Helper to render a row
+  function row(label, vals) {
+    const labelCell = `<div class="compare-row-label">${label}</div>`;
+    const valCells = vals.map(v=>`<div class="compare-row-val">${v}</div>`).join('');
+    return `<div class="compare-row" style="grid-template-columns:${gridCols};">${labelCell}${valCells}</div>`;
+  }
+
+  // Status row
+  const statusVals = rooms.map(x=>
+    x.r.status==='tersedia'
+      ?'<span class="status-ok">✓ Tersedia</span>'
+      :'<span class="status-no">✗ Penuh</span>'
+  );
+
+  // Size row
+  const sizeVals = rooms.map(x=>x.r.size||'—');
+
+  // Facilities
   const allFasi = [...new Set(rooms.flatMap(x=>x.r.fasilitas||[]))].sort();
+  const fasiRows = allFasi.map(f=>
+    row(f, rooms.map(x=>
+      (x.r.fasilitas||[]).includes(f)
+        ?'<span class="check-yes">✓</span>'
+        :'<span class="check-no">✗</span>'
+    ))
+  );
 
-  const baseRows = [
-    ['Lokasi', rooms.map(x=>x.d.name)],
-    ['Ukuran', rooms.map(x=>x.r.size||'-')],
-    ['Harga/bln', rooms.map(x=>{
-      const label='Rp '+x.r.price.toLocaleString('id');
-      return x.r.price===minPrice?`<span class="compare-best">✓ ${label}</span>`:label;
-    })],
-    ['Status', rooms.map(x=>x.r.status==='tersedia'?'<span style="color:var(--mint);font-weight:700;">✓ Tersedia</span>':'<span style="color:#ff6b6b;">✗ Penuh</span>')],
-  ];
-  const fasiRows = allFasi.map(f=>[
-    f,
-    rooms.map(x=>(x.r.fasilitas||[]).includes(f)
-      ?'<span style="color:var(--mint);font-weight:700;font-size:1rem;">✓</span>'
-      :'<span style="color:rgba(150,150,150,0.5);font-size:1rem;">✗</span>')
-  ]);
-  const allRows = [...baseRows, ...fasiRows];
-
-  const thead = `<tr><th style="text-align:left;font-size:.72rem;color:rgba(253,246,240,.4);font-weight:600;">Fitur</th>${rooms.map(x=>`<th>${x.r.name}<br><span style="font-size:.68rem;font-weight:400;opacity:.55;">${x.d.name}</span></th>`).join('')}</tr>`;
-  const tbody = allRows.map(([label, vals])=>`<tr><td style="font-size:.78rem;">${label}</td>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('');
   document.getElementById('compareTableContainer').innerHTML = `
-    <table class="compare-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table>`;
+    <div class="compare-room-cards" style="grid-template-columns:repeat(${n},1fr);">${roomCards}</div>
+    <div class="compare-section-label">Detail Kamar</div>
+    ${row('Ukuran', sizeVals)}
+    ${row('Status', statusVals)}
+    ${allFasi.length ? `<div class="compare-section-label">Fasilitas</div>${fasiRows.join('')}` : ''}
+  `;
 }
 
 /* ===== ANALYTICS ===== */
