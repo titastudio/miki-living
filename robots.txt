@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://titastudio.github.io/miki-living/sitemap.xml
