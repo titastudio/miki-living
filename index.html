@@ -65,7 +65,7 @@
   --shadow: rgba(0,0,0,0.35);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg-page); color: var(--text-primary); overflow-x: hidden; transition: background 0.3s, color 0.3s; }
 
 /* ===== VIEWS ===== */
@@ -288,7 +288,7 @@ section { padding: 5rem 2rem; }
 }
 .lokasi-hero-bg .hero-emoji { font-size: 5rem; opacity: 0.28; }
 .lokasi-hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-.lokasi-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; position: relative; z-index: 1; }
+.lokasi-badges { display: flex; gap: 0.35rem; flex-wrap: wrap; position: relative; z-index: 1; max-width: calc(100% - 130px); }
 .badge { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.22rem 0.65rem; border-radius: 999px; }
 .badge-putri { background: var(--pink); color: var(--forest); }
 .badge-putra { background: var(--sage); color: var(--white); }
@@ -436,9 +436,9 @@ footer { background: var(--footer-bg); padding: 2.5rem 2rem 2rem; text-align: ce
 .form-label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--forest); margin-bottom: 0.38rem; }
 .dark .form-label { color: var(--pink); }
 .form-input { width: 100%; background: var(--input-bg); border: 1.5px solid var(--border-soft); border-radius: 11px; padding: 0.68rem 0.95rem; font-size: 0.875rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; transition: border-color 0.2s; outline: none; }
-.form-input:focus { border-color: var(--mint); }
-.form-select { width: 100%; background: var(--input-bg); border: 1.5px solid var(--border-soft); border-radius: 11px; padding: 0.68rem 0.95rem; font-size: 0.875rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; outline: none; appearance: none; cursor: pointer; transition: border-color 0.2s; }
-.form-select:focus { border-color: var(--mint); }
+.form-input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(74,140,98,0.12); }
+.form-select { width: 100%; background: var(--input-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b8c76' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 0.9rem center; border: 1.5px solid var(--border-soft); border-radius: 11px; padding: 0.68rem 2.4rem 0.68rem 0.95rem; font-size: 0.875rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; outline: none; appearance: none; cursor: pointer; transition: border-color 0.2s; }
+.form-select:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(74,140,98,0.12); }
 .btn-wa {
   width: 100%; background: var(--pink); color: var(--forest);
   font-weight: 700; font-size: 0.95rem;
@@ -449,57 +449,59 @@ footer { background: var(--footer-bg); padding: 2.5rem 2rem 2rem; text-align: ce
 .btn-wa:hover { background: var(--pink); filter: brightness(1.08); transform: translateY(-1px); color: #1a3a2a; }
 
 /* ===== ADMIN PANEL ===== */
-/* --- Light mode admin (default) --- */
-.admin-overlay { position: fixed; inset: 0; z-index: 2000; background: var(--bg-page); display: none; flex-direction: column; overflow: hidden; }
+/* --- Light mode admin (default) — high contrast --- */
+.admin-overlay { position: fixed; inset: 0; z-index: 2000; background: #f0f4f2; display: none; flex-direction: column; overflow: hidden; }
 .admin-overlay.open { display: flex; }
 
 /* Login card — light */
-.admin-login { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: radial-gradient(ellipse at center, #e8f5ee 0%, #fdf6f0 70%); }
-.admin-login-card { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.35); border-radius: 22px; padding: 2.25rem; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 8px 32px rgba(26,58,42,0.1); }
+.admin-login { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; background: radial-gradient(ellipse at center, #d4e8dc 0%, #e8f0eb 70%); }
+.admin-login-card { background: #ffffff; border: 1.5px solid rgba(26,58,42,0.18); border-radius: 22px; padding: 2.25rem; width: 100%; max-width: 360px; text-align: center; box-shadow: 0 8px 32px rgba(26,58,42,0.14); }
 .admin-login-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--forest); margin-bottom: 0.4rem; }
-.admin-login-sub { font-size: 0.78rem; color: var(--muted); margin-bottom: 1.75rem; }
-.admin-input { width: 100%; background: #ffffff; border: 1.5px solid rgba(240,184,204,0.45); border-radius: 11px; padding: 0.72rem 1rem; font-size: 0.875rem; color: var(--forest); font-family: 'DM Sans', sans-serif; margin-bottom: 0.9rem; outline: none; text-align: center; transition: border-color 0.2s; }
-.admin-input:focus { border-color: var(--pink); }
-.admin-input::placeholder { color: var(--muted); }
-.btn-admin-login { width: 100%; background: var(--pink); color: var(--forest); font-weight: 700; font-size: 0.875rem; padding: 0.78rem; border-radius: 11px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-bottom: 0.85rem; }
-.btn-admin-login:hover { background: var(--blush); }
-.admin-error { font-size: 0.78rem; color: #e55; min-height: 1.1em; }
-.btn-admin-close { background: transparent; border: none; cursor: pointer; color: var(--muted); font-size: 0.78rem; font-family: 'DM Sans', sans-serif; margin-top: 0.4rem; transition: color 0.2s; }
+.admin-login-sub { font-size: 0.78rem; color: #4a6b56; margin-bottom: 1.75rem; }
+.admin-input { width: 100%; background: #f7faf8; border: 1.5px solid rgba(26,58,42,0.22); border-radius: 11px; padding: 0.72rem 1rem; font-size: 0.875rem; color: var(--forest); font-family: 'DM Sans', sans-serif; margin-bottom: 0.9rem; outline: none; text-align: center; transition: border-color 0.2s; }
+.admin-input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(74,140,98,0.12); }
+.admin-input::placeholder { color: #8aaa97; }
+.btn-admin-login { width: 100%; background: var(--forest); color: #fdf6f0; font-weight: 700; font-size: 0.875rem; padding: 0.78rem; border-radius: 11px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-bottom: 0.85rem; }
+.btn-admin-login:hover { background: var(--sage); }
+html.dark .btn-admin-login { background: var(--pink); color: var(--forest); }
+html.dark .btn-admin-login:hover { background: var(--blush); color: var(--forest); }
+.admin-error { font-size: 0.78rem; color: #c0392b; min-height: 1.1em; font-weight: 600; }
+.btn-admin-close { background: transparent; border: none; cursor: pointer; color: #6b8c76; font-size: 0.78rem; font-family: 'DM Sans', sans-serif; margin-top: 0.4rem; transition: color 0.2s; }
 .btn-admin-close:hover { color: var(--forest); }
 
 /* Main admin chrome — light */
 .admin-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.admin-topbar { background: #ffffff; border-bottom: 1.5px solid rgba(240,184,204,0.3); padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; box-shadow: 0 2px 8px rgba(26,58,42,0.05); }
-.admin-topbar-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--forest); }
-.btn-admin-exit { background: rgba(229,85,85,0.08); border: 1px solid rgba(229,85,85,0.22); color: #c0392b; font-size: 0.78rem; font-weight: 600; padding: 0.32rem 0.8rem; border-radius: 8px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-.btn-admin-exit:hover { background: rgba(229,85,85,0.16); }
+.admin-topbar { background: #1a3a2a; border-bottom: none; padding: 0 2rem; height: 52px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+.admin-topbar-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: #fdf6f0; }
+.btn-admin-exit { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.22); color: #ffb3b3; font-size: 0.78rem; font-weight: 600; padding: 0.32rem 0.8rem; border-radius: 8px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.btn-admin-exit:hover { background: rgba(229,85,85,0.3); border-color: rgba(229,85,85,0.5); color: #fff; }
 
 /* Tabs — light */
-.admin-tabs { display: flex; padding: 0 2rem; background: #ffffff; border-bottom: 1.5px solid rgba(240,184,204,0.25); flex-shrink: 0; overflow-x: auto; }
-.admin-tab { background: transparent; border: none; cursor: pointer; color: var(--muted); font-size: 0.78rem; font-weight: 600; padding: 0.85rem 1.15rem; font-family: 'DM Sans', sans-serif; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
-.admin-tab.active { color: var(--forest); border-bottom-color: var(--pink); }
-.admin-tab:hover:not(.active) { color: var(--forest); background: rgba(240,184,204,0.1); }
+.admin-tabs { display: flex; padding: 0 1.5rem; background: #ffffff; border-bottom: 2px solid #d4e0d9; flex-shrink: 0; overflow-x: auto; box-shadow: 0 2px 6px rgba(26,58,42,0.07); }
+.admin-tab { background: transparent; border: none; cursor: pointer; color: #6b8c76; font-size: 0.78rem; font-weight: 600; padding: 0.85rem 1.15rem; font-family: 'DM Sans', sans-serif; border-bottom: 2.5px solid transparent; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; }
+.admin-tab.active { color: var(--forest); border-bottom-color: var(--mint); background: rgba(74,140,98,0.06); }
+.admin-tab:hover:not(.active) { color: var(--forest); background: rgba(26,58,42,0.06); }
 
 /* Content area — light */
-.admin-content { flex: 1; overflow-y: auto; padding: 2rem; color: var(--text-primary); background: var(--bg-page); }
+.admin-content { flex: 1; overflow-y: auto; padding: 2rem; color: #1a2d20; background: #f0f4f2; }
 .admin-panel-view { display: none; }
 .admin-panel-view.active { display: block; }
-.admin-section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--forest); margin-bottom: 1.4rem; }
+.admin-section-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: #0f2318; margin-bottom: 1.4rem; padding-bottom: 0.65rem; border-bottom: 2px solid #d4e0d9; }
 
 /* Stat cards — light */
 .admin-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem; margin-bottom: 2rem; }
-.admin-stat { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.3); border-radius: 14px; padding: 1.15rem; box-shadow: 0 2px 8px rgba(26,58,42,0.05); }
+.admin-stat { background: #ffffff; border: 1.5px solid #c8dcd1; border-radius: 14px; padding: 1.15rem; box-shadow: 0 2px 8px rgba(26,58,42,0.08); }
 .admin-stat-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: var(--forest); }
-.admin-stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+.admin-stat-label { font-size: 0.72rem; color: #4a6b56; margin-top: 0.2rem; font-weight: 600; }
 
 /* Inquiry rows — light */
-.inquiry-item { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.25); border-radius: 11px; padding: 0.9rem 1.1rem; margin-bottom: 0.65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: 0 1px 4px rgba(26,58,42,0.04); }
-.inquiry-name { font-weight: 600; font-size: 0.875rem; color: var(--forest); }
-.inquiry-meta { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+.inquiry-item { background: #ffffff; border: 1.5px solid #c8dcd1; border-radius: 11px; padding: 0.9rem 1.1rem; margin-bottom: 0.65rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; box-shadow: 0 2px 6px rgba(26,58,42,0.07); }
+.inquiry-name { font-weight: 700; font-size: 0.875rem; color: #0f2318; }
+.inquiry-meta { font-size: 0.75rem; color: #4a6b56; margin-top: 0.2rem; }
 .inquiry-actions { display: flex; gap: 0.45rem; flex-shrink: 0; }
 .status-badge { font-size: 0.67rem; font-weight: 700; padding: 0.18rem 0.55rem; border-radius: 999px; }
-.status-new { background: rgba(240,184,204,0.25); color: var(--forest); }
-.status-read { background: rgba(74,140,98,0.15); color: var(--sage); }
+.status-new { background: rgba(240,184,204,0.55); color: #7a1a3a; }
+.status-read { background: rgba(74,140,98,0.2); color: #1a5c35; }
 
 .btn-sm { font-size: 0.72rem; font-weight: 600; padding: 0.28rem 0.7rem; border-radius: 7px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
 .btn-wa-sm { background: #25D366; color: white; }
@@ -510,21 +512,21 @@ footer { background: var(--footer-bg); padding: 2.5rem 2rem 2rem; text-align: ce
 
 /* Forms inside admin — light */
 .admin-form-group { margin-bottom: 1.15rem; }
-.admin-form-label { display: block; font-size: 0.76rem; font-weight: 600; color: var(--sage); margin-bottom: 0.35rem; }
-.admin-form-input { width: 100%; background: #ffffff; border: 1.5px solid rgba(240,184,204,0.35); border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
-.admin-form-input:focus { border-color: var(--mint); }
-.admin-form-input::placeholder { color: var(--muted); }
-.admin-form-textarea { width: 100%; background: #ffffff; border: 1.5px solid rgba(240,184,204,0.35); border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: var(--text-primary); font-family: 'DM Sans', sans-serif; outline: none; resize: vertical; min-height: 90px; transition: border-color 0.2s; }
-.admin-form-textarea:focus { border-color: var(--mint); }
-.admin-form-textarea::placeholder { color: var(--muted); }
+.admin-form-label { display: block; font-size: 0.76rem; font-weight: 700; color: #2d5c3f; margin-bottom: 0.35rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.admin-form-input { width: 100%; background: #ffffff; border: 1.5px solid #b0cdc0; border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: #0f2318; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.admin-form-input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(74,140,98,0.12); }
+.admin-form-input::placeholder { color: #8aaa97; }
+.admin-form-textarea { width: 100%; background: #ffffff; border: 1.5px solid #b0cdc0; border-radius: 9px; padding: 0.62rem 0.88rem; font-size: 0.85rem; color: #0f2318; font-family: 'DM Sans', sans-serif; outline: none; resize: vertical; min-height: 90px; transition: border-color 0.2s, box-shadow 0.2s; }
+.admin-form-textarea:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(74,140,98,0.12); }
+.admin-form-textarea::placeholder { color: #8aaa97; }
 
 /* Admin action buttons — light */
-.btn-admin-save { background: var(--pink); color: var(--forest); font-weight: 700; font-size: 0.85rem; padding: 0.62rem 1.4rem; border-radius: 9px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-.btn-admin-save:hover { background: var(--blush); }
-.btn-admin-danger { background: rgba(229,85,85,0.08); color: #c0392b; border: 1px solid rgba(229,85,85,0.2); font-weight: 700; font-size: 0.85rem; padding: 0.62rem 1.4rem; border-radius: 9px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-.btn-admin-danger:hover { background: rgba(229,85,85,0.16); }
-.btn-admin-export { background: rgba(240,184,204,0.15); color: var(--forest); border: 1.5px solid rgba(240,184,204,0.4); font-weight: 700; font-size: 0.85rem; padding: 0.62rem 1.4rem; border-radius: 9px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-.btn-admin-export:hover { background: rgba(240,184,204,0.28); }
+.btn-admin-save { background: var(--forest); color: #fdf6f0; font-weight: 700; font-size: 0.85rem; padding: 0.62rem 1.4rem; border-radius: 9px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.btn-admin-save:hover { background: var(--sage); box-shadow: 0 4px 12px rgba(26,58,42,0.2); }
+.btn-admin-danger { background: rgba(229,85,85,0.12); color: #8b1a1a; border: 1.5px solid rgba(229,85,85,0.35); font-weight: 700; font-size: 0.85rem; padding: 0.62rem 1.4rem; border-radius: 9px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.btn-admin-danger:hover { background: rgba(229,85,85,0.22); border-color: rgba(229,85,85,0.6); }
+.btn-admin-export { background: rgba(26,58,42,0.07); color: #0f2318; border: 1.5px solid rgba(26,58,42,0.22); font-weight: 700; font-size: 0.85rem; padding: 0.62rem 1.4rem; border-radius: 9px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.btn-admin-export:hover { background: rgba(26,58,42,0.13); }
 .btn-row { display: flex; gap: 0.65rem; flex-wrap: wrap; }
 .admin-save-msg { font-size: 0.78rem; color: var(--mint); min-height: 1.1em; margin-top: 0.5rem; }
 
@@ -542,46 +544,46 @@ footer { background: var(--footer-bg); padding: 2.5rem 2rem 2rem; text-align: ce
 
 /* Admin accordion — light */
 .admin-lokasi-accordion { margin-bottom: 0.75rem; }
-.admin-lokasi-header { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.3); border-radius: 14px; padding: 1rem 1.15rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.2s; user-select: none; }
-.admin-lokasi-header:hover { background: var(--blush); }
-.admin-lokasi-header.open { border-radius: 14px 14px 0 0; border-bottom: none; background: var(--blush); }
-.admin-lokasi-body { border: 1.5px solid rgba(240,184,204,0.3); border-top: none; border-radius: 0 0 14px 14px; padding: 1.15rem; display: none; background: #fafaf8; }
+.admin-lokasi-header { background: #ffffff; border: 1.5px solid #b8d0c4; border-radius: 14px; padding: 1rem 1.15rem; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.2s; user-select: none; }
+.admin-lokasi-header:hover { background: #eef5f1; }
+.admin-lokasi-header.open { border-radius: 14px 14px 0 0; border-bottom: none; background: #e4f0e9; }
+.admin-lokasi-body { border: 1.5px solid #b8d0c4; border-top: none; border-radius: 0 0 14px 14px; padding: 1.15rem; display: none; background: #f7faf8; }
 .admin-lokasi-body.open { display: block; }
-.admin-lokasi-chevron { font-size: 0.75rem; color: var(--muted); transition: transform 0.25s; }
+.admin-lokasi-chevron { font-size: 0.75rem; color: #4a6b56; transition: transform 0.25s; }
 .admin-lokasi-header.open .admin-lokasi-chevron { transform: rotate(180deg); }
 
 /* Admin room items — light */
-.admin-room-item { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.25); border-radius: 12px; padding: 1rem; margin-bottom: .75rem; box-shadow: 0 1px 4px rgba(26,58,42,0.04); }
-.admin-room-name { font-weight: 700; color: var(--forest); font-size: .88rem; }
-.btn-add-room { background: rgba(240,184,204,0.18); color: var(--forest); border: 1px solid rgba(240,184,204,0.4); font-weight: 700; font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 9px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-.btn-add-room:hover { background: rgba(240,184,204,0.32); }
+.admin-room-item { background: #ffffff; border: 1.5px solid #c8dcd1; border-radius: 12px; padding: 1rem; margin-bottom: .75rem; box-shadow: 0 2px 6px rgba(26,58,42,0.07); }
+.admin-room-name { font-weight: 700; color: #0f2318; font-size: .88rem; }
+.btn-add-room { background: rgba(26,58,42,0.07); color: #0f2318; border: 1.5px solid rgba(26,58,42,0.22); font-weight: 700; font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 9px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+.btn-add-room:hover { background: rgba(26,58,42,0.13); }
 
 /* Admin avail slots — light */
-.admin-avail-section { margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px solid rgba(240,184,204,0.2); }
-.admin-avail-label { font-size: 0.72rem; font-weight: 700; color: var(--muted); margin-bottom: 0.4rem; }
+.admin-avail-section { margin-top: 0.65rem; padding-top: 0.65rem; border-top: 1px solid #c8dcd1; }
+.admin-avail-label { font-size: 0.72rem; font-weight: 700; color: #2d5c3f; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em; }
 .avail-slots-admin { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.4rem; }
-.avail-slot-admin { background: rgba(74,140,98,0.1); border: 1.5px solid rgba(74,140,98,0.3); color: var(--sage); font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 999px; cursor: pointer; position: relative; display: flex; align-items: center; gap: 0.25rem; }
-.avail-slot-del { background: none; border: none; color: rgba(229,85,85,0.7); cursor: pointer; font-size: 0.75rem; line-height: 1; padding: 0; }
+.avail-slot-admin { background: rgba(74,140,98,0.15); border: 1.5px solid rgba(74,140,98,0.45); color: #1a5c35; font-size: 0.68rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 999px; cursor: pointer; position: relative; display: flex; align-items: center; gap: 0.25rem; }
+.avail-slot-del { background: none; border: none; color: rgba(229,85,85,0.8); cursor: pointer; font-size: 0.75rem; line-height: 1; padding: 0; }
 .avail-slot-add { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
-.avail-slot-add input { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.35); border-radius: 7px; padding: 0.3rem 0.6rem; font-size: 0.75rem; color: var(--text-primary); width: 90px; outline: none; }
-.btn-add-slot { background: rgba(74,140,98,0.12); color: var(--sage); border: 1px solid rgba(74,140,98,0.3); font-size: 0.72rem; font-weight: 700; padding: 0.28rem 0.6rem; border-radius: 7px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.avail-slot-add input { background: #ffffff; border: 1.5px solid #b0cdc0; border-radius: 7px; padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #0f2318; width: 90px; outline: none; }
+.btn-add-slot { background: rgba(74,140,98,0.15); color: #1a5c35; border: 1.5px solid rgba(74,140,98,0.4); font-size: 0.72rem; font-weight: 700; padding: 0.28rem 0.6rem; border-radius: 7px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 
 /* Photo add button — light */
-.btn-add-photos { background: var(--blush); color: var(--forest); border: 1.5px dashed rgba(240,184,204,0.6); font-size: 0.72rem; font-weight: 600; padding: 0.28rem 0.7rem; border-radius: 7px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+.btn-add-photos { background: #eef5f1; color: #0f2318; border: 1.5px dashed #9abfae; font-size: 0.72rem; font-weight: 600; padding: 0.28rem 0.7rem; border-radius: 7px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
 
 /* Analytics — light */
 .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
-.chart-card { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.25); border-radius: 14px; padding: 1.1rem; box-shadow: 0 2px 8px rgba(26,58,42,0.05); }
-.chart-card-title { font-size: 0.82rem; font-weight: 700; color: var(--forest); margin-bottom: 0.75rem; }
+.chart-card { background: #ffffff; border: 1.5px solid #c8dcd1; border-radius: 14px; padding: 1.1rem; box-shadow: 0 2px 8px rgba(26,58,42,0.07); }
+.chart-card-title { font-size: 0.82rem; font-weight: 700; color: #0f2318; margin-bottom: 0.75rem; }
 .chart-canvas-wrap { position: relative; height: 160px; }
 .popular-room-list { list-style: none; }
-.popular-room-item { display: flex; align-items: center; gap: 0.65rem; padding: 0.45rem 0; border-bottom: 1px solid rgba(240,184,204,0.15); font-size: 0.78rem; }
+.popular-room-item { display: flex; align-items: center; gap: 0.65rem; padding: 0.45rem 0; border-bottom: 1px solid #d4e0d9; font-size: 0.78rem; }
 .popular-room-item:last-child { border-bottom: none; }
-.popular-rank { width: 22px; height: 22px; border-radius: 50%; background: rgba(240,184,204,0.25); color: var(--forest); font-size: 0.68rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.popular-name { flex: 1; color: var(--text-primary); }
-.popular-views { font-size: 0.7rem; color: var(--muted); }
-.popular-bar-wrap { width: 60px; background: rgba(26,58,42,0.08); border-radius: 4px; height: 6px; overflow: hidden; }
-.popular-bar { height: 100%; background: var(--pink); border-radius: 4px; }
+.popular-rank { width: 22px; height: 22px; border-radius: 50%; background: rgba(26,58,42,0.12); color: #0f2318; font-size: 0.68rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.popular-name { flex: 1; color: #1a2d20; font-weight: 600; }
+.popular-views { font-size: 0.7rem; color: #4a6b56; font-weight: 600; }
+.popular-bar-wrap { width: 60px; background: rgba(26,58,42,0.1); border-radius: 4px; height: 6px; overflow: hidden; }
+.popular-bar { height: 100%; background: var(--mint); border-radius: 4px; }
 .empty-state { text-align: center; padding: 2.5rem; color: var(--muted); font-size: 0.875rem; }
 
 /* ===== DARK MODE OVERRIDES FOR ADMIN ===== */
@@ -602,7 +604,7 @@ html.dark .admin-tab { color: #7a9e8c; }
 html.dark .admin-tab.active { color: var(--pink); }
 html.dark .admin-tab:hover:not(.active) { color: rgba(253,246,240,0.65); background: transparent; }
 html.dark .admin-content { background: #0d1f15; color: #fdf6f0; }
-html.dark .admin-section-title { color: #fdf6f0; }
+html.dark .admin-section-title { color: #fdf6f0; border-bottom-color: rgba(240,184,204,0.12); }
 html.dark .admin-stat { background: rgba(253,246,240,0.04); border-color: rgba(240,184,204,0.1); box-shadow: none; }
 html.dark .admin-stat-num { color: var(--pink); }
 html.dark .admin-stat-label { color: #7a9e8c; }
@@ -652,12 +654,13 @@ html.dark .popular-views { color: #9abfaa; }
 html.dark .popular-bar-wrap { background: rgba(253,246,240,0.06); }
 
 /* Admin card box (replaces inline dark glass) */
-.admin-card-box { background: #ffffff; border: 1.5px solid rgba(240,184,204,0.3); border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(26,58,42,0.05); }
+.admin-card-box { background: #ffffff; border: 1.5px solid #c8dcd1; border-radius: 14px; padding: 1.25rem; box-shadow: 0 2px 8px rgba(26,58,42,0.07); }
 html.dark .admin-card-box { background: rgba(253,246,240,0.03); border-color: rgba(240,184,204,0.1); box-shadow: none; }
-.admin-sublabel { font-size: .75rem; color: var(--muted); margin-bottom: .5rem; font-weight: 600; }
+.admin-sublabel { font-size: .75rem; color: #2d5c3f; margin-bottom: .5rem; font-weight: 700; }
 html.dark .admin-sublabel { color: rgba(253,246,240,0.5); }
 .admin-file-input { font-size: .8rem; color: var(--sage); }
 html.dark .admin-file-input { color: rgba(253,246,240,0.55); }
+html.dark #clearAnalyticsModal > div { background: #162a1e; }
 
 /* ===== CALENDAR / DATE PICKER WEEKEND STYLES ===== */
 /* Custom calendar widget */
@@ -692,8 +695,8 @@ html.dark .miki-cal-day.cal-disabled { color: rgba(232,245,238,0.18) !important;
 html.dark .miki-cal-day.cal-past { color: rgba(232,245,238,0.18) !important; }
 .miki-cal-selected-display { font-size: 0.78rem; color: var(--sage); font-weight: 600; margin-top: 0.4rem; min-height: 1.2em; }
 html.dark .miki-cal-selected-display { color: var(--mint); }
-.miki-cal-weekend-note { font-size: 0.7rem; color: rgba(240,184,204,0.7); margin-top: 0.3rem; display: flex; align-items: center; gap: 0.3rem; }
-html.dark .miki-cal-weekend-note { color: rgba(240,184,204,0.5); }
+.miki-cal-weekend-note { font-size: 0.72rem; color: var(--mint); margin-top: 0.3rem; display: flex; align-items: center; gap: 0.3rem; font-weight: 600; }
+html.dark .miki-cal-weekend-note { color: rgba(74,140,98,0.85); }
 /* Hide the native date inputs that are replaced by the calendar widget */
 .visit-date-native-hidden { display: none !important; }
 /* ===== END CALENDAR ===== */
@@ -734,6 +737,18 @@ html.dark .miki-cal-weekend-note { color: rgba(240,184,204,0.5); }
 .trust-official { font-weight: 700; color: var(--forest); margin-top: 0.25rem; }
 .dark .trust-official { color: var(--pink); }
 
+/* ===== MOBILE UX: tap highlights & touch targets ===== */
+* { -webkit-tap-highlight-color: transparent; }
+button, a, [onclick], .browse-card, .filter-btn, .visit-slot, .miki-cal-day, .miki-cal-nav {
+  touch-action: manipulation;
+}
+.btn-primary:active, .btn-outline:active { opacity: 0.82; transform: scale(0.97); }
+.btn-room-inquire:active, .btn-inquire:active, .btn-wa:active, .btn-maps:active { opacity: 0.82; transform: scale(0.97); }
+.browse-card:active { transform: translateY(-2px) scale(0.99); }
+.miki-cal-day:not(.cal-disabled):not(.cal-weekend):not(.cal-past):not(.cal-empty):active { transform: scale(0.92); }
+.visit-slot:not(.taken):active { transform: scale(0.94); }
+.modal-close { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .nav-links { display: none; }
@@ -750,6 +765,10 @@ html.dark .miki-cal-weekend-note { color: rgba(240,184,204,0.5); }
   .admin-tabs { padding: 0 1rem; }
   .admin-content { padding: 1.25rem; }
   .admin-topbar { padding: 0 1rem; }
+  .filter-btn { padding: 0.5rem 1.1rem; font-size: 0.82rem; min-height: 40px; }
+  .btn-room-inquire { padding: 0.6rem 1.1rem; min-height: 40px; }
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .hero-ctas .btn-primary, .hero-ctas .btn-outline { width: 100%; max-width: 300px; text-align: center; }
 }
 
 /* ===== SKELETON LOADING ===== */
@@ -1156,6 +1175,49 @@ img.lazy-loaded { opacity: 1; }
 ::-webkit-scrollbar-thumb { background: rgba(240,184,204,0.35); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(240,184,204,0.6); }
 * { scrollbar-width: thin; scrollbar-color: rgba(240,184,204,0.35) transparent; }
+
+/* ===== SCROLL-TO-TOP ===== */
+#scrollTopBtn {
+  position: fixed; bottom: 1.75rem; right: 1.75rem; z-index: 500;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--forest); color: var(--pink);
+  border: 1.5px solid rgba(240,184,204,0.3);
+  font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; opacity: 0; pointer-events: none;
+  box-shadow: 0 4px 18px rgba(26,58,42,0.22);
+  transition: opacity 0.25s, transform 0.25s;
+}
+#scrollTopBtn.visible { opacity: 1; pointer-events: auto; }
+#scrollTopBtn:hover { transform: translateY(-3px); background: var(--sage); }
+.dark #scrollTopBtn { background: var(--sage); border-color: rgba(240,184,204,0.2); }
+
+/* ===== INLINE VALIDATION ===== */
+.field-error { font-size: 0.75rem; color: #e05c72; margin-top: 0.28rem; display: none; }
+.form-input.invalid, .form-select.invalid { border-color: #e05c72 !important; box-shadow: 0 0 0 2px rgba(224,92,114,0.15) !important; }
+.form-input.invalid:focus, .form-select.invalid:focus { border-color: #e05c72 !important; }
+
+/* ===== TOAST ===== */
+#miki-toast {
+  position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%) translateY(12px);
+  background: var(--forest); color: #fdf6f0; font-size: 0.82rem; font-weight: 600;
+  padding: 0.55rem 1.25rem; border-radius: 999px; z-index: 600;
+  box-shadow: 0 4px 18px rgba(26,58,42,0.25); opacity: 0; pointer-events: none;
+  transition: opacity 0.22s, transform 0.22s; white-space: nowrap;
+}
+#miki-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.dark #miki-toast { background: var(--sage); }
+
+/* ===== ROOM AVAILABILITY CHIP ===== */
+.avail-chip {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.02em;
+  padding: 0.22rem 0.65rem; border-radius: 999px;
+  position: absolute; top: 0.65rem; right: 0.65rem; z-index: 2;
+  backdrop-filter: blur(6px);
+}
+.avail-chip.has-rooms { background: rgba(74,140,98,0.88); color: #fff; }
+.avail-chip.no-rooms { background: rgba(180,60,60,0.82); color: #fff; }
+.lokasi-hero { position: relative; }
 /* Admin input placeholder contrast */
 .admin-form-input::placeholder, .admin-form-textarea::placeholder { color: rgba(253,246,240,0.45); }
 .admin-input::placeholder { color: rgba(253,246,240,0.45); }
@@ -1191,9 +1253,9 @@ img.lazy-loaded { opacity: 1; }
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#" onclick="showHome(); toggleMenu();">Beranda</a>
-  <a href="#" onclick="showTentang(); toggleMenu();">Tentang</a>
-  <a href="#" onclick="openInquiry(null); toggleMenu();">Hubungi Kami</a>
+  <a href="#" onclick="showHome(); toggleMenu(); return false;">Beranda</a>
+  <a href="#" onclick="showTentang(); toggleMenu(); return false;">Tentang</a>
+  <a href="#" onclick="openInquiry(null); toggleMenu(); return false;">Hubungi Kami</a>
 </div>
 
 
@@ -1506,8 +1568,8 @@ img.lazy-loaded { opacity: 1; }
       </div>
       <div class="checkin-section-label">Data Diri</div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="ciName" placeholder="Sesuai KTP"></div>
-        <div class="form-group"><label class="form-label">No. WhatsApp *</label><input class="form-input" id="ciPhone" type="tel" placeholder="08xxxxxxxxxx"></div>
+        <div class="form-group"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="ciName" placeholder="Sesuai KTP" oninput="_setFieldError('ciName','')"></div>
+        <div class="form-group"><label class="form-label">No. WhatsApp *</label><input class="form-input" id="ciPhone" type="tel" placeholder="08xxxxxxxxxx" oninput="_setFieldError('ciPhone','')"></div>
       </div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Pekerjaan</label><input class="form-input" id="ciJob" placeholder="Mahasiswa / Karyawan / dll"></div>
@@ -1517,7 +1579,7 @@ img.lazy-loaded { opacity: 1; }
       <div class="checkin-section-label">Info Check-in</div>
       <div class="form-row">
         <div class="form-group"><label class="form-label">Lokasi Kost *</label>
-          <select class="form-select" id="ciLokasi" onchange="onCheckinLokasiChange()">
+          <select class="form-select" id="ciLokasi" onchange="onCheckinLokasiChange();_setFieldError('ciLokasi','')">
             <option value="">Pilih lokasi...</option>
           </select>
         </div>
@@ -1564,9 +1626,23 @@ img.lazy-loaded { opacity: 1; }
           <input class="visit-date-native-hidden" id="ciVisitDate" type="date" min="">
           <div class="miki-cal-wrap" id="ciVisitCalWrap"></div>
         </div>
+        <div class="form-group" style="margin-top:.65rem;">
+          <label class="form-label">Pilih Waktu Kunjungan</label>
+          <select class="form-select" id="ciVisitTime">
+            <option value="">Pilih waktu...</option>
+            <option value="09.00">09.00</option>
+            <option value="10.00">10.00</option>
+            <option value="11.00">11.00</option>
+            <option value="13.00">13.00</option>
+            <option value="14.00">14.00</option>
+            <option value="15.00">15.00</option>
+            <option value="16.00">16.00</option>
+          </select>
+        </div>
       </div>
 
       <button class="btn-wa" style="margin-top:0.5rem;" onclick="submitCheckin()">📱 Kirim Formulir via WhatsApp</button>
+      <p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-top:0.9rem;">Ada pertanyaan sebelum check-in? <a href="#" onclick="closeCheckin();openInquiry(null);return false;" style="color:var(--pink);font-weight:700;text-decoration:underline;">Hubungi kami</a></p>
     </div>
   </div>
 </div>
@@ -1580,8 +1656,8 @@ img.lazy-loaded { opacity: 1; }
       <button class="modal-close" onclick="closeInquiry()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="form-group"><label class="form-label">Nama Kamu</label><input class="form-input" id="inquiryName" type="text" placeholder="Nama lengkap kamu"></div>
-      <div class="form-group"><label class="form-label">Nomor WhatsApp</label><input class="form-input" id="inquiryPhone" type="tel" placeholder="08xxxxxxxxxx"></div>
+      <div class="form-group"><label class="form-label">Nama Kamu</label><input class="form-input" id="inquiryName" type="text" placeholder="Nama lengkap kamu" oninput="_setFieldError('inquiryName','')"></div>
+      <div class="form-group"><label class="form-label">Nomor WhatsApp</label><input class="form-input" id="inquiryPhone" type="tel" placeholder="08xxxxxxxxxx" oninput="_setFieldError('inquiryPhone','')"></div>
       <div class="form-group">
         <label class="form-label">Tertarik ke Lokasi</label>
         <select class="form-select" id="inquiryLokasi">
@@ -1606,7 +1682,6 @@ img.lazy-loaded { opacity: 1; }
       <!-- Visit scheduling FIRST -->
       <div id="roomInquiryVisitSection">
         <div class="checkin-section-label" style="margin-top:0;">📅 Jadwalkan Kunjungan</div>
-        <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:.75rem;line-height:1.5;">⏰ Senin–Jumat, 09.00–17.00. Waktu lain? <a href="#" onclick="closeRoomInquiry();openInquiry(currentDetailName);return false;" style="color:var(--mint);font-weight:700;">Hubungi kami</a></div>
         <div id="roomInquirySlots" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.6rem;"></div>
         <div class="form-group">
           <label class="form-label">Pilih Tanggal Kunjungan</label>
@@ -1629,8 +1704,8 @@ img.lazy-loaded { opacity: 1; }
       </div>
       <div style="height:1px;background:var(--border-soft);margin:1.25rem 0;"></div>
       <div class="checkin-section-label" style="margin-top:0;">👤 Data Kamu</div>
-      <div class="form-group"><label class="form-label">Nama *</label><input class="form-input" id="riName" placeholder="Nama lengkap kamu"></div>
-      <div class="form-group"><label class="form-label">No. WhatsApp *</label><input class="form-input" id="riPhone" type="tel" placeholder="08xxxxxxxxxx"></div>
+      <div class="form-group"><label class="form-label">Nama *</label><input class="form-input" id="riName" placeholder="Nama lengkap kamu" oninput="_setFieldError('riName','')"></div>
+      <div class="form-group"><label class="form-label">No. WhatsApp *</label><input class="form-input" id="riPhone" type="tel" placeholder="08xxxxxxxxxx" oninput="_setFieldError('riPhone','')"></div>
       <div class="form-group"><label class="form-label">Pertanyaan / Pesan (opsional)</label><textarea class="form-input" id="riMsg" rows="2" placeholder="Ada yang ingin ditanyakan tentang kamar ini?"></textarea></div>
       <button class="btn-wa" onclick="submitRoomInquiry()">📱 Kirim via WhatsApp</button>
     </div>
@@ -1673,6 +1748,20 @@ img.lazy-loaded { opacity: 1; }
 </div>
 
 <!-- ===== LIGHTBOX ===== -->
+<!-- CLEAR ANALYTICS CONFIRM MODAL -->
+<div id="clearAnalyticsModal" style="display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+  <div style="background:#ffffff;border-radius:20px;padding:2rem;max-width:400px;width:calc(100%-2rem);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+    <div style="font-size:2.5rem;margin-bottom:1rem;">⚠️</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:#0f2318;margin-bottom:0.65rem;">Hapus Data Analytics?</div>
+    <div style="font-size:0.875rem;color:#4a6b56;line-height:1.65;margin-bottom:1.5rem;">Yakin ingin menghapus semua data analytics? Tindakan ini <strong style="color:#8b1a1a;">tidak dapat dibatalkan</strong> — semua views kamar dan data formulir akan terhapus permanen.</div>
+    <div style="display:flex;gap:0.65rem;justify-content:center;flex-wrap:wrap;">
+      <button onclick="closeClearAnalyticsModal()" style="background:#f0f4f2;color:#1a2d20;border:1.5px solid #c8dcd1;font-weight:700;font-size:0.875rem;padding:0.65rem 1.4rem;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;">Batal</button>
+      <button onclick="executeClearAnalytics()" style="background:#8b1a1a;color:#fff;border:none;font-weight:700;font-size:0.875rem;padding:0.65rem 1.4rem;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif;">Ya, Hapus Semua</button>
+    </div>
+    <div id="clearAnalyticsLog" style="font-size:0.72rem;color:#4a6b56;margin-top:1rem;min-height:1em;"></div>
+  </div>
+</div>
+
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <div class="lightbox-img-wrap" onclick="event.stopPropagation()">
@@ -1740,6 +1829,11 @@ img.lazy-loaded { opacity: 1; }
             <div class="chart-card-title">🏆 Top Kamar Diminati</div>
             <ul class="popular-room-list" id="popularRoomList"></ul>
           </div>
+        </div>
+        <div style="margin-top:2rem;padding-top:1.5rem;border-top:2px solid #d4e0d9;">
+          <div style="font-size:0.82rem;font-weight:700;color:#0f2318;margin-bottom:0.4rem;">⚠️ Zona Berbahaya</div>
+          <div style="font-size:0.78rem;color:#6b8c76;margin-bottom:1rem;">Hapus semua data analytics termasuk views kamar dan data formulir. Tindakan ini tidak dapat dibatalkan.</div>
+          <button class="btn-admin-danger" onclick="confirmClearAnalytics()">🗑 Hapus Semua Data Analytics</button>
         </div>
       </div>
 
@@ -1959,10 +2053,16 @@ function renderLokasi(filter='all') {
     const mapsBtn = d.mapsUrl
       ? `<a href="${d.mapsUrl}" target="_blank" class="btn-maps">📍 Maps</a>`
       : `<button class="btn-maps disabled" disabled>📍 Maps</button>`;
+    const totalRooms = (d.rooms||[]).length;
+    const availRooms = (d.rooms||[]).filter(r=>r.status==='tersedia').length;
+    const availChip = totalRooms > 0
+      ? `<div class="avail-chip ${availRooms>0?'has-rooms':'no-rooms'}">${availRooms>0?'✓ '+availRooms+' kamar tersedia':'Penuh'}</div>`
+      : '';
     return `<div class="lokasi-card fade-up">
       <div class="lokasi-hero" style="background:linear-gradient(160deg,${d.color}ee 0%,${d.color}99 100%);">
         <div class="lokasi-hero-bg">${heroContent}</div>
         <div class="lokasi-badges">${badgesHTML}</div>
+        ${availChip}
       </div>
       <div class="lokasi-body">
         <div class="lokasi-name">${d.name}</div>
@@ -2098,6 +2198,12 @@ const _calStates = {};
 
 function isWeekend(date) { const d = date.getDay(); return d === 0 || d === 6; }
 
+function addWeekdays(date, n) {
+  const d = new Date(date); let count = 0;
+  while (count < n) { d.setDate(d.getDate() + 1); if (!isWeekend(d)) count++; }
+  return d;
+}
+
 function nextWeekday(date) {
   const d = new Date(date);
   while (isWeekend(d)) d.setDate(d.getDate() + 1);
@@ -2177,8 +2283,8 @@ function renderMikiCal(stateKey) {
         <div class="miki-cal-days">${dayCells}</div>
       </div>
     </div>
-    <div class="miki-cal-weekend-note">⚠️ Sabtu &amp; Minggu tidak tersedia (admin libur)</div>
-    <div class="miki-cal-selected-display" id="${st.displayId}">${st.selected ? '📅 ' + formatDateDisplay(st.selected) : 'Pilih tanggal kunjungan (Senin–Jumat)'}</div>`;
+    <div class="miki-cal-weekend-note">⏰ Senin–Jumat, 09.00–17.00. Waktu lain? <a href="#" onclick="closeCheckin();closeRoomInquiry();openInquiry(null);return false;" style="color:var(--pink);font-weight:700;text-decoration:underline;">Hubungi kami</a></div>
+    <div class="miki-cal-selected-display" id="${st.displayId}">${st.selected ? '📅 ' + formatDateDisplay(st.selected) : ''}</div>`;
 }
 
 function navMikiCal(stateKey, dir) {
@@ -2278,11 +2384,12 @@ function renderTentangMaps() {
 
 function openInquiry(lokasiName) {
   populateLokasiDropdowns();
+  _clearFieldErrors('inquiryName','inquiryPhone');
   document.getElementById('inquiryModal').classList.add('open');
   document.body.style.overflow='hidden';
   if (lokasiName) { const sel=document.getElementById('inquiryLokasi'); for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===lokasiName){sel.selectedIndex=i;break;}} }
 }
-function closeInquiry() { document.getElementById('inquiryModal').classList.remove('open'); document.body.style.overflow=''; }
+function closeInquiry() { _clearFieldErrors('inquiryName','inquiryPhone'); document.getElementById('inquiryModal').classList.remove('open'); document.body.style.overflow=''; }
 function showConfirmation(icon, title, message, fallbackPhone) {
   document.getElementById('confirmationIcon').textContent = icon;
   document.getElementById('confirmationTitle').textContent = title;
@@ -2302,12 +2409,27 @@ function closeConfirmation() {
   document.body.style.overflow = '';
 }
 
+function _setFieldError(id, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('invalid', !!msg);
+  let err = el.parentNode.querySelector('.field-error');
+  if (!err) { err = document.createElement('div'); err.className = 'field-error'; el.parentNode.appendChild(err); }
+  err.textContent = msg || '';
+  err.style.display = msg ? 'block' : 'none';
+}
+function _clearFieldErrors(...ids) { ids.forEach(id => _setFieldError(id, '')); }
+
 function submitInquiry() {
   const name=document.getElementById('inquiryName').value.trim();
   const phone=document.getElementById('inquiryPhone').value.trim();
   const lokasi=document.getElementById('inquiryLokasi').value;
   const msg=document.getElementById('inquiryMsg').value.trim();
-  if (!name||!phone){alert('Nama dan nomor WA wajib diisi ya!');return;}
+  _clearFieldErrors('inquiryName','inquiryPhone');
+  let hasError = false;
+  if (!name) { _setFieldError('inquiryName','Nama wajib diisi ya!'); hasError=true; }
+  if (!phone) { _setFieldError('inquiryPhone','Nomor WhatsApp wajib diisi ya!'); hasError=true; }
+  if (hasError) return;
   const inquiry={id:Date.now().toString(),name,phone,lokasi,msg,createdAt:new Date().toISOString(),status:'new'};
   INQUIRIES.push(inquiry); saveAllData();
   const wa_msg=encodeURIComponent(`Halo Miki Living! 👋\n\nSaya ${name} mau tanya-tanya tentang kost.\nLokasi yang diminati: ${lokasi||'Belum tahu'}\n${msg?'\nPesan: '+msg:''}\n\nNomor WA saya: ${phone}`);
@@ -2360,6 +2482,35 @@ function inquiryHTML(i){ return `<div class="inquiry-item" id="inq-${i.id}"><div
 function markRead(id){ const idx=INQUIRIES.findIndex(i=>i.id===id); if(idx!==-1){INQUIRIES[idx].status='read';saveAllData();} }
 function deleteInquiry(id){ INQUIRIES=INQUIRIES.filter(i=>i.id!==id); saveAllData(); renderAdminFormulir(); renderAdminOverview(); }
 function clearAllInquiries(){ if(!confirm('Yakin hapus semua formulir?')) return; INQUIRIES=[]; saveAllData(); renderAdminFormulir(); renderAdminOverview(); }
+
+function confirmClearAnalytics() {
+  const modal = document.getElementById('clearAnalyticsModal');
+  modal.style.display = 'flex';
+  document.getElementById('clearAnalyticsLog').textContent = '';
+}
+function closeClearAnalyticsModal() {
+  document.getElementById('clearAnalyticsModal').style.display = 'none';
+}
+function executeClearAnalytics() {
+  // Clear inquiries
+  INQUIRIES = [];
+  // Reset all room views
+  DATA.forEach(d => { if(d.rooms) d.rooms.forEach(r => { r.views = 0; }); });
+  // Clear page views
+  PAGE_VIEWS = {};
+  try { localStorage.removeItem('mikiliving_views'); } catch(e) {}
+  // Log action with timestamp
+  const logEntry = { action: 'clear_analytics', at: new Date().toISOString() };
+  try {
+    const existing = JSON.parse(localStorage.getItem('mikiliving_admin_log') || '[]');
+    existing.push(logEntry);
+    localStorage.setItem('mikiliving_admin_log', JSON.stringify(existing));
+  } catch(e) {}
+  saveAllData();
+  closeClearAnalyticsModal();
+  renderAnalytics();
+  renderAdminOverview();
+}
 function renderAdminMedia(){
   // Kumi preview
   const kprev=document.getElementById('kumiPreview');
@@ -2592,7 +2743,20 @@ function bookVisit(lokasiId, roomId) {
   const slot = _selectedVisitSlots[roomId] || '';
   const dateEl = document.getElementById('visitDate-'+roomId);
   const date = dateEl ? dateEl.value : '';
-  if (!slot && !date) { alert('Pilih jadwal atau tanggal kunjungan dulu ya!'); return; }
+  if (!slot && !date) {
+    const errId = 'visitErr-'+roomId;
+    let errEl = document.getElementById(errId);
+    if (!errEl) {
+      errEl = document.createElement('div');
+      errEl.id = errId;
+      errEl.style.cssText = 'font-size:.75rem;color:#e05c72;margin-top:.3rem;font-weight:600;';
+      const btn = document.querySelector(`[onclick*="bookVisit('${lokasiId}','${roomId}')"]`);
+      if (btn && btn.parentNode) btn.parentNode.insertBefore(errEl, btn.nextSibling);
+    }
+    errEl.textContent = '⚠ Pilih jadwal atau tanggal kunjungan dulu ya!';
+    setTimeout(()=>{ if(errEl) errEl.textContent=''; }, 3000);
+    return;
+  }
   const msg = encodeURIComponent(
     `Halo Miki Living! 👋\n\nSaya ingin jadwalkan kunjungan ke kamar:\n\n`+
     `📍 Lokasi: ${d.name}\n`+
@@ -2616,7 +2780,7 @@ function openRoomInquiry(lokasiId, roomId) {
   // Date: window = today (WIB) through today+6 only
   const nowWIB = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Jakarta'}));
   const minDate = new Date(nowWIB); minDate.setHours(0,0,0,0);
-  const maxDate = new Date(minDate); maxDate.setDate(minDate.getDate()+13); // 2 weeks window
+  const maxDate = addWeekdays(minDate, 7);
   const toISO = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
   const minStr = toISO(minDate); const maxStr = toISO(maxDate);
   // Init calendar widget (replaces native date input)
@@ -2635,7 +2799,7 @@ function openRoomInquiry(lokasiId, roomId) {
   document.getElementById('roomInquiryModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function closeRoomInquiry(){ document.getElementById('roomInquiryModal').classList.remove('open'); document.body.style.overflow=''; }
+function closeRoomInquiry(){ _clearFieldErrors('riName','riPhone'); document.getElementById('roomInquiryModal').classList.remove('open'); document.body.style.overflow=''; }
 function selectRoomInquirySlot(btn){
   document.querySelectorAll('#roomInquirySlots .visit-slot').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
@@ -2643,13 +2807,17 @@ function selectRoomInquirySlot(btn){
 function submitRoomInquiry(){
   const name=document.getElementById('riName').value.trim();
   const phone=document.getElementById('riPhone').value.trim();
-  if(!name||!phone){alert('Nama dan No. WA wajib diisi ya!');return;}
+  _clearFieldErrors('riName','riPhone');
+  let hasError = false;
+  if(!name) { _setFieldError('riName','Nama wajib diisi ya!'); hasError=true; }
+  if(!phone) { _setFieldError('riPhone','Nomor WhatsApp wajib diisi ya!'); hasError=true; }
+  if(hasError) return;
   const msg=document.getElementById('riMsg').value.trim();
   const date = getMikiCalValue('roomInquiry') || document.getElementById('roomInquiryDate').value;
   // Weekend guard
   if (date) {
     const vd = parseDateStr(date);
-    if (isWeekend(vd)) { alert('Kunjungan tidak tersedia di Sabtu/Minggu. Silakan pilih hari kerja (Senin–Jumat).'); return; }
+    if (isWeekend(vd)) { _setFieldError('riPhone','Kunjungan tidak tersedia di Sabtu/Minggu. Pilih hari kerja ya!'); return; }
   }
   const time=document.getElementById('roomInquiryTime').value;
   const selectedSlot=document.querySelector('#roomInquirySlots .visit-slot.selected');
@@ -2685,7 +2853,6 @@ function openCheckin(lokasiId){
   // Hide visit section by default
   const visitSection=document.getElementById('visitScheduleSection');
   if(visitSection) visitSection.style.display='none';
-  if(visitSection) visitSection.style.display='none';
   const visitSlots=document.getElementById('ciVisitSlots');
   if(visitSlots){visitSlots.innerHTML='';visitSlots.style.display='none';}
   const d=DATA.find(x=>x.id===lokasiId);
@@ -2712,7 +2879,7 @@ function openCheckinRoom(lokasiId, roomId){
       const visitDate=document.getElementById('ciVisitDate');
       const _nowWIB = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Jakarta'}));
       const _minV = new Date(_nowWIB); _minV.setHours(0,0,0,0);
-      const _maxV = new Date(_minV); _maxV.setDate(_minV.getDate()+13);
+      const _maxV = addWeekdays(_minV, 7);
       const _toISO = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
       const _minStr = _toISO(_minV); const _maxStr = _toISO(_maxV);
       visitDate.min=_minStr; visitDate.max=_maxStr; visitDate.value='';
@@ -2731,7 +2898,7 @@ function openCheckinRoom(lokasiId, roomId){
     }
   }
 }
-function closeCheckin(){ document.getElementById('checkinModal').classList.remove('open'); document.body.style.overflow=''; }
+function closeCheckin(){ _clearFieldErrors('ciName','ciPhone','ciLokasi'); document.getElementById('checkinModal').classList.remove('open'); document.body.style.overflow=''; }
 function selectCiVisitSlot(btn){
   document.querySelectorAll('#ciVisitSlots .visit-slot').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
@@ -2757,7 +2924,13 @@ function submitCheckin(){
   const kamar=document.getElementById('ciKamar').value;
   const date=document.getElementById('ciCheckinDate').value;
   const time=document.getElementById('ciCheckinTime')?.value||'';
-  if(!name||!phone||!lokasi){alert('Nama, No. WA, dan Lokasi wajib diisi!');return;}
+  if(!name||!phone||!lokasi){
+    _clearFieldErrors('ciName','ciPhone','ciLokasi');
+    if(!name) _setFieldError('ciName','Nama wajib diisi ya!');
+    if(!phone) _setFieldError('ciPhone','Nomor WhatsApp wajib diisi ya!');
+    if(!lokasi) _setFieldError('ciLokasi','Pilih lokasi kost kamu ya!');
+    return;
+  }
   const job=document.getElementById('ciJob').value.trim();
   const origin=document.getElementById('ciOrigin').value.trim();
   const duration=document.getElementById('ciDuration').value;
@@ -2771,7 +2944,7 @@ function submitCheckin(){
     // Weekend guard
     if (visitDate) {
       const vd = parseDateStr(visitDate);
-      if (isWeekend(vd)) { alert('Kunjungan tidak tersedia di Sabtu/Minggu. Silakan pilih hari kerja (Senin–Jumat).'); return; }
+      if (isWeekend(vd)) { _setFieldError('ciName','Kunjungan tidak tersedia di Sabtu/Minggu. Pilih hari kerja (Senin–Jumat) ya!'); return; }
     }
     const visitTime=document.getElementById('ciVisitTime')?.value||'';
     if(selectedSlot) visitInfo+=`\n\n📅 JADWAL KUNJUNGAN\nSlot: ${selectedSlot.textContent}`;
@@ -3086,7 +3259,7 @@ function toggleCompare(lokasiId, roomId, el) {
     compareList.splice(idx, 1);
     if(el) el.classList.remove('in-compare');
   } else {
-    if (compareList.length >= 3) { alert('Maksimal 3 kamar sekaligus!'); return; }
+    if (compareList.length >= 3) { showToast('Maksimal 3 kamar sekaligus ya!'); return; }
     compareList.push({lokasiId, roomId});
     if(el) el.classList.add('in-compare');
   }
@@ -3300,6 +3473,33 @@ async function init(){
   if(_secL) _secL.textContent = _lokasiCount;
 }
 init();
+
+/* ===== SCROLL-TO-TOP ===== */
+(function(){
+  const btn = document.createElement('button');
+  btn.id = 'scrollTopBtn';
+  btn.title = 'Kembali ke atas';
+  btn.innerHTML = '↑';
+  btn.setAttribute('aria-label','Kembali ke atas');
+  document.body.appendChild(btn);
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  }, {passive:true});
+  btn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  // Toast
+  const toast = document.createElement('div');
+  toast.id = 'miki-toast';
+  document.body.appendChild(toast);
+  let _toastTimer = null;
+  window.showToast = function(msg, duration) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(()=>toast.classList.remove('show'), duration||2800);
+  };
+})();
 </script>
 </body>
 </html>
