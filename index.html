@@ -3018,14 +3018,19 @@ function renderRoomsGrid(d){
     return;
   }
   const inCompare = (roomId) => compareList.some(c=>c.lokasiId===d.id&&c.roomId===roomId);
+  // Store photos safely outside inline HTML to avoid double-quote conflicts with JSON
+  if (!window._roomPhotoStore) window._roomPhotoStore = {};
+  const lokasiEmoji = d.emoji;
   document.getElementById('roomsGrid').innerHTML=filtered.map(r=>{
     const photos=r.photos||[];
     const hasPhoto=photos.length>0;
     const previewSrc=hasPhoto?photos[0]:'';
     const visitHTML = '';
+    // Store this room's photos in a global map keyed by room id
+    window._roomPhotoStore[r.id] = { photos, emoji: lokasiEmoji };
 
     const imgSection=hasPhoto
-      ?`<div class="room-img-gallery" onclick="openLightbox(${JSON.stringify(photos)},0,'${d.emoji}')">
+      ?`<div class="room-img-gallery" onclick="openLightboxById('${r.id}')">
           <img src="${previewSrc}" alt="${r.name}" loading="lazy">
           <div class="view-more-overlay"><span>🔍 Lihat ${photos.length} Foto</span></div>
           ${photos.length>1?`<div class="room-img-count-badge">📷 ${photos.length}</div>`:''}</div>`
@@ -3543,6 +3548,11 @@ function openLightbox(photos, startIdx, fallbackEmoji) {
   renderLightbox(fallbackEmoji);
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+function openLightboxById(roomId) {
+  const entry = window._roomPhotoStore && window._roomPhotoStore[roomId];
+  if (!entry || !entry.photos || !entry.photos.length) return;
+  openLightbox(entry.photos, 0, entry.emoji);
 }
 function renderLightbox(emoji) {
   const img = document.getElementById('lightboxImg');
