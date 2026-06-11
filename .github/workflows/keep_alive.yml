@@ -1,0 +1,26 @@
+name: Supabase Keep-Alive — Miki Living
+
+on:
+  schedule:
+    # Jalan setiap Senin dan Kamis jam 07:00 WIB (00:00 UTC)
+    - cron: '0 0 * * 1,4'
+  workflow_dispatch: # Bisa dijalankan manual juga
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase database
+        run: |
+          echo "Pinging Supabase at $(date)"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/site_data?id=eq.main&select=id" \
+            -H "apikey: ${{ secrets.SUPABASE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_KEY }}")
+          echo "HTTP Status: $STATUS"
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Supabase aktif dan terhubung"
+          else
+            echo "⚠️ Response tidak 200 — Status: $STATUS"
+            exit 1
+          fi
