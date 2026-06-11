@@ -775,7 +775,7 @@ html.dark .admin-login-title { color: #e8f5ee; }
 html.dark .admin-login-sub { color: #7a9e8c; }
 html.dark .admin-input { background: rgba(253,246,240,0.05); border-color: rgba(240,184,204,0.18); color: #fdf6f0; }
 html.dark .admin-input::placeholder { color: rgba(253,246,240,0.28); }
-html.dark .btn-admin-close { color: rgba(253,246,240,0.35); }
+html.dark .btn-admin-close { color: rgba(253,246,240,0.55); }
 html.dark .btn-admin-close:hover { color: rgba(253,246,240,0.65); }
 html.dark .admin-topbar { background: rgba(253,246,240,0.03); border-color: rgba(240,184,204,0.08); box-shadow: none; }
 html.dark .admin-topbar-title { color: #fdf6f0; }
@@ -815,9 +815,9 @@ html.dark .admin-lokasi-header { background: rgba(253,246,240,0.03); border-colo
 html.dark .admin-lokasi-header:hover { background: rgba(253,246,240,0.06); }
 html.dark .admin-lokasi-header.open { background: rgba(253,246,240,0.05); }
 html.dark .admin-lokasi-body { background: transparent; border-color: rgba(240,184,204,0.1); }
-html.dark .admin-lokasi-chevron { color: rgba(253,246,240,0.4); }
-html.dark .admin-room-item { background: rgba(253,246,240,0.03); border-color: rgba(240,184,204,0.1); box-shadow: none; }
-html.dark .admin-room-name { color: var(--pink); }
+html.dark .admin-lokasi-chevron { color: rgba(253,246,240,0.55); }
+html.dark .admin-room-item { background: rgba(253,246,240,0.10); border-color: rgba(240,184,204,0.28); box-shadow: none; }
+html.dark .admin-room-name { color: rgba(253,246,240,.9); }
 html.dark .btn-add-room { background: rgba(240,184,204,0.12); color: var(--pink); border-color: rgba(240,184,204,0.22); }
 html.dark .btn-add-room:hover { background: rgba(240,184,204,0.22); }
 html.dark .admin-avail-section { border-color: rgba(240,184,204,0.1); }
@@ -1078,9 +1078,9 @@ img.lazy-loaded { opacity: 1; }
 /* Admin room management */
 .admin-rooms-section { margin-top: 1.5rem; }
 
-.admin-room-item { background: rgba(253,246,240,.03); border: 1px solid rgba(240,184,204,.1); border-radius: 12px; padding: 1rem; margin-bottom: .75rem; }
+.admin-room-item { background: rgba(253,246,240,.10); border: 1px solid rgba(240,184,204,.25); border-radius: 12px; padding: 1rem; margin-bottom: .75rem; }
 .admin-room-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
-.admin-room-name { font-weight: 700; color: var(--pink); font-size: .88rem; }
+.admin-room-name { font-weight: 700; color: rgba(253,246,240,.9); font-size: .88rem; }
 .btn-add-room { background: rgba(240,184,204,0.12); color: var(--pink); border: 1px solid rgba(240,184,204,0.22); font-weight: 700; font-size: 0.82rem; padding: 0.5rem 1.1rem; border-radius: 9px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
 .btn-add-room:hover { background: rgba(240,184,204,0.22); }
 
@@ -1765,7 +1765,7 @@ img.lazy-loaded { opacity: 1; }
     <div class="nav-search-wrap">
       <div class="search-wrap" style="max-width:200px;">
         <span class="search-icon">🔍</span>
-        <input class="search-input" id="navSearch" placeholder="Cari lokasi/kamar..." oninput="onNavSearch(this.value)" onblur="setTimeout(()=>closeNavSearch(),200)" autocomplete="off">
+        <input class="search-input" id="navSearch" type="search" placeholder="Cari lokasi/kamar..." oninput="onNavSearch(this.value)" onblur="setTimeout(()=>closeNavSearch(),200)" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly')" onblur="this.removeAttribute('readonly');setTimeout(()=>closeNavSearch(),200)">
       </div>
       <div class="nav-search-results" id="navSearchResults"></div>
     </div>
@@ -1918,9 +1918,12 @@ img.lazy-loaded { opacity: 1; }
       <button class="filter-btn" onclick="filterLokasi('putra', this)">Khusus Putra</button>
       <button class="filter-btn" onclick="filterLokasi('cat', this)">Kumi Lives Here</button>
     </div>
-    <div class="search-wrap" style="margin-bottom:1.5rem;">
+    <!-- Dummy fields: browser autofill interceptors -->
+<input type="text" style="display:none!important;position:absolute;left:-9999px;" name="username" tabindex="-1" aria-hidden="true">
+<input type="password" style="display:none!important;position:absolute;left:-9999px;" name="password" tabindex="-1" aria-hidden="true">
+<div class="search-wrap" style="margin-bottom:1.5rem;">
       <span class="search-icon">🔍</span>
-      <input class="search-input" id="lokasiSearchInput" placeholder="Cari lokasi atau area..." oninput="onLokasiSearch(this.value)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="search_q">
+      <input class="search-input" id="lokasiSearchInput" type="search" placeholder="Cari lokasi atau area..." oninput="onLokasiSearch(this.value)" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly')" onblur="this.setAttribute('readonly','')">
     </div>
     <div class="lokasi-grid" id="lokasiGrid" role="list" aria-live="polite" aria-label="Daftar lokasi kost"></div>
   </div>
@@ -2331,7 +2334,7 @@ img.lazy-loaded { opacity: 1; }
     <div class="admin-topbar">
       <div class="admin-topbar-title"><span class="admin-session-dot"></span>🏠 Miki Living — Admin</div>
       <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
-        <span id="lastSavedEl" style="font-size:.68rem;color:rgba(253,246,240,.35);white-space:nowrap;margin-right:.25rem;"></span>
+        <span id="lastSavedEl" style="font-size:.68rem;color:rgba(253,246,240,.6);white-space:nowrap;margin-right:.25rem;"></span>
         <span id="syncStatusEl" title="Status sinkronisasi" style="font-size:.65rem;padding:.2rem .55rem;border-radius:999px;background:rgba(74,222,128,.15);color:#4ade80;font-weight:700;white-space:nowrap;display:none;">☁ Sync</span>
         <button class="btn-admin-save" id="globalSaveBtn" onclick="globalSave()" style="font-size:.8rem;padding:.45rem 1.1rem;" title="Simpan semua perubahan (Ctrl+S)">💾 Simpan</button>
         <button class="dark-toggle" onclick="toggleDark()" title="Mode Gelap/Terang" id="adminDarkToggle">🌙</button>
@@ -3618,6 +3621,16 @@ function _attachLogoListener() {
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
+  // Clear any browser-autofilled values from search inputs
+  const clearAutofill = () => {
+    ['lokasiSearchInput','navSearch'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.value && el.value !== '') el.value = '';
+    });
+  };
+  clearAutofill();
+  setTimeout(clearAutofill, 100);
+  setTimeout(clearAutofill, 500);
   _attachLogoListener();
   // Footer copyright: click 5x also opens admin (hidden way for mobile)
   const footer = document.querySelector('footer .footer-copy');
@@ -4356,7 +4369,7 @@ function toggleAccordion(idx){
 }
 function renderAdminRooms(lokasiIdx){
   const rooms=DATA[lokasiIdx].rooms||[];
-  if(!rooms.length) return '<div style="color:rgba(253,246,240,.3);font-size:.78rem;padding:.5rem 0;">Belum ada kamar.</div>';
+  if(!rooms.length) return '<div style="color:rgba(253,246,240,.55);font-size:.78rem;padding:.5rem 0;">Belum ada kamar.</div>';
   // Sort rooms A-Z by name for display (does not change DATA order)
   const sortedRooms=[...rooms].sort((a,b)=>a.name.localeCompare(b.name,'id'));
   return sortedRooms.map((r,ri)=>{
@@ -4367,10 +4380,10 @@ function renderAdminRooms(lokasiIdx){
       <div class="admin-room-header" style="padding:.75rem 1rem;cursor:pointer;user-select:none;" onclick="toggleRoomAccordion(this)">
         <div style="display:flex;align-items:center;gap:.5rem;">
           <div class="admin-room-name">${r.name}</div>
-          <span style="font-size:.7rem;color:rgba(253,246,240,.4);">· Rp ${(r.price||0).toLocaleString('id')} · <span style="color:${r.status==='tersedia'?'var(--mint)':'#ff6b6b'}">${r.status==='tersedia'?'Tersedia':'Penuh'}</span></span>
+          <span style="font-size:.7rem;color:rgba(253,246,240,.65);">· Rp ${(r.price||0).toLocaleString('id')} · <span style="color:${r.status==='tersedia'?'var(--mint)':'#ff6b6b'}">${r.status==='tersedia'?'Tersedia':'Penuh'}</span></span>
         </div>
         <div style="display:flex;align-items:center;gap:.5rem;">
-          <span class="admin-room-chevron" style="font-size:.7rem;color:rgba(253,246,240,.35);">▼</span>
+          <span class="admin-room-chevron" style="font-size:.7rem;color:rgba(253,246,240,.55);">▼</span>
           <button class="btn-sm btn-del-sm" onclick="event.stopPropagation();deleteRoom(${lokasiIdx},${realRi})" style="border:none!important;">✕</button>
         </div>
       </div>
@@ -4388,7 +4401,7 @@ function renderAdminRooms(lokasiIdx){
         </div>
         <div class="admin-form-group"><label class="admin-form-label">Fasilitas (pisah koma)</label><input class="admin-form-input" value="${(r.fasilitas||[]).join(', ')}" onchange="updateRoom(${lokasiIdx},${realRi},'fasilitas',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
         <div class="room-photos-admin" style="margin-top:.65rem;">
-          <div style="font-size:.72rem;font-weight:700;color:rgba(253,246,240,.45);margin-bottom:.4rem;">📷 Foto Kamar (${(r.photos||[]).length}/8)</div>
+          <div style="font-size:.72rem;font-weight:700;color:rgba(253,246,240,.7);margin-bottom:.4rem;">📷 Foto Kamar (${(r.photos||[]).length}/8)</div>
           <div class="room-photos-grid">
             ${(r.photos||[]).map((p,pi)=>`<div class="room-photo-thumb-admin"><img src="${p}" alt="" loading="lazy"><button class="room-photo-del" onclick="deleteRoomPhoto(${lokasiIdx},${realRi},${pi})">✕</button></div>`).join('')}
           </div>
