@@ -1589,7 +1589,7 @@ img.lazy-loaded { opacity: 1; }
 .price-range-chip {
   display: inline-flex; align-items: center; gap: 0.25rem;
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.01em;
-  color: var(--mint); margin-top: 0.35rem; font-family: 'DM Sans', sans-serif;
+  color: var(--mint); margin-top: 0.5rem; margin-bottom: 0.75rem; font-family: 'DM Sans', sans-serif;
 }
 .price-range-chip .prc-label { font-weight: 400; color: var(--text-muted); font-size: 0.68rem; }
 .dark .price-range-chip { color: var(--pink); }
@@ -1917,11 +1917,10 @@ img.lazy-loaded { opacity: 1; }
       <button class="filter-btn" onclick="filterLokasi('putri', this)">Khusus Putri</button>
       <button class="filter-btn" onclick="filterLokasi('putra', this)">Khusus Putra</button>
       <button class="filter-btn" onclick="filterLokasi('cat', this)">Kumi Lives Here</button>
-      <button class="filter-btn" id="sortAlphaBtn" onclick="toggleSortAlpha()" title="Urutkan A–Z">A–Z</button>
     </div>
     <div class="search-wrap" style="margin-bottom:1.5rem;">
       <span class="search-icon">🔍</span>
-      <input class="search-input" id="lokasiSearchInput" placeholder="Cari lokasi atau area..." oninput="onLokasiSearch(this.value)">
+      <input class="search-input" id="lokasiSearchInput" placeholder="Cari lokasi atau area..." oninput="onLokasiSearch(this.value)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="search_q">
     </div>
     <div class="lokasi-grid" id="lokasiGrid" role="list" aria-live="polite" aria-label="Daftar lokasi kost"></div>
   </div>
@@ -2926,7 +2925,13 @@ async function _saveToSupabase() {
       headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
       body:JSON.stringify(payload)
     });
-    _lastServerUpdatedAt = payload.updated_at;
+    // Re-fetch actual updated_at from Supabase (server sets its own timestamp)
+    try {
+      const verifyResp = await fetch(SB_URL+'/rest/v1/site_data?id=eq.main&select=updated_at',{headers:SB_HEADERS});
+      const verifyRows = await verifyResp.json();
+      if (verifyRows[0]?.updated_at) _lastServerUpdatedAt = verifyRows[0].updated_at;
+      else _lastServerUpdatedAt = payload.updated_at;
+    } catch(e) { _lastServerUpdatedAt = payload.updated_at; }
     _supabaseOnline = true;
     if (elStatus) {
       const t = new Date();
@@ -4000,6 +4005,9 @@ function renderRoomsGrid(d){
   if (_detailFilter.maxPrice < 9999999) filtered=filtered.filter(r=>r.price<=_detailFilter.maxPrice);
   if (_detailFilter.fasi) filtered=filtered.filter(r=>(r.fasilitas||[]).includes(_detailFilter.fasi));
 
+  // Sort rooms A-Z by name
+  filtered = [...filtered].sort((a,b)=>a.name.localeCompare(b.name,'id'));
+
   if(!filtered.length){
     document.getElementById('roomsGrid').innerHTML='<div style="color:var(--muted);font-size:.875rem;padding:1rem 0;">Tidak ada kamar yang sesuai filter. <button onclick="_detailFilter={search:\'\',maxPrice:9999999,fasi:\'\'};renderRoomsGrid(DATA.find(x=>x.id===currentDetailId))" style="background:none;border:none;color:var(--mint);cursor:pointer;font-weight:700;">Reset</button></div>';
     return;
@@ -4326,7 +4334,7 @@ function renderAdminLokasi(){
         <div class="admin-form-group"><label class="admin-form-label">Fasilitas (pisah koma)</label><input class="admin-form-input" value="${(d.fasilitas||[]).join(', ')}" onchange="updateLokasi(${idx},'fasilitas',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
         <div class="admin-form-group"><label class="admin-form-label">Badges (pisah koma)</label><input class="admin-form-input" value="${(d.badges||[]).join(', ')}" onchange="updateLokasi(${idx},'badges',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
         <div class="btn-row" style="margin-bottom:1rem;">
-          <button class="btn-sm" style="background:rgba(253,246,240,.06);color:rgba(253,246,240,.5);border:1px solid rgba(240,184,204,.1);" onclick="toggleLokasiStatus(${idx})">${d.status==='active'?'Sembunyikan':'Aktifkan'}</button>
+          <button class="btn-sm" style="background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.25);font-weight:600;" onclick="toggleLokasiStatus(${idx})">${d.status==='active'?'🙈 Sembunyikan':'✅ Aktifkan'}</button>
           <button class="btn-sm btn-del-sm" onclick="deleteLokasi(${idx})" style="border:none!important;">Hapus Lokasi</button>
         </div>
         <div style="border-top:1px solid rgba(240,184,204,.08);padding-top:1rem;">
@@ -4349,7 +4357,11 @@ function toggleAccordion(idx){
 function renderAdminRooms(lokasiIdx){
   const rooms=DATA[lokasiIdx].rooms||[];
   if(!rooms.length) return '<div style="color:rgba(253,246,240,.3);font-size:.78rem;padding:.5rem 0;">Belum ada kamar.</div>';
-  return rooms.map((r,ri)=>{
+  // Sort rooms A-Z by name for display (does not change DATA order)
+  const sortedRooms=[...rooms].sort((a,b)=>a.name.localeCompare(b.name,'id'));
+  return sortedRooms.map((r,ri)=>{
+    // Get real index from DATA for edits
+    const realRi=rooms.indexOf(r);
     return `
     <div class="admin-room-item" style="padding:0;overflow:hidden;">
       <div class="admin-room-header" style="padding:.75rem 1rem;cursor:pointer;user-select:none;" onclick="toggleRoomAccordion(this)">
@@ -4359,30 +4371,30 @@ function renderAdminRooms(lokasiIdx){
         </div>
         <div style="display:flex;align-items:center;gap:.5rem;">
           <span class="admin-room-chevron" style="font-size:.7rem;color:rgba(253,246,240,.35);">▼</span>
-          <button class="btn-sm btn-del-sm" onclick="event.stopPropagation();deleteRoom(${lokasiIdx},${ri})" style="border:none!important;">✕</button>
+          <button class="btn-sm btn-del-sm" onclick="event.stopPropagation();deleteRoom(${lokasiIdx},${realRi})" style="border:none!important;">✕</button>
         </div>
       </div>
       <div class="admin-room-body" style="display:none;padding:0 1rem 1rem;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.6rem;">
-          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Nama Kamar</label><input class="admin-form-input" value="${r.name}" onchange=\"updateRoom(${lokasiIdx},${ri},'name',this.value,this)\"></div>
-          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Ukuran</label><input class="admin-form-input" value="${r.size||''}" placeholder="3×4 m" onchange=\"updateRoom(${lokasiIdx},${ri},'size',this.value,this)\"></div>
-          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Harga/bln (Rp)</label><input class="admin-form-input" type="number" value="${r.price||0}" onchange="updateRoom(${lokasiIdx},${ri},'price',parseInt(this.value)||0)"></div>
+          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Nama Kamar</label><input class="admin-form-input" value="${r.name}" onchange=\"updateRoom(${lokasiIdx},${realRi},'name',this.value,this)\"></div>
+          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Ukuran</label><input class="admin-form-input" value="${r.size||''}" placeholder="3×4 m" onchange=\"updateRoom(${lokasiIdx},${realRi},'size',this.value,this)\"></div>
+          <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Harga/bln (Rp)</label><input class="admin-form-input" type="number" value="${r.price||0}" onchange="updateRoom(${lokasiIdx},${realRi},'price',parseInt(this.value)||0)"></div>
           <div class="admin-form-group" style="margin:0"><label class="admin-form-label">Status</label>
-            <select class="admin-form-input" style="cursor:pointer;" onchange=\"updateRoom(${lokasiIdx},${ri},'status',this.value,this)\">
+            <select class="admin-form-input" style="cursor:pointer;" onchange=\"updateRoom(${lokasiIdx},${realRi},'status',this.value,this)\">
               <option value="tersedia" ${r.status==='tersedia'?'selected':''}>Tersedia</option>
               <option value="penuh" ${r.status==='penuh'?'selected':''}>Penuh</option>
             </select>
           </div>
         </div>
-        <div class="admin-form-group"><label class="admin-form-label">Fasilitas (pisah koma)</label><input class="admin-form-input" value="${(r.fasilitas||[]).join(', ')}" onchange="updateRoom(${lokasiIdx},${ri},'fasilitas',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
+        <div class="admin-form-group"><label class="admin-form-label">Fasilitas (pisah koma)</label><input class="admin-form-input" value="${(r.fasilitas||[]).join(', ')}" onchange="updateRoom(${lokasiIdx},${realRi},'fasilitas',this.value.split(',').map(s=>s.trim()).filter(Boolean))"></div>
         <div class="room-photos-admin" style="margin-top:.65rem;">
           <div style="font-size:.72rem;font-weight:700;color:rgba(253,246,240,.45);margin-bottom:.4rem;">📷 Foto Kamar (${(r.photos||[]).length}/8)</div>
           <div class="room-photos-grid">
-            ${(r.photos||[]).map((p,pi)=>`<div class="room-photo-thumb-admin"><img src="${p}" alt="" loading="lazy"><button class="room-photo-del" onclick="deleteRoomPhoto(${lokasiIdx},${ri},${pi})">✕</button></div>`).join('')}
+            ${(r.photos||[]).map((p,pi)=>`<div class="room-photo-thumb-admin"><img src="${p}" alt="" loading="lazy"><button class="room-photo-del" onclick="deleteRoomPhoto(${lokasiIdx},${realRi},${pi})">✕</button></div>`).join('')}
           </div>
           <label class="btn-add-photos" style="display:inline-block;cursor:pointer;margin-top:.35rem;">
             + Tambah Foto
-            <input type="file" accept="image/*" multiple style="display:none;" onchange="uploadRoomPhoto(${lokasiIdx},${ri},event)">
+            <input type="file" accept="image/*" multiple style="display:none;" onchange="uploadRoomPhoto(${lokasiIdx},${realRi},event)">
           </label>
         </div>
       </div>
