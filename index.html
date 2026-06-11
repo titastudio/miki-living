@@ -1005,10 +1005,6 @@ img.lazy-loaded { opacity: 1; }
 .stat-num[data-target] { transition: none; }
 
 /* ===== DAPUR MODAL ===== */
-#dapurModal .modal-body ul { list-style: none; padding: 0; }
-#dapurModal .modal-body li { font-size: 0.875rem; color: var(--text); padding: 0.5rem 0; border-bottom: 1px solid rgba(240,184,204,0.12); display: flex; gap: 0.5rem; }
-#dapurModal .modal-body li:last-child { border-bottom: none; }
-#dapurModal .modal-body li::before { content: '🍳'; flex-shrink: 0; }
 
 /* ===== DETAIL LOKASI VIEW ===== */
 #view-detail { min-height: 100vh; background: var(--bg-page); padding-top: 64px; }
@@ -1743,7 +1739,7 @@ img.lazy-loaded { opacity: 1; }
     <h3>Ada perubahan yang belum disimpan</h3>
     <p>Kamu punya perubahan yang belum di-simpan. Keluar sekarang berarti semua perubahan hilang.</p>
     <div class="admin-leave-btns">
-      <button class="btn-admin-save" onclick="globalSave().then(()=>closeAdmin())" style="font-size:.82rem;padding:.5rem 1rem;">💾 Simpan dulu</button>
+      <button class="btn-admin-save" onclick="globalSave().then(()=>{ if(_supabaseOnline) closeAdmin(); })" style="font-size:.82rem;padding:.5rem 1rem;">💾 Simpan dulu</button>
       <button class="btn-sm btn-del-sm" onclick="forceCloseAdmin()" style="font-size:.82rem;padding:.5rem 1rem;border:none!important;">Keluar tanpa simpan</button>
     </div>
     <button onclick="document.getElementById('adminLeaveWarning').classList.remove('open')" style="background:none;border:none;color:var(--text-muted);font-size:.78rem;margin-top:.75rem;cursor:pointer;">Batal</button>
@@ -2505,13 +2501,15 @@ img.lazy-loaded { opacity: 1; }
         <div id="importPreviewBanner" style="display:none;background:rgba(240,184,204,0.15);border:1.5px solid rgba(240,184,204,0.4);border-radius:12px;padding:.85rem 1rem;margin-top:.75rem;">
           <div style="font-weight:700;font-size:.85rem;color:var(--forest);margin-bottom:.3rem;">⚠️ Data sudah di-load ke preview</div>
           <div id="importPreviewMeta" style="font-size:.78rem;color:var(--text-muted);margin-bottom:.65rem;"></div>
-          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-            <button class="btn-admin-save" onclick="commitImport()">💾 Simpan ke Server</button>
-            <button class="btn-admin-danger" style="font-size:.8rem;padding:.45rem .9rem;" onclick="cancelImport()">✕ Batal</button>
-          </div>
+          <div style="font-size:.8rem;color:var(--sage);margin-bottom:.6rem;">👆 Periksa data di atas, lalu klik tombol <strong>💾 Simpan</strong> di pojok kanan atas untuk menyimpan ke server.</div>
+          <button class="btn-admin-danger" style="font-size:.8rem;padding:.45rem .9rem;" onclick="cancelImport()">✕ Batal Import</button>
         </div>
         <div class="sb-setup" style="margin-top:1.5rem;">
-          <h4>✅ Supabase Aktif</h4>
+          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.65rem;flex-wrap:wrap;">
+            <h4 style="margin:0;">☁ Supabase</h4>
+            <button class="btn-admin-export" style="font-size:.75rem;padding:.3rem .8rem;" onclick="testSupabaseConnection()">🔌 Test Koneksi</button>
+            <span id="sbTestResult" style="font-size:.75rem;font-weight:600;"></span>
+          </div>
           <p style="margin-bottom:.5rem;color:var(--mint);">Project: <code>srxwnmdqgpzojskeigdz.supabase.co</code></p>
           <p style="margin-bottom:.65rem;">Jalankan SQL ini di <a href="https://supabase.com/dashboard/project/srxwnmdqgpzojskeigdz/editor" target="_blank" style="color:#1a6b3c;">SQL Editor Supabase</a> jika belum:</p>
           <pre><code style="color:rgba(253,246,240,.65);font-size:.74rem;">CREATE TABLE IF NOT EXISTS site_data (
@@ -2910,11 +2908,15 @@ async function _saveToSupabase() {
     }
     // No conflict — write
     const payload = _buildPayload();
-    await fetch(SB_URL+'/rest/v1/site_data',{
+    const writeResp = await fetch(SB_URL+'/rest/v1/site_data',{
       method:'POST',
       headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
       body:JSON.stringify(payload)
     });
+    if (!writeResp.ok) {
+      const errText = await writeResp.text().catch(()=>'');
+      throw new Error('Supabase write failed: ' + writeResp.status + ' ' + errText.slice(0,200));
+    }
     // Re-fetch actual updated_at from Supabase (server sets its own timestamp)
     try {
       const verifyResp = await fetch(SB_URL+'/rest/v1/site_data?id=eq.main&select=updated_at',{headers:SB_HEADERS});
@@ -3049,6 +3051,7 @@ async function loadSavedData() {
     const timeout = setTimeout(() => controller.abort(), 4000); // 4s timeout
     const resp = await fetch(SB_URL+'/rest/v1/site_data?id=eq.main&select=data,updated_at',{headers:SB_HEADERS, signal:controller.signal});
     clearTimeout(timeout);
+    if (!resp.ok) throw new Error('Supabase load failed: ' + resp.status);
     const rows = await resp.json();
     if (rows[0]?.data?.items?.length) {
       applyData(rows[0].data);
@@ -3178,13 +3181,6 @@ function renderLokasi(filter='all') {
   }).join('') || '<div style="color:var(--muted);padding:2rem;text-align:center;">Tidak ada lokasi ditemukan.</div>';
   observeFadeUp();
 }
-
-function toggleSortAlpha() {
-  _sortAlpha = !_sortAlpha;
-  const btn = document.getElementById('sortAlphaBtn');
-  if (btn) btn.classList.toggle('active', _sortAlpha);
-  renderLokasi(_currentFilter);
-}
 function filterLokasi(f, btn) {
   _currentFilter = f;
   // Sync filter buttons
@@ -3309,12 +3305,6 @@ function addWeekdays(date, n) {
   return d;
 }
 
-function nextWeekday(date) {
-  const d = new Date(date);
-  while (isWeekend(d)) d.setDate(d.getDate() + 1);
-  return d;
-}
-
 function toDateStr(d) {
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
@@ -3429,22 +3419,6 @@ function initMikiCal(stateKey, wrapperId, targetInputId, displayId, minDateStr, 
 
 function getMikiCalValue(stateKey) {
   return _calStates[stateKey]?.selected || '';
-}
-
-function resetMikiCal(stateKey, minDateStr, maxDateStr) {
-  const st = _calStates[stateKey];
-  if (!st) return;
-  const nowWIB = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Jakarta'}));
-  const today = new Date(nowWIB.getFullYear(), nowWIB.getMonth(), nowWIB.getDate());
-  const minDate = minDateStr ? parseDateStr(minDateStr) : today;
-  st.minDate = minDateStr || toDateStr(today);
-  st.maxDate = maxDateStr || null;
-  st.selected = '';
-  st.year = minDate.getFullYear();
-  st.month = minDate.getMonth();
-  const inp = document.getElementById(st.targetInputId);
-  if (inp) inp.value = '';
-  renderMikiCal(stateKey);
 }
 /* ===== END CALENDAR WIDGET ===== */
 
@@ -3696,6 +3670,11 @@ async function globalSave() {
     // If conflict modal is open, keep has-changes state
     if (document.getElementById('adminConflictModal').classList.contains('open')) {
       btn.textContent = '💾 Simpan';
+    } else if (!_supabaseOnline) {
+      // Supabase write failed — keep dirty marker so admin knows
+      btn.classList.add('has-changes');
+      btn.textContent = '⚠ Gagal sync';
+      setTimeout(()=>{ btn.textContent = '💾 Simpan'; }, 3000);
     } else {
       btn.classList.remove('has-changes');
       btn.textContent = '✓ Tersimpan!';
@@ -3789,7 +3768,6 @@ function renderAdminMedia(){
 }
 let _lokasiEdits={};
 function updateLokasi(idx,field,val,el){ if(!_lokasiEdits[idx]) _lokasiEdits[idx]={}; _lokasiEdits[idx][field]=val; markAdminDirty(); if(el) el.classList.add('changed'); }
-function saveLokasi(idx){ if(_lokasiEdits[idx]){Object.assign(DATA[idx],_lokasiEdits[idx]);delete _lokasiEdits[idx];} saveAllData(); renderLokasi(); renderAdminLokasi(); }
 function toggleLokasiStatus(idx){ DATA[idx].status=DATA[idx].status==='active'?'draft':'active'; saveAllData(); renderLokasi(); renderAdminLokasi(); }
 function addNewLokasi(){
   const newLokasi = {
@@ -3840,6 +3818,31 @@ async function changeAdminPassword(){
   document.getElementById('passwordMsg').textContent='✓ Password berhasil diubah!';
   document.getElementById('newPasswordInput').value='';
   setTimeout(()=>document.getElementById('passwordMsg').textContent='',3000);
+}
+async function testSupabaseConnection() {
+  const el = document.getElementById('sbTestResult');
+  if (el) el.textContent = '⏳ Mengecek...';
+  try {
+    // Step 1: check if table is readable
+    const r1 = await fetch(SB_URL+'/rest/v1/site_data?id=eq.main&select=id',{headers:SB_HEADERS});
+    if (!r1.ok) throw new Error('SELECT gagal: HTTP ' + r1.status);
+    const rows = await r1.json();
+    // Step 2: try a write (upsert test row then read back)
+    const testPayload = { id:'main', data:{ _test: Date.now() }, updated_at: new Date().toISOString() };
+    const r2 = await fetch(SB_URL+'/rest/v1/site_data',{
+      method:'POST',
+      headers:{...SB_HEADERS,'Prefer':'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify(testPayload)
+    });
+    if (!r2.ok) {
+      const txt = await r2.text().catch(()=>'');
+      throw new Error('INSERT/UPDATE gagal: HTTP ' + r2.status + (txt ? ' — ' + txt.slice(0,120) : ''));
+    }
+    if (el) { el.textContent = '✅ Koneksi OK — baca & tulis berhasil'; el.style.color = '#4ade80'; }
+  } catch(err) {
+    if (el) { el.textContent = '❌ ' + err.message; el.style.color = '#f87171'; }
+    showToast('⚠ Supabase error: ' + err.message, 5000);
+  }
 }
 function exportData(){
   const payload = {
@@ -3954,17 +3957,13 @@ function importData(event){
 
 function commitImport(){
   if (!_pendingImport) return;
-  // Now actually persist
-  saveAllData();
   _pendingImport = null;
   const banner = document.getElementById('importPreviewBanner');
   if (banner) banner.style.display = 'none';
   const inp = document.getElementById('importFileInput');
   if (inp) inp.value = '';
-  showToast('✅ Data berhasil disimpan ke server!', 3000);
-  // Remove dirty marker
-  const btn = document.getElementById('globalSaveBtn');
-  if (btn) btn.classList.remove('has-changes');
+  // Delegate to globalSave so Supabase write is done with full feedback
+  globalSave();
 }
 
 function cancelImport(){
@@ -4116,13 +4115,6 @@ function renderRoomsGrid(d){
 
 /* ===== VISIT BOOKING ===== */
 let _selectedVisitSlots = {};
-function selectVisitSlot(btn, roomId) {
-  const container = document.getElementById('vslots-'+roomId);
-  if (!container) return;
-  container.querySelectorAll('.visit-slot').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  _selectedVisitSlots[roomId] = btn.textContent.trim();
-}
 function bookVisit(lokasiId, roomId) {
   const d = DATA.find(x=>x.id===lokasiId);
   const r = d&&d.rooms&&d.rooms.find(x=>x.id===roomId);
@@ -4229,7 +4221,6 @@ function submitRoomInquiry(){
 }
 
 /* ===== DAPUR MODAL ===== */
-function closeDapurModal(){ document.getElementById('dapurModal').classList.remove('open'); document.body.style.overflow=''; }
 
 /* ===== CHECK-IN MODAL ===== */
 function openCheckin(lokasiId){
@@ -4252,39 +4243,6 @@ function openCheckin(lokasiId){
   document.getElementById('checkinModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function openCheckinRoom(lokasiId, roomId){
-  openCheckin(lokasiId);
-  const d=DATA.find(x=>x.id===lokasiId);
-  if(d){
-    const room=d.rooms&&d.rooms.find(r=>r.id===roomId);
-    if(room){
-      const sel=document.getElementById('ciKamar');
-      for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===room.name){sel.selectedIndex=i;break;}}
-      // Show visit scheduling with this room's slots
-      const visitSection=document.getElementById('visitScheduleSection');
-      const visitSlots=document.getElementById('ciVisitSlots');
-      const visitDate=document.getElementById('ciVisitDate');
-      const _nowWIB = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Jakarta'}));
-      const _minV = new Date(_nowWIB); _minV.setHours(0,0,0,0);
-      const _maxV = addWeekdays(_minV, 7);
-      const _toISO = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-      const _minStr = _toISO(_minV); const _maxStr = _toISO(_maxV);
-      visitDate.min=_minStr; visitDate.max=_maxStr; visitDate.value='';
-      // Init calendar widget
-      if (document.getElementById('ciVisitCalWrap')) {
-        initMikiCal('ciVisit', 'ciVisitCalWrap', 'ciVisitDate', 'ciVisitCalDisplay', _minStr, _maxStr);
-      }
-      const slots=room.visitSlots||[];
-      if(slots.length){
-        visitSlots.innerHTML=slots.map(s=>`<button type="button" class="visit-slot" onclick="selectCiVisitSlot(this)">${s}</button>`).join('');
-        visitSlots.style.display='flex';
-      } else {
-        visitSlots.innerHTML=''; visitSlots.style.display='none';
-      }
-      visitSection.style.display='block';
-    }
-  }
-}
 function closeCheckin(){ _clearFieldErrors('ciName','ciPhone','ciLokasi'); document.getElementById('checkinModal').classList.remove('open'); document.body.style.overflow=''; }
 function selectCiVisitSlot(btn){
   document.querySelectorAll('#ciVisitSlots .visit-slot').forEach(b=>b.classList.remove('selected'));
@@ -4300,9 +4258,6 @@ function populateCiKamar(d){
   const sel=document.getElementById('ciKamar');
   const rooms=(d.rooms||[]).filter(r=>r.status==='tersedia');
   sel.innerHTML='<option value="">Pilih kamar...</option>'+rooms.map(r=>`<option value="${r.name}">${r.name} — Rp ${r.price.toLocaleString('id')}/bulan</option>`).join('');
-}
-function togglePutriFields(show){
-  document.querySelectorAll('.putri-field').forEach(el=>el.classList.toggle('show',show));
 }
 function submitCheckin(){
   const name=document.getElementById('ciName').value.trim();
@@ -4471,19 +4426,6 @@ function toggleRoomAccordion(header){
   body.style.display=isOpen?'none':'block';
   if(chevron) chevron.style.transform=isOpen?'':'rotate(180deg)';
 }
-function addVisitSlot(li,ri){
-  const input=document.getElementById(`newSlot-${li}-${ri}`);
-  const val=input.value.trim(); if(!val) return;
-  if(!DATA[li].rooms[ri].visitSlots) DATA[li].rooms[ri].visitSlots=[];
-  DATA[li].rooms[ri].visitSlots.push(val);
-  input.value=''; saveAllData();
-  document.getElementById('adminRooms-'+li).innerHTML=renderAdminRooms(li);
-}
-function removeVisitSlot(li,ri,si){
-  DATA[li].rooms[ri].visitSlots.splice(si,1);
-  saveAllData();
-  document.getElementById('adminRooms-'+li).innerHTML=renderAdminRooms(li);
-}
 function addRoom(lokasiIdx){
   if(!DATA[lokasiIdx].rooms) DATA[lokasiIdx].rooms=[];
   DATA[lokasiIdx].rooms.push({id:'room-'+Date.now(),name:'Kamar Baru',size:'3×4 m',price:800000,fasilitas:['Kasur','Lemari'],status:'tersedia'});
@@ -4498,12 +4440,6 @@ function deleteRoom(lokasiIdx,roomIdx){
 }
 let _roomEdits={};
 function updateRoom(li,ri,field,val,el){ const k=li+'-'+ri; if(!_roomEdits[k])_roomEdits[k]={}; _roomEdits[k][field]=val; markAdminDirty(); if(el) el.classList.add('changed'); }
-function saveRoom(li,ri){
-  const k=li+'-'+ri;
-  if(_roomEdits[k]){Object.assign(DATA[li].rooms[ri],_roomEdits[k]);delete _roomEdits[k];}
-  saveAllData();
-  document.getElementById('adminRooms-'+li).innerHTML=renderAdminRooms(li);
-}
 
 /* ===== UTILITY ===== */
 function toggleMenu(){ document.getElementById('mobileMenu').classList.toggle('open'); }
