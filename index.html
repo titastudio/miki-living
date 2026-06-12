@@ -2829,7 +2829,7 @@ const FALLBACK_DATA = JSON.parse(JSON.stringify(DATA)); // exported 2026-06-12T0
 
 let SITE_CONFIG = {"phone":"6282238071339","heroDesc":"3 lokasi strategis di Jakarta Timur — dipercaya sejak 2010. Cocok banget buat mahasiswa & pekerja yang pengen hidup tenang tanpa ribet!","aboutText":"Miki Living udah berdiri sejak 2010 dan punya 3 lokasi kost yang strategis di Jakarta Timur. Kita percaya bahwa hunian yang nyaman itu hak semua orang — makanya semua kamar kita jaga kebersihannya, fasilitasnya oke, dan lokasinya mudah diakses ke mana-mana.","mikiStory":"Nama Miki Living bukan asal-asalan. Miki adalah kucing yang telah menemani pemilik selama 12 tahun penuh cinta sebelum akhirnya berpulang. Kini, Kumi melanjutkan tradisi itu di Hartini Kartono.\n\n\"Setiap penghuni Miki Living adalah bagian dari keluarga besar kami.\""};
 let ABOUT_CONFIG = {"rules":["Bayar kost di awal sesuai kesepakatan","Pintu gerbang selalu dikunci, no tamu lawan jenis di kamar","Jaga kebersihan kamar & area bersama","Dilarang keras: miras, narkoba, dan hal tidak sopan","Volume musik/TV disesuaikan, tidak berisik setelah jam 10 malam","Wajib serahkan fotokopi KTP saat check-in"]};
-let MEDIA = {"kumiImg":[],"browsePutri":[],"browsePutra":[],"browseAll":[],"_hasPhotos":true};
+let MEDIA = {"kumiImg":"","browsePutri":"","browsePutra":"","browseAll":"","_hasPhotos":true};
 let INQUIRIES = [];
 let _ap = '4d3d190cf6c3a3ea6e1e235b177aab5be6bac50e1159459460268f5558a93a43';
 
@@ -3183,7 +3183,15 @@ function applyData(saved) {
   if (saved.siteConfig) Object.assign(SITE_CONFIG, saved.siteConfig);
   if (saved.aboutConfig) Object.assign(ABOUT_CONFIG, saved.aboutConfig);
   if (saved.inquiries) INQUIRIES = saved.inquiries;
-  if (saved.media) Object.assign(MEDIA, saved.media);
+  if (saved.media) {
+    const sm = {};
+    Object.keys(saved.media).forEach(k=>{
+      let v = saved.media[k];
+      if (Array.isArray(v)) v = v[0] || '';
+      sm[k] = v;
+    });
+    Object.assign(MEDIA, sm);
+  }
   if (saved.passwordHash) _ap = saved.passwordHash;
 }
 
@@ -3287,13 +3295,15 @@ function applyMedia() {
   const wrap = document.getElementById('kumiCircle');
   const img = document.getElementById('kumiImg');
   const emoji = document.getElementById('kumiEmoji');
-  if (MEDIA.kumiImg) { img.src=MEDIA.kumiImg; wrap.classList.add('has-img'); } else { wrap.classList.remove('has-img'); }
+  let kumiSrc = MEDIA.kumiImg;
+  if (Array.isArray(kumiSrc)) kumiSrc = kumiSrc[0] || '';
+  if (kumiSrc) { img.src=kumiSrc; wrap.classList.add('has-img'); } else { wrap.classList.remove('has-img'); }
   // Why Kumi icon
   const whyKumi = document.getElementById('whyKumiIcon');
-  if (whyKumi) { if(MEDIA.kumiImg){ const i=document.createElement('img'); i.src=MEDIA.kumiImg; i.style.cssText='width:40px;height:40px;border-radius:50%;object-fit:cover;'; whyKumi.innerHTML=''; whyKumi.appendChild(i); } else { whyKumi.textContent='🐱'; } }
+  if (whyKumi) { if(kumiSrc){ const i=document.createElement('img'); i.src=kumiSrc; i.style.cssText='width:40px;height:40px;border-radius:50%;object-fit:cover;'; whyKumi.innerHTML=''; whyKumi.appendChild(i); } else { whyKumi.textContent='🐱'; } }
   // Hero stat Kumi
   const heroKumi = document.getElementById('heroKumiStat');
-  if (heroKumi) { if(MEDIA.kumiImg){ heroKumi.innerHTML=`<img src="${MEDIA.kumiImg}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">`; } else { heroKumi.textContent='🐱'; } }
+  if (heroKumi) { if(kumiSrc){ heroKumi.innerHTML=`<img src="${kumiSrc}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;">`; } else { heroKumi.textContent='🐱'; } }
   // Browse
   applyBrowseMedia('putri'); applyBrowseMedia('putra'); applyBrowseMedia('all');
 }
@@ -3302,7 +3312,8 @@ function applyBrowseMedia(type) {
   const emojiEl = document.getElementById('browseEmoj'+capitalize(type));
   const mediaEl = document.getElementById('browseMedia'+capitalize(type));
   if (!emojiEl||!mediaEl) return;
-  const imgData = MEDIA[key];
+  let imgData = MEDIA[key];
+  if (Array.isArray(imgData)) imgData = imgData[0] || '';
   if (imgData) {
     mediaEl.innerHTML=`<img src="${imgData}" style="width:100%;height:100%;object-fit:cover;">`;
   } else {
@@ -3834,13 +3845,15 @@ function executeClearAnalytics() {
 function renderAdminMedia(){
   // Kumi preview
   const kprev=document.getElementById('kumiPreview');
-  if(MEDIA.kumiImg) kprev.innerHTML=`<img src="${MEDIA.kumiImg}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`; else kprev.innerHTML='<span>🐱</span>';
+  let kumiSrc2=MEDIA.kumiImg; if(Array.isArray(kumiSrc2)) kumiSrc2=kumiSrc2[0]||'';
+  if(kumiSrc2) kprev.innerHTML=`<img src="${kumiSrc2}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`; else kprev.innerHTML='<span>🐱</span>';
   // Browse previews
   ['putri','putra','all'].forEach(type=>{
     const key=type==='putri'?'browsePutri':type==='putra'?'browsePutra':'browseAll';
     const prev=document.getElementById('browsePreview'+capitalize(type));
     const def=type==='putri'?'👩':type==='putra'?'👨':'🏠';
-    if(prev){ if(MEDIA[key]) prev.innerHTML=`<img src="${MEDIA[key]}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`; else prev.innerHTML=`<span>${def}</span>`; }
+    let val=MEDIA[key]; if(Array.isArray(val)) val=val[0]||'';
+    if(prev){ if(val) prev.innerHTML=`<img src="${val}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`; else prev.innerHTML=`<span>${def}</span>`; }
   });
   // Lokasi hero photos
   const container=document.getElementById('lokasiPhotoAdmin');
